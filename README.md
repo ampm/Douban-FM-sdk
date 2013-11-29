@@ -1,12 +1,33 @@
 Douban FM API
 ---
+Usage:
+
+install
+
+	mvn install
+
+import
+
+pre dependency:
+
+	<dependency>
+	    <groupId>com.zzxhdzj.http</groupId>
+	    <artifactId>HiHttp</artifactId>
+	    <version>1.0-SNAPSHOT</version>
+	</dependency>
+
+SDK dependency:
+
+	<dependency>
+	    <groupId>com.zzxhdzj.douban</groupId>
+	    <artifactId>DoubanFM-sdk</artifactId>
+	    <version>1.0-SNAPSHOT</version>
+	</dependency>
 
 TODO:
 
-    1. 引用包需要生命权限：db、preference
-    2. db保存已知频道。pref保存token
-
-
+	· 查询频道信息
+	· 登录后的操作
 #公共API
 
 无需登录授权,url get 参数需要urlencode
