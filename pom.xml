@@ -4,9 +4,9 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.zzxhdzj.douban</groupId>
-    <artifactId>DoubanApi</artifactId>
-    <packaging>apklib</packaging>
-    <name>DoubanApi</name>
+    <artifactId>DoubanFM-sdk</artifactId>
+    <packaging>jar</packaging>
+    <name>DoubanFM-sdk</name>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
