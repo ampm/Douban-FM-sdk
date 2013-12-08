@@ -96,7 +96,8 @@ POST Params:
 Response：
 
 	Content-Type:application/json; charset=utf-8
-	ue="xxxx@gmail.com"; bid="ErJySOFkyp4"; path=/; domain=.douban.com; expires=Tue, 25-Nov-2014 18:02:37 GMT,dbcl2="69077079:YhfWsJoFZ00"; path=/; domain=.douban.fm; expires=Wed, 25-Dec-2013 18:02:37 GMT; httponly,ck="10se"; path=/; domain=.douban.fm
+	set-Cookie:ue="xxxx@gmail.com";bid="ErJySOFkyp4";dbcl2="69077079:YhfWsJoFZ00";
+
 	OK_Body:
 	{
 		"user_info":
@@ -106,7 +107,9 @@ Response：
 		},
 		"r":0
 	}
-	Failed_Body：{"err_no":1011,"r":1,"err_msg":"验证码不正确|xxx|xxx"}
+
+	Failed_Body:s
+	{"err_no":1011,"r":1,"err_msg":"验证码不正确|xxx|xxx"}
 	
 #获取频道列表
 
@@ -364,14 +367,341 @@ Response:
 		]
 	}
 
+
+
 #私人API
 
 需要登录
+登录后，切换频道 base api变成
 
-##红心
+##登录成功更新推荐频道
 
-##取消红心
+http://douban.fm/j/explore/get_login_chls?uk=69077079
 
-##不再播放
+	{
+	    "data": {
+	        "res": {
+	            "fav_chls": [
+	                {
+	                    "banner": "http://img3.douban.com/img/fmadmin/chlBanner/26383.jpg",
+	                    "cover": "http://img3.douban.com/img/fmadmin/small/26383.jpg",
+	                    "creator": {
+	                        "id": 1,
+	                        "name": "\u8c46\u74e3FM",
+	                        "url": "http://site.douban.com/douban.fm/"
+	                    },
+	                    "hot_songs": [
+	                        "\u600e\u6837",
+	                        "\u6211\u7684\u6b4c\u58f0\u91cc",
+	                        "\u5ffd\u7136\u4e4b\u95f4"
+	                    ],
+	                    "id": 1,
+	                    "intro": "\u6bcf\u5929\u53d1\u73b0\u4e00\u9996\u597d\u542c\u7684\u6b4c",
+	                    "name": "\u534e\u8bed",
+	                    "song_num": 8023
+	                }
+	            ]
+	        }
+	    },
+	    "status": true
+	}
 
-##PRO用户
+##get recommend channel
+
+切换频道的也会发起请求，这个结果会出现在；
+
+recomment.png
+
+http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14
+
+	{
+	    "data": {
+	        "res": {
+	            "cover": "http://img3.douban.com/img/fmadmin/raw/23073",
+	            "id": 1004097,
+	            "intro": "Music has always fascinated us in the way that it communicates. Without words,without pictures. ",
+	            "name": "JUST FEELING"
+	        }
+	    },
+	    "status": true
+	}
+#private channel
+无需登录，但是返回的歌曲肯定不是你自己的啦
+
+http://douban.fm/j/mine/playlist?from=mainsite&channel=0&kbps=64&h=1395060%3As&sid=&type=n&r=9c0894c2f9d26
+
+主要参数：channle=0
+
+
+##fav a channel
+
+http://douban.fm/j/mine/playlist?from=mainsite&channel=-3&kbps=64&h=&sid=&type=n&r=927c04500d89d
+
+主要参数：channle=-3
+
+
+	{
+	    "r": 0,
+	    "song": [
+	        {
+	            "aid": "1449329",
+	            "album": "/subject/1449329/",
+	            "albumtitle": "Before After",
+	            "artist": "\u90d1\u4e2d\u57fa",
+	            "company": "EMI",
+	            "kbps": "64",
+	            "length": 243,
+	            "like": 1,
+	            "picture": "http://img5.douban.com/mpic/s4713176.jpg",
+	            "public_time": "2005",
+	            "rating_avg": 4.38856,
+	            "sha256": "d62261f18306fb34ba1678453b4574db098a84e68b5601337ed487282f5dc7a3",
+	            "sid": "757667",
+	            "ssid": "3ef3",
+	            "subtype": "",
+	            "title": "\u65e0\u8d56",
+	            "url": "http://mr3.douban.com/201312090145/dd25bae890aca64925b4182029ad2ab6/view/song/small/p757667.mp3"
+	        }
+	    ],
+	    "warning": "user_is_ananymous"
+	}
+
+
+##skip song 
+type=s
+
+http://douban.fm/j/mine/playlist?type=s&sid=747683&pt=102.3&channel=0&context=tags:&pb=64&from=mainsite&r=3446e34ae3
+
+	{
+	    "r": 0,
+	    "song": [
+	        {
+	            "aid": "24834080",
+	            "album": "/subject/24834080/",
+	            "albumtitle": "\u6211\u662f\u6d77\u96c5\u8c37\u6155",
+	            "artist": "\u5f20\u9707\u5cb3",
+	            "company": "\u6eda\u77f3",
+	            "kbps": "64",
+	            "length": 299,
+	            "like": 0,
+	            "picture": "http://img3.douban.com/mpic/s26816830.jpg",
+	            "public_time": "2013",
+	            "rating_avg": 4.0897,
+	            "sha256": "09811fc64822de2ed47bd8db2e808c13b4ddcf2fb0e32a03bcbb949706abc256",
+	            "sid": "1939676",
+	            "ssid": "e4bf",
+	            "subtype": "",
+	            "title": "\u65e0\u540d\u7684\u60c5\u6b4c",
+	            "url": "http://mr3.douban.com/201312090058/012a5f6c8101f8dcb08d7dfaad93ea32/view/song/small/p1939676.mp3"
+	        }
+	    ]
+	}
+
+
+
+## unfav song
+type=r
+
+GET
+
+歌曲id：
+r=01e5eedc7f
+
+
+http://douban.fm/j/mine/playlist?type=r&sid=1465915&pt=206.1&channel=1003464&pb=64&from=mainsite&r=01e5eedc7f
+
+
+	{
+	    "r": 0,
+	    "song": [
+	        {
+	            "aid": "1395143",
+	            "album": "/subject/1395143/",
+	            "albumtitle": "\u5510\u671d",
+	            "artist": "\u5510\u671d",
+	            "company": "\u9b54\u5ca9",
+	            "kbps": "64",
+	            "length": 266,
+	            "like": 0,
+	            "picture": "http://img5.douban.com/mpic/s8903729.jpg",
+	            "public_time": "1992",
+	            "rating_avg": 4.48857,
+	            "sha256": "505fe21a248d366c8b7e6e83c5ae3c7d3875c22a9503ebedc56c9dc901a31189",
+	            "sid": "551805",
+	            "ssid": "f305",
+	            "subtype": "",
+	            "title": "\u56fd\u9645\u6b4c",
+	            "url": "http://mr3.douban.com/201312090105/29f519574ca82f8625f8700f59c7a738/view/song/small/p551805.mp3"
+	        }
+	    ]
+	}
+
+
+
+##unfav song
+type=u
+
+http://douban.fm/j/mine/playlist?type=u&sid=354270&pt=270.2&channel=0&context=tags:&pb=64&from=mainsite&r=2d9f351da4
+
+
+##Ban
+type=b
+
+http://douban.fm/j/mine/playlist?type=b&sid=1767085&pt=15.5&channel=0&context=tags:&pb=64&from=mainsite&r=041f860f26
+
+resp:
+
+    {
+        "r": 0,
+        "song": [
+            {
+                "aid": "1413627",
+                "album": "/subject/1413627/",
+                "albumtitle": "\u9ed2\u8c79",
+                "artist": "\u9ed1\u8c79",
+                "company": "\u6eda\u77f3",
+                "kbps": "64",
+                "length": 316,
+                "like": 0,
+                "picture": "http://img3.douban.com/mpic/s1401153.jpg",
+                "public_time": "",
+                "rating_avg": 4.56013,
+                "sha256": "909d4371f4aae03c01461d38d3ce269fc27cfd096b058c5dc80ad44cc5a423b1",
+                "sid": "1028757",
+                "ssid": "41bd",
+                "subtype": "",
+                "title": "Don't Break My Heart",
+                "url": "http://mr3.douban.com/201312090050/60b71a6d49eea6aa2ca7fd0779ec45ae/view/song/small/p1028757.mp3"
+            }
+        ]
+    }
+
+##Log change channel action
+	fcid=fromcid tcid=tocid
+
+	http://douban.fm/j/change_channel?fcid=1&tcid=-3&area=system_chls
+
+		{"r":"0"}
+
+##切换频道 type=n 
+0. Log change channel action
+1. change channel.
+http://douban.fm/j/mine/playlist?type=n&sid=660489&pt=28.4&channel=1004097&pb=64&from=mainsite&r=c7ed82182f
+
+
+Resp:
+	warning:opt
+
+	{
+	    "r": 0,
+	    "song": [
+	        {
+	            "aid": "6428551",
+	            "album": "/subject/6428551/",
+	            "albumtitle": "\u68a6\u5883",
+	            "artist": "\u8303\u4e16\u742a",
+	            "company": "\u548c\u6c14\u97f3\u4e50",
+	            "kbps": "64",
+	            "length": 284,
+	            "like": 0,
+	            "picture": "http://img3.douban.com/view/site/large/public/945a6d8529abfe4.jpg",
+	            "public_time": "2011",
+	            "rating_avg": 3.85863,
+	            "sha256": "8e24e9b10d11e0de7f3990c2b46c00d5a73e3e71c198b090357ddd7ed3d79382",
+	            "sid": "1646524",
+	            "ssid": "894f",
+	            "subtype": "S",
+	            "title": "\u68a6\u5883",
+	            "url": "http://mr4.douban.com/201312090030/e39cab2d0aecd0849e31fdf02626da25/view/song/small/p1646524.mp3"
+	        },
+	    "warning": "user_is_ananymous"
+	}
+
+##Fav A Channel
+
+	http://douban.fm/j/explore/fav_channel?cid=1
+
+	{"status":true,"data":{"res":1}}
+
+##Unfav A Channel
+
+	http://douban.fm/j/explore/unfav_channel?cid=61005
+
+	{"status":true,"data":{"res":1}}
+##Check is fav channel
+
+	http://douban.fm/j/explore/is_fav_channel?uk=69077079&cid=1003464
+
+	{"status":true,"data":{"res":{"is_fav":false}}}
+
+##My Favorite Channels
+0. Log change channel action
+
+1.get songs from my favorite channels
+
+http://douban.fm/j/mine/playlist?type=n&sid=1611938&pt=12.4&channel=-3&pb=64&from=mainsite&r=17e69934ff
+
+
+	{
+	    "r": 0,
+	    "song": [
+	        {
+	            "aid": "6047523",
+	            "album": "/subject/6047523/",
+	            "albumtitle": "\u8ffd\u68a6\u75f4\u5b50\u5fc3",
+	            "artist": "GALA",
+	            "company": "\u4e1c\u4e50",
+	            "kbps": "64",
+	            "length": 212,
+	            "like": 1,
+	            "picture": "http://img3.douban.com/view/site/large/public/ec4c80be09d5c12.jpg",
+	            "public_time": "2011",
+	            "rating_avg": 4.42135,
+	            "sha256": "7e0c71ed4ae9b079b2d6dcbedc8f1259b5414a3d1cdb1da517c548983300fa7b",
+	            "sid": "1703281",
+	            "ssid": "1d14",
+	            "subtype": "S",
+	            "title": "\u5317\u6234\u6cb3\u4e4b\u6b4c",
+	            "url": "http://mr4.douban.com/201312090121/988ba94ed1462c7deb945ca84aa21305/view/song/small/p1703281.mp3"
+	        }
+	    ]
+	}
+
+##  我的私人调频
+
+0. Log change channel action
+1. get songs from my private channel
+
+channel=0
+type=n(null) 
+
+	http://douban.fm/j/mine/playlist?type=n&sid=1394146&pt=99.7&channel=0&context=tags:&pb=64&from=mainsite&r=98d6af28bb
+
+
+	{
+	    "r": 0,
+	    "song": [
+	        {
+	            "aid": "6795335",
+	            "album": "/subject/6795335/",
+	            "albumtitle": "\u8d75\u5c0f\u96f7",
+	            "artist": "\u8d75\u96f7",
+	            "company": "Not On Label",
+	            "kbps": "64",
+	            "length": 231,
+	            "like": 0,
+	            "picture": "http://img3.douban.com/view/site/large/public/37f6da7d0ff84e3.jpg",
+	            "public_time": "2011",
+	            "rating_avg": 4.53704,
+	            "sha256": "bba7020a477917afe1f0ddf4fa46b2cbf270ae11539d7c119c085e5266e0d1cf",
+	            "sid": "1748278",
+	            "ssid": "2f60",
+	            "subtype": "S",
+	            "title": "\u4e0d\u5f00\u7684\u5507",
+	            "url": "http://mr3.douban.com/201312090112/8c7f9096ce2bcab24c768d0a14598e66/view/song/small/p1748278.mp3"
+	        }
+	    ]
+		}
+
+
+
