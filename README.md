@@ -406,6 +406,7 @@ http://douban.fm/j/explore/get_login_chls?uk=69077079
 	    "status": true
 	}
 
+
 ##get recommend channel
 
 切换频道的也会发起请求，这个结果会出现在；
@@ -425,6 +426,11 @@ http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14
 	    },
 	    "status": true
 	}
+
+
+![recomment channel](recomment.png)
+
+![intro](intro.png)
 #private channel
 无需登录，但是返回的歌曲肯定不是你自己的啦
 
