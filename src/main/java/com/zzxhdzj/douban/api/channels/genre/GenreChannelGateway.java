@@ -3,7 +3,7 @@ package com.zzxhdzj.douban.api.channels.genre;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.modules.RespRoot;
+import com.zzxhdzj.douban.modules.ChannelRespRoot;
 import com.zzxhdzj.http.*;
 
 import java.io.IOException;
@@ -41,8 +41,8 @@ public class GenreChannelGateway {
         @Override
         public void onSuccess(TextApiResponse response) throws IOException {
             Gson gson = new Gson();
-            RespRoot respRoot = gson.fromJson(response.getResp(), RespRoot.class);
-            douban.channels = respRoot.channlesDatas.channels;
+            ChannelRespRoot channelRespRoot = gson.fromJson(response.getResp(), ChannelRespRoot.class);
+            douban.channels = channelRespRoot.channlesDatas.channels;
             callback.onSuccess();
         }
 

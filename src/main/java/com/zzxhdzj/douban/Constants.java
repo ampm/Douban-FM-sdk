@@ -24,4 +24,6 @@ public class Constants {
     public static final String songType = "n";
     public static final String TOKEN = "TOKEN";
     public static final String DOUBAN_AUTH = "douban_fm_auth";
+    public static final String LOGIN_CHLS_URL = BASER_URL + "/j/explore/get_login_chls";
+    public static final String REC_CHLS_URL = BASER_URL + "/j/explore/get_recommend_chl";
 }

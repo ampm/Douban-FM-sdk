@@ -22,6 +22,9 @@ public class Douban {
     public String captchaId;
     public ApiRespErrorCode apiRespErrorCode;
     public ArrayList<Channel> channels;
+    public ArrayList<Channel> favChannels;
+    public ArrayList<Channel> recChannels;
+    public Channel recommendChannle;
     public ArrayList<Song> songs;
     private final ApiGateway apiGateway;
 

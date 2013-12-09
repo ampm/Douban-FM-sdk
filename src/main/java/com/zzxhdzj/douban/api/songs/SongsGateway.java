@@ -2,7 +2,7 @@ package com.zzxhdzj.douban.api.songs;
 
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.modules.RespRoot;
+import com.zzxhdzj.douban.modules.ChannelRespRoot;
 import com.zzxhdzj.http.*;
 
 import java.io.IOException;
@@ -38,8 +38,8 @@ public class SongsGateway {
         @Override
         public void onSuccess(TextApiResponse response) throws IOException {
             Gson gson = new Gson();
-            RespRoot respRoot = gson.fromJson(response.getResp(), RespRoot.class);
-            douban.songs = respRoot.songs;
+            ChannelRespRoot channelRespRoot = gson.fromJson(response.getResp(), ChannelRespRoot.class);
+            douban.songs = channelRespRoot.songs;
             callback.onSuccess();
         }
 

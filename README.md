@@ -376,6 +376,10 @@ Response:
 
 ##登录成功更新推荐频道
 
+uk=user id
+
+http://douban.fm/j/explore/get_login_chls?uk=69077079
+
 http://douban.fm/j/explore/get_login_chls?uk=69077079
 
 	{
@@ -409,6 +413,8 @@ http://douban.fm/j/explore/get_login_chls?uk=69077079
 
 ##get recommend channel
 
+orecs 猜测，自己加过红心的歌曲所属频道
+
 切换频道的也会发起请求，这个结果会出现在；
 
 recomment.png
@@ -431,12 +437,58 @@ http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14
 ![recomment channel](recomment.png)
 
 ![intro](intro.png)
+
 #private channel
 无需登录，但是返回的歌曲肯定不是你自己的啦
 
 http://douban.fm/j/mine/playlist?from=mainsite&channel=0&kbps=64&h=1395060%3As&sid=&type=n&r=9c0894c2f9d26
 
 主要参数：channle=0
+
+	{
+	    "r": 0,
+	    "song": [
+	        {
+	            "aid": "24834080",
+	            "album": "/subject/24834080/",
+	            "albumtitle": "\u6211\u662f\u6d77\u96c5\u8c37\u6155",
+	            "artist": "\u5f20\u9707\u5cb3",
+	            "company": "\u6eda\u77f3",
+	            "kbps": "64",
+	            "length": 234,
+	            "like": 0,
+	            "picture": "http://img3.douban.com/mpic/s26816830.jpg",
+	            "public_time": "2013",
+	            "rating_avg": 4.08942,
+	            "sha256": "002fee6130465ead67593bd63ec35ad0a4a702120b494c11b0352093a05a5a7a",
+	            "sid": "1939690",
+	            "ssid": "7506",
+	            "subtype": "",
+	            "title": "\u7834\u5409\u4ed6",
+	            "url": "http://mr3.douban.com/201312091952/2ae3cce5d026fadb156899c0ab541e4f/view/song/small/p1939690.mp3"
+	        },
+	        {
+	            "aid": "1795848",
+	            "album": "/subject/1795848/",
+	            "albumtitle": "Dusk And Summer",
+	            "artist": "Dashboard Confessional",
+	            "company": "Vagrant Records",
+	            "kbps": "64",
+	            "length": 248,
+	            "like": 0,
+	            "picture": "http://img3.douban.com/mpic/s4712844.jpg",
+	            "public_time": "2006",
+	            "rating_avg": 3.787,
+	            "sha256": "2dc4c55e49b8c2296102f5771c8d494de4d8c85e284f9cabeddbb5fceac1df7e",
+	            "sid": "747687",
+	            "ssid": "9d79",
+	            "subtype": "",
+	            "title": "Slow Decay",
+	            "url": "http://mr3.douban.com/201312091952/07403a07b1095f1f8ca1c1f6f22b6564/view/song/small/p747687.mp3"
+	        }
+	    ],
+	    "warning": "user_is_ananymous"
+	}
 
 
 ##fav a channel
@@ -709,5 +761,30 @@ type=n(null)
 	    ]
 		}
 
+##fav channels
 
+http://douban.fm/j/fav_channels
+
+    {
+        "channels": [
+            {
+                "banner": "http://img3.douban.com/img/fmadmin/chlBanner/27132.jpg",
+                "cover": "http://img3.douban.com/img/fmadmin/icon/27132.jpg",
+                "creator": {
+                    "id": 1,
+                    "name": "\u8c46\u74e3FM",
+                    "url": "http://site.douban.com/douban.fm/"
+                },
+                "hot_songs": [
+                    "Free Loop",
+                    "I'm Yours",
+                    "You're Beautiful"
+                ],
+                "id": 153,
+                "intro": "\u5de5\u4f5c\u5b66\u4e60\u7684\u65f6\u5019\u542c\u4ec0\u4e48",
+                "name": "\u5de5\u4f5c\u5b66\u4e60",
+                "song_num": 1
+            }
+        ]
+    }
 

@@ -62,6 +62,82 @@ public class TestResponses {
             "        }\n" +
             "    ]\n" +
             "}";
+    public static final String LOGIN_CHANNELS_JSON = "{\n" +
+            "    \"data\": {\n" +
+            "        \"res\": {\n" +
+            "            \"fav_chls\": [\n" +
+            "                {\n" +
+            "                    \"banner\": \"http://img3.douban.com/img/fmadmin/chlBanner/27132.jpg\",\n" +
+            "                    \"cover\": \"http://img3.douban.com/img/fmadmin/small/27132.jpg\",\n" +
+            "                    \"creator\": {\n" +
+            "                        \"id\": 1,\n" +
+            "                        \"name\": \"\\u8c46\\u74e3FM\",\n" +
+            "                        \"url\": \"http://site.douban.com/douban.fm/\"\n" +
+            "                    },\n" +
+            "                    \"hot_songs\": [\n" +
+            "                        \"Free Loop\",\n" +
+            "                        \"I'm Yours\",\n" +
+            "                        \"You're Beautiful\"\n" +
+            "                    ],\n" +
+            "                    \"id\": 153,\n" +
+            "                    \"intro\": \"\\u5de5\\u4f5c\\u5b66\\u4e60\\u7684\\u65f6\\u5019\\u542c\\u4ec0\\u4e48\",\n" +
+            "                    \"name\": \"\\u5de5\\u4f5c\\u5b66\\u4e60\",\n" +
+            "                    \"song_num\": 1\n" +
+            "                }\n" +
+            "            ],\n" +
+            "            \"rec_chls\": [\n" +
+            "                {\n" +
+            "                    \"banner\": \"http://img3.douban.com/img/fmadmin/chlBanner/27134.jpg\",\n" +
+            "                    \"cover\": \"http://img3.douban.com/img/fmadmin/small/27134.jpg\",\n" +
+            "                    \"creator\": {\n" +
+            "                        \"id\": 1,\n" +
+            "                        \"name\": \"\\u8c46\\u74e3FM\",\n" +
+            "                        \"url\": \"http://site.douban.com/douban.fm/\"\n" +
+            "                    },\n" +
+            "                    \"hot_songs\": [\n" +
+            "                        \"The Show\",\n" +
+            "                        \"Free Loop\",\n" +
+            "                        \"Wake Me Up When September Ends\"\n" +
+            "                    ],\n" +
+            "                    \"id\": 151,\n" +
+            "                    \"intro\": \"\\u6237\\u5916\\u7684\\u65f6\\u5019\\u542c\\u4ec0\\u4e48\",\n" +
+            "                    \"name\": \"\\u6237\\u5916\",\n" +
+            "                    \"song_num\": 1\n" +
+            "                },\n" +
+            "                {\n" +
+            "                    \"banner\": \"http://img3.douban.com/img/fmadmin/chlBanner/27133.jpg\",\n" +
+            "                    \"cover\": \"http://img3.douban.com/img/fmadmin/small/27133.jpg\",\n" +
+            "                    \"creator\": {\n" +
+            "                        \"id\": 1,\n" +
+            "                        \"name\": \"\\u8c46\\u74e3FM\",\n" +
+            "                        \"url\": \"http://site.douban.com/douban.fm/\"\n" +
+            "                    },\n" +
+            "                    \"hot_songs\": [\n" +
+            "                        \"\\u9999\\u683c\\u91cc\\u62c9\",\n" +
+            "                        \"Stupid Like This\",\n" +
+            "                        \"\\u68a6\\u4e00\\u573a\"\n" +
+            "                    ],\n" +
+            "                    \"id\": 152,\n" +
+            "                    \"intro\": \"\\u4f11\\u606f\\u7684\\u65f6\\u5019\\u542c\\u4ec0\\u4e48\",\n" +
+            "                    \"name\": \"\\u4f11\\u606f\",\n" +
+            "                    \"song_num\": 1\n" +
+            "                }\n" +
+            "            ]\n" +
+            "        }\n" +
+            "    },\n" +
+            "    \"status\": true\n" +
+            "}\n";
+    public static final String REC_CHANNELS_JSON = "{\n" +
+            "\t    \"data\": {\n" +
+            "\t        \"res\": {\n" +
+            "\t            \"cover\": \"http://img3.douban.com/img/fmadmin/raw/23073\",\n" +
+            "\t            \"id\": 1004097,\n" +
+            "\t            \"intro\": \"Music has always fascinated us in the way that it communicates. Without words,without pictures. \",\n" +
+            "\t            \"name\": \"JUST FEELING\"\n" +
+            "\t        }\n" +
+            "\t    },\n" +
+            "\t    \"status\": true\n" +
+            "\t}";
     public static String FAST_CHANNELS_JSON = "{\n" +
             "    \"data\": {\n" +
             "        \"channels\": [\n" +
