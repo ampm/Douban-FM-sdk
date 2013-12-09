@@ -3,6 +3,8 @@ package com.zzxhdzj.douban.api.auth;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.http.*;
 
 import java.io.IOException;
@@ -14,14 +16,10 @@ import java.io.IOException;
  * Time: 12:20 AM
  * To change this template use File | Settings | File Templates.
  */
-public class AuthenGetCaptchaGateway {
-    private final Douban douban;
-    private ApiGateway apiGateway;
-    public ApiResponse failureResponse;
+public class AuthenGetCaptchaGateway extends BaseGateway{
 
     public AuthenGetCaptchaGateway(Douban douban, ApiGateway apiGateway) {
-        this.douban = douban;
-        this.apiGateway = apiGateway;
+        super(douban, apiGateway);
     }
 
     public void newCapthaId(Callback callback) {
@@ -53,6 +51,7 @@ public class AuthenGetCaptchaGateway {
 
         @Override
         public void onComplete() {
+            onCompleteWasCalled = true;
         }
     }
 }

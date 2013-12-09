@@ -2,7 +2,10 @@ package com.zzxhdzj.douban.api.songs;
 
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.modules.ChannelRespRoot;
+import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.modules.channel.ChannelResp;
+import com.zzxhdzj.douban.modules.song.SongResp;
 import com.zzxhdzj.http.*;
 
 import java.io.IOException;
@@ -14,17 +17,15 @@ import java.io.IOException;
  * Time: 12:34 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SongsGateway {
-    private final ApiGateway apiGateway;
-    private final Douban douban;
-    public ApiResponse failureResponse;
-    public Boolean onCompleteWasCalled;
-    public SongsGateway(Douban douban , ApiGateway apiGateway) {
-        this.apiGateway = apiGateway;
-        this.douban = douban;
+public class SongsGateway extends BaseGateway {
+
+    public SongsGateway(Douban douban, ApiGateway apiGateway) {
+        super(douban, apiGateway);
+        respType = RespType.R;
     }
-    public void querySongsByChannelId(String songType, int channelId, int bitRate, Callback callback){
-           apiGateway.makeRequest(new SongsRequest(channelId,bitRate,songType),new SongApiResponseCallback(callback));
+
+    public void querySongsByChannelId(String songType, int channelId, int bitRate, Callback callback) {
+        apiGateway.makeRequest(new SongsRequest(channelId, bitRate, songType), new SongApiResponseCallback(callback));
     }
 
     private class SongApiResponseCallback implements ApiResponseCallbacks<TextApiResponse> {
@@ -38,8 +39,8 @@ public class SongsGateway {
         @Override
         public void onSuccess(TextApiResponse response) throws IOException {
             Gson gson = new Gson();
-            ChannelRespRoot channelRespRoot = gson.fromJson(response.getResp(), ChannelRespRoot.class);
-            douban.songs = channelRespRoot.songs;
+            SongResp songResp = gson.fromJson(response.getResp(), SongResp.class);
+            douban.songs = songResp.songs;
             callback.onSuccess();
         }
 
@@ -50,7 +51,7 @@ public class SongsGateway {
 
         @Override
         public void onComplete() {
-           onCompleteWasCalled = true;
+            onCompleteWasCalled = true;
         }
     }
 }

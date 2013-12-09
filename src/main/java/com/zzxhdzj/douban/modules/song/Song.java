@@ -1,4 +1,4 @@
-package com.zzxhdzj.douban.modules;
+package com.zzxhdzj.douban.modules.song;
 
 import com.google.gson.annotations.SerializedName;
 

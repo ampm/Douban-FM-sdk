@@ -1,13 +1,10 @@
 package com.zzxhdzj.douban.api.channels.recomment;
 
-import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.Callback;
-import com.zzxhdzj.http.mock.TestApiGateway;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertNotNull;
@@ -22,24 +19,20 @@ import static org.junit.Assert.assertThat;
  * Time: 4:54 PM
  * To change this template use File | Settings | File Templates.
  */
-@RunWith(RobolectricTestRunner.class)
-public class LoginRecommendChannelsGatewayTest {
+public class LoginRecommendChannelsGatewayTest extends BaseGatewayTestCase {
 
-    private TestApiGateway apiGateway;
     private int userId;
     private LoginRecommendChannelGateway loginRecommendChannelGateway;
-    private Douban douban;
 
     @Before
     public void setUp() {
-        apiGateway = new TestApiGateway();
+        super.setUp();
         userId = 69077079;
-        douban = new Douban();
         loginRecommendChannelGateway = new LoginRecommendChannelGateway(douban, apiGateway);
     }
 
     @Test
-    public void shouldFetchOneChannelBySpecificGenre() throws Exception {
+    public void shouldGetRecommendChannelsAfterLogin() throws Exception {
         loginRecommendChannelGateway.query(userId, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.LOGIN_CHANNELS_JSON, null);
         assertNull(loginRecommendChannelGateway.failureResponse);

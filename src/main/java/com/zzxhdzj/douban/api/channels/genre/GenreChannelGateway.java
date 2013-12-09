@@ -3,7 +3,9 @@ package com.zzxhdzj.douban.api.channels.genre;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.modules.ChannelRespRoot;
+import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.modules.channel.ChannelResp;
 import com.zzxhdzj.http.*;
 
 import java.io.IOException;
@@ -15,15 +17,12 @@ import java.io.IOException;
  * Time: 12:46 AM
  * To change this template use File | Settings | File Templates.
  */
-public class GenreChannelGateway {
-    private final Douban douban;
-    private final ApiGateway apiGateway;
-    public ApiResponse failureResponse;
-    public Boolean onCompleteWasCalled;
-    public GenreChannelGateway(Douban douban, ApiGateway apiGateway) {
+public class GenreChannelGateway extends BaseGateway {
 
-        this.douban = douban;
-        this.apiGateway = apiGateway;
+    public GenreChannelGateway(Douban douban, ApiGateway apiGateway) {
+        super(douban, apiGateway);
+        respType = RespType.STATUS;
+
     }
 
     public void fetchChannelsByGenreId(int genreId, int start, int limit, Callback callback) {
@@ -41,8 +40,8 @@ public class GenreChannelGateway {
         @Override
         public void onSuccess(TextApiResponse response) throws IOException {
             Gson gson = new Gson();
-            ChannelRespRoot channelRespRoot = gson.fromJson(response.getResp(), ChannelRespRoot.class);
-            douban.channels = channelRespRoot.channlesDatas.channels;
+            ChannelResp channelResp = gson.fromJson(response.getResp(), ChannelResp.class);
+            douban.channels = channelResp.channlesDatas.channels;
             callback.onSuccess();
         }
 

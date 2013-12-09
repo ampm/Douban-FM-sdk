@@ -1,6 +1,8 @@
-package com.zzxhdzj.douban.modules;
+package com.zzxhdzj.douban.modules.channel;
 
 import com.google.gson.annotations.SerializedName;
+import com.zzxhdzj.douban.modules.Resp;
+import com.zzxhdzj.douban.modules.song.Song;
 
 import java.util.ArrayList;
 
@@ -11,7 +13,7 @@ import java.util.ArrayList;
  * Time: 12:14 AM
  * To change this template use File | Settings | File Templates.
  */
-public class ChannelRespRoot extends RespRoot {
+public class ChannelResp extends Resp{
     @SerializedName("data")
     public ChannlesDatas channlesDatas;
     @SerializedName("song")

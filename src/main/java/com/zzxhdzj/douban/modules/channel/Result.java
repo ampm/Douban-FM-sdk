@@ -1,6 +1,7 @@
-package com.zzxhdzj.douban.modules;
+package com.zzxhdzj.douban.modules.channel;
 
 import com.google.gson.annotations.SerializedName;
+import com.zzxhdzj.douban.modules.channel.Channel;
 
 import java.util.ArrayList;
 

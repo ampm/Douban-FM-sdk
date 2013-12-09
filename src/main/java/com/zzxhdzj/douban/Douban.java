@@ -1,15 +1,14 @@
 package com.zzxhdzj.douban;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import com.zzxhdzj.douban.api.auth.AuthenGetCaptchaGateway;
 import com.zzxhdzj.douban.api.auth.AuthenticationGateway;
 import com.zzxhdzj.douban.api.channels.fixed.StaticChannelGateway;
 import com.zzxhdzj.douban.api.channels.genre.GenreChannelGateway;
 import com.zzxhdzj.douban.api.songs.SongsGateway;
-import com.zzxhdzj.douban.modules.Channel;
+import com.zzxhdzj.douban.modules.channel.Channel;
 import com.zzxhdzj.douban.modules.LoginParams;
-import com.zzxhdzj.douban.modules.Song;
+import com.zzxhdzj.douban.modules.song.Song;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.util.Strings;

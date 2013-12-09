@@ -100,13 +100,26 @@ Response：
 
 	OK_Body:
 	{
-		"user_info":
-		{
-		"ck":"10se",
-		"play_record":{"fav_chls_count":2,"liked":58,"banned":44,"played":1715},"is_new_user":0,"uid":"69077079","third_party_info":null,"url":"http:\/\/www.douban.com\/people\/69077079\/","is_dj":false,"id":"69077079","is_pro":false,"name":"hijack"
-		},
-		"r":0
+	    "r": 0,
+	    "user_info": {
+	        "ck": "10se",
+	        "id": "69077079",
+	        "is_dj": false,
+	        "is_new_user": 0,
+	        "is_pro": false,
+	        "name": "hijack",
+	        "play_record": {
+	            "banned": 44,
+	            "fav_chls_count": 2,
+	            "liked": 58,
+	            "played": 1715
+	        },
+	        "third_party_info": null,
+	        "uid": "69077079",
+	        "url": "http://www.douban.com/people/69077079/"
+	    }
 	}
+
 
 	Failed_Body:s
 	{"err_no":1011,"r":1,"err_msg":"验证码不正确|xxx|xxx"}
@@ -195,13 +208,24 @@ API：
 Resp：Html解析
 
 	window.com_channels_json = [
-		{"intro":"每首歌曲都是一个遥远的地址，就让心灵掌舵，朝着闪念的方向，音符会带你向前，声音会为你指路。",
-		"name":"朗境·闪念的声音","song_num":100,
-		"creator":{"url":"http:\/\/site.douban.com\/douban.fm\/","name":"豆瓣FM","id":1},
-		"banner":"http:\/\/img3.douban.com\/img\/fmadmin\/chlBanner\/27470.jpg",
-		"cover":"http:\/\/img3.douban.com\/img\/fmadmin\/icon\/27470.jpg","id":159,
-		"hot_songs":["皇后大道东","Casablanca","Tokyo"]
-		}
+	{
+	    "banner": "http://img3.douban.com/img/fmadmin/chlBanner/27470.jpg",
+	    "cover": "http://img3.douban.com/img/fmadmin/icon/27470.jpg",
+	    "creator": {
+	        "id": 1,
+	        "name": "\u8c46\u74e3FM",
+	        "url": "http://site.douban.com/douban.fm/"
+	    },
+	    "hot_songs": [
+	        "\u7687\u540e\u5927\u9053\u4e1c",
+	        "Casablanca",
+	        "Tokyo"
+	    ],
+	    "id": 159,
+	    "intro": "\u6bcf\u9996\u6b4c\u66f2\u90fd\u662f\u4e00\u4e2a\u9065\u8fdc\u7684\u5730\u5740\uff0c\u5c31\u8ba9\u5fc3\u7075\u638c\u8235\uff0c\u671d\u7740\u95ea\u5ff5\u7684\u65b9\u5411\uff0c\u97f3\u7b26\u4f1a\u5e26\u4f60\u5411\u524d\uff0c\u58f0\u97f3\u4f1a\u4e3a\u4f60\u6307\u8def\u3002",
+	    "name": "\u6717\u5883\u00b7\u95ea\u5ff5\u7684\u58f0\u97f3",
+	    "song_num": 100
+	}
 	];
 
 ###已知固定频道
@@ -253,7 +277,7 @@ channel=0 私人兆赫  type=s
 
 API：
 
-http://douban.fm/j/explore/genre?gid=326&start=0&limit=20
+	http://douban.fm/j/explore/genre?gid=326&start=0&limit=20
 
 已知流派：
 
@@ -306,36 +330,50 @@ Resp：
 ###查询频道信息
 	API:
 
-		http://douban.fm/j/explore/channel_detail?channel_id=159
+	http://douban.fm/j/explore/channel_detail?channel_id=159
 
-	###搜索频道
+###搜索频道
 
-	API
+API
 
-		/j/explore/search
+	/j/explore/search
 
-	Get Params
-	
-		query=urlencodedParams
-	Resp
+Get Params
 
-		Body:
-		{"status":true,"data":{"channels":
-		[
-			{"intro":"古典乐也能听得轻松随性",
-			"name":"古典",
-			"song_num":4189,
-			"creator":{"url":"http:\/\/site.douban.com\/douban.fm\/","name":"豆瓣FM","id":1},
-			"banner":"http:\/\/img3.douban.com\/img\/fmadmin\/chlBanner\/26382.jpg",
-			"cover":"http:\/\/img3.douban.com\/img\/fmadmin\/icon\/26382.jpg",
-			"id":27,
-			"hot_songs":["Prelude","Antonin Dvorak, Humoresque","Canon and Gigue in D: Canon"]},
-			....
-		}
-		],"total":5}}
+query=urlencodedParams
+
+Resp
+
+	{
+	    "data": {
+	        "channels": [
+	            {
+	                "banner": "http://img3.douban.com/img/fmadmin/chlBanner/26382.jpg",
+	                "cover": "http://img3.douban.com/img/fmadmin/icon/26382.jpg",
+	                "creator": {
+	                    "id": 1,
+	                    "name": "\u8c46\u74e3FM",
+	                    "url": "http://site.douban.com/douban.fm/"
+	                },
+	                "hot_songs": [
+	                    "Prelude",
+	                    "Antonin Dvorak, Humoresque",
+	                    "Canon and Gigue in D: Canon"
+	                ],
+	                "id": 27,
+	                "intro": "\u53e4\u5178\u4e50\u4e5f\u80fd\u542c\u5f97\u8f7b\u677e\u968f\u6027",
+	                "name": "\u53e4\u5178",
+	                "song_num": 4189
+	            }
+	        ],
+	        "total": 5
+	    },
+	    "status": true
+	}
 
 
-#歌单
+
+
 ##根据频道获取歌曲列表
 API
 
@@ -369,12 +407,12 @@ Response:
 
 
 
-#私人API
+#登录后API
 
 需要登录
 登录后，切换频道 base api变成
-
-##登录成功更新推荐频道
+##推荐频道
+###登录成功更新推荐频道
 
 uk=user id
 
@@ -411,7 +449,7 @@ http://douban.fm/j/explore/get_login_chls?uk=69077079
 	}
 
 
-##get recommend channel
+###推荐频道(试试这些)
 
 orecs 猜测，自己加过红心的歌曲所属频道
 
@@ -438,12 +476,108 @@ http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14
 
 ![intro](intro.png)
 
-#private channel
+##收藏频道
+
+	http://douban.fm/j/explore/fav_channel?cid=1
+
+	{"status":true,"data":{"res":1}}
+
+##取消收藏频道
+
+	http://douban.fm/j/explore/unfav_channel?cid=61005
+
+	{"status":true,"data":{"res":1}}
+
+##我收藏的频道
+
+	http://douban.fm/j/fav_channels
+
+	    {
+	        "channels": [
+	            {
+	                "banner": "http://img3.douban.com/img/fmadmin/chlBanner/27132.jpg",
+	                "cover": "http://img3.douban.com/img/fmadmin/icon/27132.jpg",
+	                "creator": {
+	                    "id": 1,
+	                    "name": "\u8c46\u74e3FM",
+	                    "url": "http://site.douban.com/douban.fm/"
+	                },
+	                "hot_songs": [
+	                    "Free Loop",
+	                    "I'm Yours",
+	                    "You're Beautiful"
+	                ],
+	                "id": 153,
+	                "intro": "\u5de5\u4f5c\u5b66\u4e60\u7684\u65f6\u5019\u542c\u4ec0\u4e48",
+	                "name": "\u5de5\u4f5c\u5b66\u4e60",
+	                "song_num": 1
+	            }
+	        ]
+	    }
+
+##换频率报告
+	fcid=fromcid tcid=tocid
+
+	http://douban.fm/j/change_channel?fcid=1&tcid=-3&area=system_chls
+
+		{"r":"0"}
+
+##切换频率
+ type=n 
+0. Log change channel action
+1. change channel.
+http://douban.fm/j/mine/playlist?type=n&sid=660489&pt=28.4&channel=1004097&pb=64&from=mainsite&r=c7ed82182f
+
+
+Resp:
+	warning:opt
+
+	{
+	    "r": 0,
+	    "song": [
+	        {
+	            "aid": "6428551",
+	            "album": "/subject/6428551/",
+	            "albumtitle": "\u68a6\u5883",
+	            "artist": "\u8303\u4e16\u742a",
+	            "company": "\u548c\u6c14\u97f3\u4e50",
+	            "kbps": "64",
+	            "length": 284,
+	            "like": 0,
+	            "picture": "http://img3.douban.com/view/site/large/public/945a6d8529abfe4.jpg",
+	            "public_time": "2011",
+	            "rating_avg": 3.85863,
+	            "sha256": "8e24e9b10d11e0de7f3990c2b46c00d5a73e3e71c198b090357ddd7ed3d79382",
+	            "sid": "1646524",
+	            "ssid": "894f",
+	            "subtype": "S",
+	            "title": "\u68a6\u5883",
+	            "url": "http://mr4.douban.com/201312090030/e39cab2d0aecd0849e31fdf02626da25/view/song/small/p1646524.mp3"
+	        },
+	    "warning": "user_is_ananymous"
+	}
+
+
+##是否已收藏频率
+
+http://douban.fm/j/explore/is_fav_channel?uk=69077079&cid=1003464
+
+	{"status":true,"data":{"res":{"is_fav":false}}}
+
+
+
+##我的私人调频
 无需登录，但是返回的歌曲肯定不是你自己的啦
 
-http://douban.fm/j/mine/playlist?from=mainsite&channel=0&kbps=64&h=1395060%3As&sid=&type=n&r=9c0894c2f9d26
+0. Log change channel action
+1. get songs from my private channel
 
-主要参数：channle=0
+channel=0
+type=n(null) 
+
+	http://douban.fm/j/mine/playlist?type=n&sid=1394146&pt=99.7&channel=0&context=tags:&pb=64&from=mainsite&r=98d6af28bb
+
+
 
 	{
 	    "r": 0,
@@ -491,11 +625,12 @@ http://douban.fm/j/mine/playlist?from=mainsite&channel=0&kbps=64&h=1395060%3As&s
 	}
 
 
-##fav a channel
+
+##红心调频歌曲
 
 http://douban.fm/j/mine/playlist?from=mainsite&channel=-3&kbps=64&h=&sid=&type=n&r=927c04500d89d
 
-主要参数：channle=-3
+主要参数：channel=-3
 
 
 	{
@@ -523,9 +658,9 @@ http://douban.fm/j/mine/playlist?from=mainsite&channel=-3&kbps=64&h=&sid=&type=n
 	    ],
 	    "warning": "user_is_ananymous"
 	}
+	
 
-
-##skip song 
+##跳过此曲
 type=s
 
 http://douban.fm/j/mine/playlist?type=s&sid=747683&pt=102.3&channel=0&context=tags:&pb=64&from=mainsite&r=3446e34ae3
@@ -557,7 +692,7 @@ http://douban.fm/j/mine/playlist?type=s&sid=747683&pt=102.3&channel=0&context=ta
 
 
 
-## unfav song
+## 添加红心
 type=r
 
 GET
@@ -566,7 +701,7 @@ GET
 r=01e5eedc7f
 
 
-http://douban.fm/j/mine/playlist?type=r&sid=1465915&pt=206.1&channel=1003464&pb=64&from=mainsite&r=01e5eedc7f
+http://douban.fm/j/mine/playlist?type=r&sid=626659&channel=0&from=mainsite&kbps=192
 
 
 	{
@@ -594,15 +729,13 @@ http://douban.fm/j/mine/playlist?type=r&sid=1465915&pt=206.1&channel=1003464&pb=
 	    ]
 	}
 
-
-
-##unfav song
+##取消红心
 type=u
 
-http://douban.fm/j/mine/playlist?type=u&sid=354270&pt=270.2&channel=0&context=tags:&pb=64&from=mainsite&r=2d9f351da4
+http://douban.fm/j/mine/playlist?type=u&sid=626659&channel=0&from=mainsite&kbps=192
 
 
-##Ban
+##不再播放
 type=b
 
 http://douban.fm/j/mine/playlist?type=b&sid=1767085&pt=15.5&channel=0&context=tags:&pb=64&from=mainsite&r=041f860f26
@@ -634,157 +767,6 @@ resp:
         ]
     }
 
-##Log change channel action
-	fcid=fromcid tcid=tocid
-
-	http://douban.fm/j/change_channel?fcid=1&tcid=-3&area=system_chls
-
-		{"r":"0"}
-
-##切换频道 type=n 
-0. Log change channel action
-1. change channel.
-http://douban.fm/j/mine/playlist?type=n&sid=660489&pt=28.4&channel=1004097&pb=64&from=mainsite&r=c7ed82182f
 
 
-Resp:
-	warning:opt
-
-	{
-	    "r": 0,
-	    "song": [
-	        {
-	            "aid": "6428551",
-	            "album": "/subject/6428551/",
-	            "albumtitle": "\u68a6\u5883",
-	            "artist": "\u8303\u4e16\u742a",
-	            "company": "\u548c\u6c14\u97f3\u4e50",
-	            "kbps": "64",
-	            "length": 284,
-	            "like": 0,
-	            "picture": "http://img3.douban.com/view/site/large/public/945a6d8529abfe4.jpg",
-	            "public_time": "2011",
-	            "rating_avg": 3.85863,
-	            "sha256": "8e24e9b10d11e0de7f3990c2b46c00d5a73e3e71c198b090357ddd7ed3d79382",
-	            "sid": "1646524",
-	            "ssid": "894f",
-	            "subtype": "S",
-	            "title": "\u68a6\u5883",
-	            "url": "http://mr4.douban.com/201312090030/e39cab2d0aecd0849e31fdf02626da25/view/song/small/p1646524.mp3"
-	        },
-	    "warning": "user_is_ananymous"
-	}
-
-##Fav A Channel
-
-	http://douban.fm/j/explore/fav_channel?cid=1
-
-	{"status":true,"data":{"res":1}}
-
-##Unfav A Channel
-
-	http://douban.fm/j/explore/unfav_channel?cid=61005
-
-	{"status":true,"data":{"res":1}}
-##Check is fav channel
-
-	http://douban.fm/j/explore/is_fav_channel?uk=69077079&cid=1003464
-
-	{"status":true,"data":{"res":{"is_fav":false}}}
-
-##My Favorite Channels
-0. Log change channel action
-
-1.get songs from my favorite channels
-
-http://douban.fm/j/mine/playlist?type=n&sid=1611938&pt=12.4&channel=-3&pb=64&from=mainsite&r=17e69934ff
-
-
-	{
-	    "r": 0,
-	    "song": [
-	        {
-	            "aid": "6047523",
-	            "album": "/subject/6047523/",
-	            "albumtitle": "\u8ffd\u68a6\u75f4\u5b50\u5fc3",
-	            "artist": "GALA",
-	            "company": "\u4e1c\u4e50",
-	            "kbps": "64",
-	            "length": 212,
-	            "like": 1,
-	            "picture": "http://img3.douban.com/view/site/large/public/ec4c80be09d5c12.jpg",
-	            "public_time": "2011",
-	            "rating_avg": 4.42135,
-	            "sha256": "7e0c71ed4ae9b079b2d6dcbedc8f1259b5414a3d1cdb1da517c548983300fa7b",
-	            "sid": "1703281",
-	            "ssid": "1d14",
-	            "subtype": "S",
-	            "title": "\u5317\u6234\u6cb3\u4e4b\u6b4c",
-	            "url": "http://mr4.douban.com/201312090121/988ba94ed1462c7deb945ca84aa21305/view/song/small/p1703281.mp3"
-	        }
-	    ]
-	}
-
-##  我的私人调频
-
-0. Log change channel action
-1. get songs from my private channel
-
-channel=0
-type=n(null) 
-
-	http://douban.fm/j/mine/playlist?type=n&sid=1394146&pt=99.7&channel=0&context=tags:&pb=64&from=mainsite&r=98d6af28bb
-
-
-	{
-	    "r": 0,
-	    "song": [
-	        {
-	            "aid": "6795335",
-	            "album": "/subject/6795335/",
-	            "albumtitle": "\u8d75\u5c0f\u96f7",
-	            "artist": "\u8d75\u96f7",
-	            "company": "Not On Label",
-	            "kbps": "64",
-	            "length": 231,
-	            "like": 0,
-	            "picture": "http://img3.douban.com/view/site/large/public/37f6da7d0ff84e3.jpg",
-	            "public_time": "2011",
-	            "rating_avg": 4.53704,
-	            "sha256": "bba7020a477917afe1f0ddf4fa46b2cbf270ae11539d7c119c085e5266e0d1cf",
-	            "sid": "1748278",
-	            "ssid": "2f60",
-	            "subtype": "S",
-	            "title": "\u4e0d\u5f00\u7684\u5507",
-	            "url": "http://mr3.douban.com/201312090112/8c7f9096ce2bcab24c768d0a14598e66/view/song/small/p1748278.mp3"
-	        }
-	    ]
-		}
-
-##fav channels
-
-http://douban.fm/j/fav_channels
-
-    {
-        "channels": [
-            {
-                "banner": "http://img3.douban.com/img/fmadmin/chlBanner/27132.jpg",
-                "cover": "http://img3.douban.com/img/fmadmin/icon/27132.jpg",
-                "creator": {
-                    "id": 1,
-                    "name": "\u8c46\u74e3FM",
-                    "url": "http://site.douban.com/douban.fm/"
-                },
-                "hot_songs": [
-                    "Free Loop",
-                    "I'm Yours",
-                    "You're Beautiful"
-                ],
-                "id": 153,
-                "intro": "\u5de5\u4f5c\u5b66\u4e60\u7684\u65f6\u5019\u542c\u4ec0\u4e48",
-                "name": "\u5de5\u4f5c\u5b66\u4e60",
-                "song_num": 1
-            }
-        ]
-    }
 

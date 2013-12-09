@@ -1,17 +1,12 @@
 package com.zzxhdzj.douban.api.channels.recomment;
 
-import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.Callback;
-import com.zzxhdzj.http.mock.TestApiGateway;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.TestCase.assertNotNull;
@@ -26,28 +21,24 @@ import static org.junit.Assert.assertThat;
  * Time: 4:54 PM
  * To change this template use File | Settings | File Templates.
  */
-@RunWith(RobolectricTestRunner.class)
-public class RecommendChannelsGatewayTest {
+public class RecommendChannelsGatewayTest extends BaseGatewayTestCase {
 
-    private TestApiGateway apiGateway;
     private ArrayList<Integer> channelIds;
     private RecommendChannelsGateway recommendChannelsGateway;
-    private Douban douban;
 
     @Before
     public void setUp() {
-        apiGateway = new TestApiGateway();
+        super.setUp();
         channelIds = new ArrayList<Integer>();
         channelIds.add(2);
         channelIds.add(61);
         channelIds.add(9);
         channelIds.add(14);
-        douban = new Douban();
         recommendChannelsGateway = new RecommendChannelsGateway(douban, apiGateway);
     }
 
     @Test
-    public void shouldFetchOneChannelBySpecificGenre() throws Exception {
+    public void shouldFetchOneRecommendChannel() throws Exception {
         recommendChannelsGateway.query(channelIds, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.REC_CHANNELS_JSON, null);
         assertNull(recommendChannelsGateway.failureResponse);

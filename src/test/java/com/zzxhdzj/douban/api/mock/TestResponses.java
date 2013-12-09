@@ -167,5 +167,29 @@ public class TestResponses {
     public static final String HOT_CHANNELS_JSON = "{\"status\":true,\"data\":{\"channels\":[{\"intro\":\"关于欧美流行音乐的一切，就在这里了\",\"name\":\"欧美\",\"song_num\":9224,\"creator\":{\"url\":\"http:\\/\\/site.douban.com\\/douban.fm\\/\",\"name\":\"豆瓣FM\",\"id\":1},\"banner\":\"http:\\/\\/img3.douban.com\\/img\\/fmadmin\\/chlBanner\\/26384.jpg\",\"cover\":\"http:\\/\\/img3.douban.com\\/img\\/fmadmin\\/icon\\/26384.jpg\",\"id\":2,\"hot_songs\":[\"The Show\",\"I'm Yours\",\"Free Loop\"]}],\"total\":23743}}";
 
     public static final String ROCK_CHANNELS_JSON = "{\"status\":true,\"data\":{\"channels\":[{\"intro\":\"Rock and Roll Ain't Noise Pollution，Welcome to the Jungle.\",\"name\":\"摇滚\",\"song_num\":8930,\"creator\":{\"url\":\"http:\\/\\/site.douban.com\\/douban.fm\\/\",\"name\":\"豆瓣FM\",\"id\":1},\"banner\":\"http:\\/\\/img5.douban.com\\/img\\/fmadmin\\/chlBanner\\/26389.jpg\",\"cover\":\"http:\\/\\/img5.douban.com\\/img\\/fmadmin\\/icon\\/26389.jpg\",\"id\":7,\"hot_songs\":[\"Hotel California\",\"Yellow\",\"It's My Life\"]}],\"total\":98}}";
+    public static final String FAV_A_SONG_JSON = ROCK_CHANNELS_SONGS_JSON;
+    public static final String FAV_A_SONG_FAIL_JSON = "{\n" +
+            "    \"r\": 1,\n" +
+            "    \"song\": [\n" +
+            "        {\n" +
+            "            \"aid\": \"25779410\",\n" +
+            "            \"album\": \"/subject/25779410/\",\n" +
+            "            \"albumtitle\": \"The 'In' Sounds O...\",\n" +
+            "            \"artist\": \"Teddy Robin & The Playboys\",\n" +
+            "            \"company\": \"Underground Masters\",\n" +
+            "            \"kbps\": \"64\",\n" +
+            "            \"length\": 162,\n" +
+            "            \"like\": false,\n" +
+            "            \"picture\": \"http://img3.douban.com/mpic/s27157905.jpg\",\n" +
+            "            \"public_time\": \"2007\",\n" +
+            "            \"rating_avg\": 3.72372,\n" +
+            "            \"sha256\": \"5fca807c164c4181d1d8479bf2f67f48a35bf73080cbea6f88b97fbcab4956bd\",\n" +
+            "            \"sid\": \"2002393\",\n" +
+            "            \"ssid\": \"904a\",\n" +
+            "            \"subtype\": \"\",\n" +
+            "            \"title\": \"We Can't Go On This Way\",\n" +
+            "            \"url\": \"http://mr4.douban.com/201311290052/74096848fdbf0bb8012cffbc4f86e543/view/song/small/p2002393.mp3\"\n" +
+            "        }\n"+
+            "}";
 
 }

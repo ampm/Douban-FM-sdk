@@ -3,7 +3,9 @@ package com.zzxhdzj.douban.api.channels.recomment;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.modules.LoginChannelsRoot;
+import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.modules.channel.LoginChannelsResp;
 import com.zzxhdzj.http.*;
 
 import java.io.IOException;
@@ -15,16 +17,12 @@ import java.io.IOException;
  * Time: 5:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class LoginRecommendChannelGateway {
+public class LoginRecommendChannelGateway extends BaseGateway {
 
-    private final Douban douban;
-    private final ApiGateway apiGateway;
-    public ApiResponse failureResponse;
-    public boolean onCompleteWasCalled;
 
     public LoginRecommendChannelGateway(Douban douban, ApiGateway apiGateway) {
-        this.douban = douban;
-        this.apiGateway = apiGateway;
+        super(douban, apiGateway);
+        respType = RespType.STATUS;
     }
 
     public void query(int userId, Callback callback) {
@@ -41,9 +39,9 @@ public class LoginRecommendChannelGateway {
         @Override
         public void onSuccess(TextApiResponse textApiResponse) throws IOException {
             Gson gson = new Gson();
-            LoginChannelsRoot loginChannelsRoot = gson.fromJson(textApiResponse.getResp(), LoginChannelsRoot.class);
-            douban.favChannels = loginChannelsRoot.loginChannelsData.result.favoriteChannels;
-            douban.recChannels = loginChannelsRoot.loginChannelsData.result.recommentChannels;
+            LoginChannelsResp loginChannelsResp = gson.fromJson(textApiResponse.getResp(), LoginChannelsResp.class);
+            douban.favChannels = loginChannelsResp.loginChannelsData.result.favoriteChannels;
+            douban.recChannels = loginChannelsResp.loginChannelsData.result.recommentChannels;
             callback.onSuccess();
         }
 

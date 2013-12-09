@@ -3,7 +3,9 @@ package com.zzxhdzj.douban.api.channels.fixed;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.modules.ChannelRespRoot;
+import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.modules.channel.ChannelResp;
 import com.zzxhdzj.http.*;
 
 import java.io.IOException;
@@ -15,18 +17,11 @@ import java.io.IOException;
  * Time: 12:38 AM
  * To change this template use File | Settings | File Templates.
  */
-public class StaticChannelGateway {
-    private final ApiGateway apiGateway;
-    public ApiResponse failureResponse;
-    public Boolean onCompleteWasCalled;
-    public String token;
-    private final Douban douban;
-    private Callback callback;
-
+public class StaticChannelGateway extends BaseGateway {
 
     public StaticChannelGateway(Douban douban, ApiGateway apiGateway) {
-        this.douban = douban;
-        this.apiGateway = apiGateway;
+        super(douban, apiGateway);
+        respType = RespType.STATUS;
     }
 
     public void fetchHotChannels(int start, int limit, Callback callback) {
@@ -34,7 +29,6 @@ public class StaticChannelGateway {
     }
 
     public void fetchTrendingChannels(int start, int limit, Callback callback) {
-        this.callback = callback;
         apiGateway.makeRequest(new StaticChannelRequest(start, limit, Constants.TRENDING_CHANNELS), new HotChannelCallback(callback));
     }
 
@@ -49,8 +43,8 @@ public class StaticChannelGateway {
         @Override
         public void onSuccess(TextApiResponse response) throws IOException {
             Gson gson = new Gson();
-            ChannelRespRoot channelRespRoot = gson.fromJson(response.getResp(), ChannelRespRoot.class);
-            douban.channels = channelRespRoot.channlesDatas.channels;
+            ChannelResp channelResp = gson.fromJson(response.getResp(), ChannelResp.class);
+            douban.channels = channelResp.channlesDatas.channels;
             callback.onSuccess();
         }
 

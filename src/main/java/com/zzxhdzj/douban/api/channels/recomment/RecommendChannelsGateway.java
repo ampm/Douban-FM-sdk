@@ -3,15 +3,15 @@ package com.zzxhdzj.douban.api.channels.recomment;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.modules.Channel;
-import com.zzxhdzj.douban.modules.ChannelBuilder;
-import com.zzxhdzj.douban.modules.LoginChannelsRoot;
-import com.zzxhdzj.douban.modules.RecommendChannelRoot;
+import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.modules.channel.Channel;
+import com.zzxhdzj.douban.modules.channel.ChannelBuilder;
+import com.zzxhdzj.douban.modules.channel.RecommendChannelsResp;
 import com.zzxhdzj.http.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,16 +20,12 @@ import java.util.Set;
  * Time: 5:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RecommendChannelsGateway {
-
-    private final Douban douban;
-    private final ApiGateway apiGateway;
-    public ApiResponse failureResponse;
-    public boolean onCompleteWasCalled;
+public class RecommendChannelsGateway extends BaseGateway {
 
     public RecommendChannelsGateway(Douban douban, ApiGateway apiGateway) {
-        this.douban = douban;
-        this.apiGateway = apiGateway;
+        super(douban, apiGateway);
+        respType = RespType.STATUS;
+
     }
 
     public void query(ArrayList channelIds, Callback callback) {
@@ -46,7 +42,7 @@ public class RecommendChannelsGateway {
         @Override
         public void onSuccess(TextApiResponse textApiResponse) throws IOException {
             Gson gson = new Gson();
-            RecommendChannelRoot rc = gson.fromJson(textApiResponse.getResp(), RecommendChannelRoot.class);
+            RecommendChannelsResp rc = gson.fromJson(textApiResponse.getResp(), RecommendChannelsResp.class);
             Channel channel = ChannelBuilder.aChannel()
                     .withId(rc.recommendChannelData.result.id)
                     .withName(rc.recommendChannelData.result.name)

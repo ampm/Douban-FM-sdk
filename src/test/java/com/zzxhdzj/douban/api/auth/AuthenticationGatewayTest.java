@@ -1,11 +1,10 @@
 package com.zzxhdzj.douban.api.auth;
 
 import com.google.common.net.HttpHeaders;
-import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.douban.modules.LoginParams;
 import com.zzxhdzj.http.Callback;
-import com.zzxhdzj.http.mock.TestApiGateway;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 import org.junit.Before;
@@ -25,16 +24,13 @@ import static org.junit.Assert.assertThat;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(RobolectricTestRunner.class)
-public class AuthenticationGatewayTest {
-    private TestApiGateway apiGateway;
+public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     private LoginParams loginParams;
     private AuthenticationGateway authenticationGateway;
-    private Douban douban;
 
     @Before
     public void setUp() {
-        apiGateway = new TestApiGateway();
-        douban = new Douban();
+        super.setUp();
         authenticationGateway = new AuthenticationGateway(douban, apiGateway, Robolectric.application.getApplicationContext());
         loginParams = LoginParams.createLoginParams("on", "radio", "cheese", "test@gmail.com", "password");
 

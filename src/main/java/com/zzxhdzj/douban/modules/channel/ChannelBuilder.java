@@ -1,4 +1,4 @@
-package com.zzxhdzj.douban.modules;
+package com.zzxhdzj.douban.modules.channel;
 
 /**
  * Created with IntelliJ IDEA.

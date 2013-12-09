@@ -7,6 +7,8 @@ import com.google.gson.Gson;
 import com.zzxhdzj.douban.ApiRespErrorCode;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.modules.LoginParams;
 import com.zzxhdzj.douban.modules.LoginResp;
 import com.zzxhdzj.http.*;
@@ -21,17 +23,14 @@ import java.io.IOException;
  * Time: 5:30 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AuthenticationGateway {
+public class AuthenticationGateway extends BaseGateway {
 
-    private final ApiGateway apiGateway;
     private final SharedPreferences sharedPreferences;
-    public ApiResponse failureResponse;
-    public Boolean onCompleteWasCalled;
-    private final Douban douban;
+
 
     public AuthenticationGateway(Douban douban, ApiGateway apiGateway, Context context) {
-        this.douban = douban;
-        this.apiGateway = apiGateway;
+        super(douban, apiGateway);
+        respType = RespType.R;
         this.sharedPreferences = context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE);
     }
 
