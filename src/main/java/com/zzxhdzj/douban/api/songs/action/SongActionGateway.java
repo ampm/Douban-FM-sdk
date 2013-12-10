@@ -12,24 +12,29 @@ import java.io.IOException;
 /**
  * Created with IntelliJ IDEA.
  * User: yangning.roy
- * Date: 12/9/13
- * Time: 11:24 PM
+ * Date: 12/10/13
+ * Time: 10:22 AM
  * To change this template use File | Settings | File Templates.
  */
-public class FavSongGateway extends BaseGateway {
+public class SongActionGateway extends BaseGateway {
 
-    public FavSongGateway(Douban douban, ApiGateway apiGateway) {
+    private final int currentChannelId;
+    private final int songId;
+
+    public SongActionGateway(Douban douban, ApiGateway apiGateway,int currentChannelId, int songId,RespType respType) {
         super(douban, apiGateway);
-        respType = RespType.R;
+        this.currentChannelId = currentChannelId;
+        this.songId = songId;
+        this.respType = respType;
     }
 
-    public void favASong(int currentChannelId, int songId, Callback callback) {
-        apiGateway.makeRequest(new FavSongRequest(currentChannelId, songId), new FavSongApiResponseCallbacks(callback));
+    public void songAction(SongActionType songActionType, Callback callback) {
+        apiGateway.makeRequest(new SongActionRequest(songActionType,currentChannelId, songId), new SongApiResponseCallbacks(callback));
     }
 
-    private class FavSongApiResponseCallbacks implements ApiResponseCallbacks<TextApiResponse> {
+    private class SongApiResponseCallbacks implements ApiResponseCallbacks<TextApiResponse> {
         private Callback callback;
-        public FavSongApiResponseCallbacks(Callback callback) {
+        public SongApiResponseCallbacks(Callback callback) {
             this.callback = callback;
         }
 

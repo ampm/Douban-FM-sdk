@@ -26,6 +26,5 @@ public class Constants {
     public static final String DOUBAN_AUTH = "douban_fm_auth";
     public static final String LOGIN_CHLS_URL = BASER_URL + "/j/explore/get_login_chls";
     public static final String REC_CHLS_URL = BASER_URL + "/j/explore/get_recommend_chl";
-    public static final String FAV_A_SONG_URL = BASER_URL+"/j/mine/playlist?type=r&from=mainsite&kbps=64";
-    public static final String UNFAV_A_SONG_URL =BASER_URL+ "/j/mine/playlist?type=u&from=mainsite&kbps=64";
+    public static final String SONG_ACTION_URL =BASER_URL+ "/j/mine/playlist?from=mainsite&kbps=64";
 }
