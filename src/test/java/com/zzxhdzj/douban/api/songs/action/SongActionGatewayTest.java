@@ -27,7 +27,7 @@ public class SongActionGatewayTest extends BaseGatewayTestCase {
         super.setUp();
         sid = 551805;
         channelId = 0;
-        favSongGateway = new SongActionGateway(douban, apiGateway,channelId, sid,RespType.R);
+        favSongGateway = new SongActionGateway(douban, apiGateway,channelId, sid);
     }
 
     @Test
@@ -42,6 +42,23 @@ public class SongActionGatewayTest extends BaseGatewayTestCase {
     @Test
     public void shouldFavASongFail() throws Exception {
         favSongGateway.songAction(SongActionType.FAV, new Callback());
+        apiGateway.simulateTextResponse(200, TestResponses.FAV_A_SONG_FAIL_JSON, null);
+        assertTrue(favSongGateway.onCompleteWasCalled);
+        assertNotNull(favSongGateway.failureResponse);
+        assertNull(douban.songs);
+    }
+    @Test
+    public void shouldUnFavASongSuccess() throws Exception {
+        favSongGateway.songAction(SongActionType.UNFAV, new Callback());
+        apiGateway.simulateTextResponse(200, TestResponses.FAV_A_SONG_JSON, null);
+        assertTrue(favSongGateway.onCompleteWasCalled);
+        assertNull(favSongGateway.failureResponse);
+        assertThat(douban.songs.size(), equalTo(2));
+    }
+
+    @Test
+    public void shouldUnFavASongFail() throws Exception {
+        favSongGateway.songAction(SongActionType.UNFAV, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_SONG_FAIL_JSON, null);
         assertTrue(favSongGateway.onCompleteWasCalled);
         assertNotNull(favSongGateway.failureResponse);

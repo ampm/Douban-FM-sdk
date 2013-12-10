@@ -31,7 +31,7 @@ public class ChannelActionGatewayTest extends BaseGatewayTestCase {
 
     @Test
     public void shouldReturnFavSuccess() throws Exception {
-        channelActionGateway = new ChannelActionGateway(douban, apiGateway, RespType.STATUS);
+        channelActionGateway = new ChannelActionGateway(douban, apiGateway);
         channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_CHANNEL_JSON, null);
         assertNull(channelActionGateway.failureResponse);
@@ -39,7 +39,7 @@ public class ChannelActionGatewayTest extends BaseGatewayTestCase {
     }
     @Test
     public void shouldReturnUnFavSuccess() throws Exception {
-        channelActionGateway = new ChannelActionGateway(douban, apiGateway, RespType.STATUS);
+        channelActionGateway = new ChannelActionGateway(douban, apiGateway);
         channelActionGateway.favAChannel(ChannelActionType.UNFAV_CHANNEL, channelId, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_CHANNEL_JSON, null);
         assertNull(channelActionGateway.failureResponse);

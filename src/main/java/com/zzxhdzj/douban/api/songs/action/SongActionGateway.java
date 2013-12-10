@@ -21,11 +21,11 @@ public class SongActionGateway extends BaseGateway {
     private final int currentChannelId;
     private final int songId;
 
-    public SongActionGateway(Douban douban, ApiGateway apiGateway,int currentChannelId, int songId,RespType respType) {
+    public SongActionGateway(Douban douban, ApiGateway apiGateway,int currentChannelId, int songId) {
         super(douban, apiGateway);
         this.currentChannelId = currentChannelId;
         this.songId = songId;
-        this.respType = respType;
+        this.respType = RespType.R;
     }
 
     public void songAction(SongActionType songActionType, Callback callback) {

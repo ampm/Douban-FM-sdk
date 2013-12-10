@@ -24,10 +24,11 @@ SDK dependency:
 	    <version>1.0-SNAPSHOT</version>
 	</dependency>
 
-TODO:
 
-	· 查询频道信息
-	· 登录后的操作
+
+TODO:换频率报告
+TODO:切换频率
+TODO:是否已收藏频率
 #公共API
 
 无需登录授权,url get 参数需要urlencode
@@ -773,8 +774,5 @@ resp:
 
 	
 
-TODO:我收藏的频道-
-TODO:换频率报告-
-TODO:切换频率-
-TODO:是否已收藏频率-
-TODO:我的私人调频-
+
+

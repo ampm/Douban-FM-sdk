@@ -6,8 +6,8 @@ import com.zzxhdzj.douban.api.auth.AuthenticationGateway;
 import com.zzxhdzj.douban.api.channels.fixed.StaticChannelGateway;
 import com.zzxhdzj.douban.api.channels.genre.GenreChannelGateway;
 import com.zzxhdzj.douban.api.songs.SongsGateway;
-import com.zzxhdzj.douban.modules.channel.Channel;
 import com.zzxhdzj.douban.modules.LoginParams;
+import com.zzxhdzj.douban.modules.channel.Channel;
 import com.zzxhdzj.douban.modules.song.Song;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
@@ -59,22 +59,24 @@ public class Douban {
 
     public void queryHotChannles(int start, int limit, Callback callback) {
         StaticChannelGateway staticChannelGateway = new StaticChannelGateway(this, apiGateway);
-        staticChannelGateway.fetchHotChannels(start, limit,callback);
+        staticChannelGateway.fetchHotChannels(start, limit, callback);
     }
 
     public void queryFastChannles(int start, int limit, Callback callback) {
         StaticChannelGateway staticChannelGateway = new StaticChannelGateway(this, apiGateway);
-        staticChannelGateway.fetchTrendingChannels(start, limit,callback);
+        staticChannelGateway.fetchTrendingChannels(start, limit, callback);
     }
 
     public void queryChannlesByGenre(int genreid, int start, int limit, Callback callback) {
         GenreChannelGateway genreChannelGateway = new GenreChannelGateway(this, apiGateway);
-        genreChannelGateway.fetchChannelsByGenreId(genreid, start, limit,callback);
+        genreChannelGateway.fetchChannelsByGenreId(genreid, start, limit, callback);
     }
+
     public void songsToPlay(int channelId, int bitRate, Callback callback) {
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
-        songsGateway.querySongsByChannelId(Constants.songType,channelId,bitRate,callback);
+        songsGateway.querySongsByChannelId(Constants.songType, channelId, bitRate, callback);
     }
+
 
     public void clear() {
         this.songs = null;

@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.auth;
 
 import com.zzxhdzj.douban.modules.LoginParams;
+import com.zzxhdzj.douban.modules.LoginParamsBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,8 +24,15 @@ public class AuthenticationRequestTest {
 
     @Before
     public void setUp() throws Exception {
-        loginParams = LoginParams.createLoginParams("on", "radio", "cheese", "test@gmail.com", "password");
+        loginParams = LoginParamsBuilder.aLoginParams()
+                .withRemember("on")
+                .withSource("radio")
+                .withCaptcha("cheese")
+                .withLoginMail("test@gmail.com")
+                .withPassword("password")
+                .build();
         request = new AuthenticationRequest(loginParams);
+
     }
 
     @Test

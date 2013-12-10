@@ -4,14 +4,20 @@ import com.google.common.net.HttpHeaders;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.douban.modules.LoginParams;
+import com.zzxhdzj.douban.modules.LoginParamsBuilder;
 import com.zzxhdzj.http.Callback;
+import com.zzxhdzj.http.util.HiUtil;
+import org.apache.commons.compress.utils.IOUtils;
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.message.BasicHeader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+
+import java.io.*;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -32,7 +38,13 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     public void setUp() {
         super.setUp();
         authenticationGateway = new AuthenticationGateway(douban, apiGateway, Robolectric.application.getApplicationContext());
-        loginParams = LoginParams.createLoginParams("on", "radio", "cheese", "test@gmail.com", "password");
+        loginParams = LoginParamsBuilder.aLoginParams()
+                .withRemember("on")
+                .withSource("radio")
+                .withCaptcha("cheese")
+                .withLoginMail("test@gmail.com")
+                .withPassword("password")
+                .build();
 
     }
 
@@ -46,10 +58,14 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
 
     //test#02
     @Test
-    public void shouldSendLoginParams() {
+    public void shouldSendLoginParams() throws Exception {
         authenticationGateway.signIn(loginParams, new Callback());
         AuthenticationRequest authenticationRequest = (AuthenticationRequest) apiGateway.getLatestRequest();
         assertThat(authenticationRequest, equalTo(new AuthenticationRequest(loginParams)));
+        HttpEntity postEntity = authenticationRequest.getPostEntity();
+        assertThat(postEntity.getContentType().getValue(), equalTo("application/x-www-form-urlencoded; charset=UTF-8"));
+        String content = HiUtil.dump(postEntity);
+        assertThat(content, equalTo("remember=on&captcha_id=&captcha_solution=cheese&source=radio&alias=test%40gmail.com&form_password=password"));
     }
 
     //test#03
@@ -73,6 +89,5 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
         assertThat(douban.apiRespErrorCode.getCode(), equalTo(1011));
         assertThat(douban.apiRespErrorCode.getMsg(), equalTo("验证码不正确"));
     }
-
 
 }

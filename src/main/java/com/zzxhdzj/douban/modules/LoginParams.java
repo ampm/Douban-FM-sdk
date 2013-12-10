@@ -1,24 +1,16 @@
 package com.zzxhdzj.douban.modules;
 
+import java.util.HashMap;
+
 public class LoginParams {
 
-    private String remember;
-    private String source;
+    private String remember = "on";
+    private String source = "radio";
     private String captcha;
     private String loginMail;
     private String password;
+    private String captchaId;
 
-    private LoginParams(String remember, String source, String captcha, String loginMail, String password) {
-        this.remember = remember;
-        this.source = source;
-        this.captcha = captcha;
-        this.loginMail = loginMail;
-        this.password = password;
-    }
-
-    public static LoginParams createLoginParams(String remember, String source, String captcha, String loginMail, String password) {
-        return new LoginParams(remember, source, captcha, loginMail, password);
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -44,5 +36,40 @@ public class LoginParams {
                 + (loginMail != null ? loginMail.hashCode() : 0)
                 + (password != null ? password.hashCode() : 0);
         return result;
+    }
+
+    public HashMap<String, String> toParamsMap() {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("remember", remember);
+        params.put("source", source);
+        params.put("captcha_solution", captcha);
+        params.put("alias", loginMail);
+        params.put("form_password", password);
+        params.put("captcha_id", captchaId);
+        return params;
+    }
+
+    public void setRemember(String remember) {
+        this.remember = remember;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
+    }
+
+    public void setLoginMail(String loginMail) {
+        this.loginMail = loginMail;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setCaptchaId(String captchaId) {
+        this.captchaId = captchaId;
     }
 }

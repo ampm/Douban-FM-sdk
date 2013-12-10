@@ -19,9 +19,9 @@ import java.io.IOException;
 public class ChannelActionGateway extends BaseGateway{
 
 
-    public ChannelActionGateway(Douban douban, ApiGateway apiGateway,RespType respType) {
+    public ChannelActionGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway);
-        this.respType = respType;
+        this.respType = RespType.STATUS;
     }
 
     public void favAChannel(ChannelActionType favChannel, int channelId, Callback callback) {

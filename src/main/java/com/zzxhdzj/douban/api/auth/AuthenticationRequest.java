@@ -4,8 +4,12 @@ import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.modules.LoginParams;
 import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
+import com.zzxhdzj.http.util.HiUtil;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.protocol.HTTP;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,10 +19,11 @@ import org.apache.http.HttpEntity;
  * To change this template use File | Settings | File Templates.
  */
 public class AuthenticationRequest extends ApiRequest<TextApiResponse> {
-    private final LoginParams login;
+    private final LoginParams loginParams;
 
-    public AuthenticationRequest(LoginParams login) {
-        this.login = login;
+    public AuthenticationRequest(LoginParams loginParams) {
+        this.loginParams = loginParams;
+        this.method = HttpPost.METHOD_NAME;
     }
 
     @Override
@@ -28,7 +33,8 @@ public class AuthenticationRequest extends ApiRequest<TextApiResponse> {
 
     @Override
     public HttpEntity getPostEntity() throws Exception {
-        return super.getPostEntity();
+        UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(HiUtil.convertMapToNameValuePairs(loginParams.toParamsMap()), HTTP.UTF_8);
+        return urlEncodedFormEntity;
     }
 
     @Override
@@ -43,13 +49,13 @@ public class AuthenticationRequest extends ApiRequest<TextApiResponse> {
 
         AuthenticationRequest that = (AuthenticationRequest) o;
 
-        if (login != null ? !login.equals(that.login) : that.login != null) return false;
+        if (loginParams != null ? !loginParams.equals(that.loginParams) : that.loginParams != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return login != null ? login.hashCode() : 0;
+        return loginParams != null ? loginParams.hashCode() : 0;
     }
 }

@@ -15,7 +15,7 @@ import org.robolectric.RobolectricTestRunner;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(RobolectricTestRunner.class)
-public class BaseGatewayTestCase {
+public abstract class BaseGatewayTestCase {
     protected TestApiGateway apiGateway;
     protected Douban douban;
 
@@ -24,8 +24,5 @@ public class BaseGatewayTestCase {
         apiGateway = new TestApiGateway();
         douban = new Douban();
     }
-    @Test
-    public void test(){
 
-    }
 }
