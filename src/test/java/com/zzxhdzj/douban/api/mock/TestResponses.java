@@ -138,6 +138,7 @@ public class TestResponses {
             "\t    },\n" +
             "\t    \"status\": true\n" +
             "\t}";
+    public static final String FAV_A_CHANNEL_JSON = "{\"status\":true,\"data\":{\"res\":1}}";
     public static String FAST_CHANNELS_JSON = "{\n" +
             "    \"data\": {\n" +
             "        \"channels\": [\n" +
