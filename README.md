@@ -476,20 +476,19 @@ http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14
 
 ![intro](intro.png)
 
-##收藏频道
+##收藏频道-
 
 	http://douban.fm/j/explore/fav_channel?cid=1
 
 	{"status":true,"data":{"res":1}}
 
-##取消收藏频道
+##取消收藏频道-
 
 	http://douban.fm/j/explore/unfav_channel?cid=61005
 
 	{"status":true,"data":{"res":1}}
 
-##我收藏的频道
-
+##我收藏的频道-
 	http://douban.fm/j/fav_channels
 
 	    {
@@ -515,14 +514,15 @@ http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14
 	        ]
 	    }
 
-##换频率报告
+##换频率报告-
+
 	fcid=fromcid tcid=tocid
 
 	http://douban.fm/j/change_channel?fcid=1&tcid=-3&area=system_chls
 
 		{"r":"0"}
 
-##切换频率
+##切换频率-
  type=n 
 0. Log change channel action
 1. change channel.
@@ -558,7 +558,7 @@ Resp:
 	}
 
 
-##是否已收藏频率
+##是否已收藏频率-
 
 http://douban.fm/j/explore/is_fav_channel?uk=69077079&cid=1003464
 
@@ -566,7 +566,7 @@ http://douban.fm/j/explore/is_fav_channel?uk=69077079&cid=1003464
 
 
 
-##我的私人调频
+##我的私人调频-
 无需登录，但是返回的歌曲肯定不是你自己的啦
 
 0. Log change channel action
@@ -626,7 +626,7 @@ type=n(null)
 
 
 
-##红心调频歌曲
+##红心调频歌曲-
 
 http://douban.fm/j/mine/playlist?from=mainsite&channel=-3&kbps=64&h=&sid=&type=n&r=927c04500d89d
 
@@ -660,7 +660,7 @@ http://douban.fm/j/mine/playlist?from=mainsite&channel=-3&kbps=64&h=&sid=&type=n
 	}
 	
 
-##跳过此曲
+##跳过此曲-
 type=s
 
 http://douban.fm/j/mine/playlist?type=s&sid=747683&pt=102.3&channel=0&context=tags:&pb=64&from=mainsite&r=3446e34ae3
@@ -729,13 +729,13 @@ http://douban.fm/j/mine/playlist?type=r&sid=626659&channel=0&from=mainsite&kbps=
 	    ]
 	}
 
-##取消红心
+##取消红心-
 type=u
 
 http://douban.fm/j/mine/playlist?type=u&sid=626659&channel=0&from=mainsite&kbps=192
 
 
-##不再播放
+##不再播放-
 type=b
 
 http://douban.fm/j/mine/playlist?type=b&sid=1767085&pt=15.5&channel=0&context=tags:&pb=64&from=mainsite&r=041f860f26
@@ -770,3 +770,11 @@ resp:
 
 
 
+
+	
+
+TODO:我收藏的频道-
+TODO:换频率报告-
+TODO:切换频率-
+TODO:是否已收藏频率-
+TODO:我的私人调频-
