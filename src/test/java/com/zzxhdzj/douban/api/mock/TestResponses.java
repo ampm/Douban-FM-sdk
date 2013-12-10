@@ -168,6 +168,8 @@ public class TestResponses {
 
     public static final String ROCK_CHANNELS_JSON = "{\"status\":true,\"data\":{\"channels\":[{\"intro\":\"Rock and Roll Ain't Noise Pollution，Welcome to the Jungle.\",\"name\":\"摇滚\",\"song_num\":8930,\"creator\":{\"url\":\"http:\\/\\/site.douban.com\\/douban.fm\\/\",\"name\":\"豆瓣FM\",\"id\":1},\"banner\":\"http:\\/\\/img5.douban.com\\/img\\/fmadmin\\/chlBanner\\/26389.jpg\",\"cover\":\"http:\\/\\/img5.douban.com\\/img\\/fmadmin\\/icon\\/26389.jpg\",\"id\":7,\"hot_songs\":[\"Hotel California\",\"Yellow\",\"It's My Life\"]}],\"total\":98}}";
     public static final String FAV_A_SONG_JSON = ROCK_CHANNELS_SONGS_JSON;
+    public static final String UNFAV_A_SONG_JSON = FAV_A_SONG_JSON;
+
     public static final String FAV_A_SONG_FAIL_JSON = "{\n" +
             "    \"r\": 1,\n" +
             "    \"song\": [\n" +
@@ -191,5 +193,7 @@ public class TestResponses {
             "            \"url\": \"http://mr4.douban.com/201311290052/74096848fdbf0bb8012cffbc4f86e543/view/song/small/p2002393.mp3\"\n" +
             "        }\n"+
             "}";
+
+    public static final String UNFAV_A_SONG_FAIL_JSON = FAV_A_SONG_FAIL_JSON;
 
 }
