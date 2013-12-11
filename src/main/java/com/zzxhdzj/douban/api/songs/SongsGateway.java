@@ -1,7 +1,8 @@
 package com.zzxhdzj.douban.api.songs;
 
-import android.content.Context;
 import com.google.gson.Gson;
+import com.zzxhdzj.douban.ApiInternalError;
+import com.zzxhdzj.douban.ApiRespErrorCode;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseApiGateway;
 import com.zzxhdzj.douban.api.RespType;
@@ -25,7 +26,7 @@ public class SongsGateway extends BaseApiGateway {
     }
 
     public void querySongsByChannelId(String songType, int channelId, int bitRate, Callback callback) {
-        apiGateway.makeRequest(new SongsRequest(channelId, bitRate, songType,douban.getContext()), new SongApiResponseCallback(callback));
+        apiGateway.makeRequest(new SongsRequest(channelId, bitRate, songType, douban.getContext()), new SongApiResponseCallback(callback));
     }
 
     private class SongApiResponseCallback implements ApiResponseCallbacks<TextApiResponse> {
@@ -40,13 +41,29 @@ public class SongsGateway extends BaseApiGateway {
         public void onSuccess(TextApiResponse response) throws IOException {
             Gson gson = new Gson();
             SongResp songResp = gson.fromJson(response.getResp(), SongResp.class);
-            douban.songs = songResp.songs;
-            callback.onSuccess();
+            if (isRespOk(songResp)) {
+                douban.songs = songResp.songs;
+                try {
+                    callback.onSuccess();
+                } catch (Exception onSuccessExp) {
+                    douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.CALLER_ERROR_ON_SUCCESS);
+                    onFailure(response);
+                }
+            } else {
+                douban.apiRespErrorCode = new ApiRespErrorCode(respType, songResp, songResp.msg);
+                onFailure(response);
+            }
+
+
         }
 
         @Override
-        public void onFailure(ApiResponse response) {
-            failureResponse = response;
+        public void onFailure(ApiResponse apiResponse) {
+            failureResponse = apiResponse;
+            if(douban.apiRespErrorCode==null){
+                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.INTERNAL_ERROR);
+            }
+            callback.onFailure();
         }
 
         @Override

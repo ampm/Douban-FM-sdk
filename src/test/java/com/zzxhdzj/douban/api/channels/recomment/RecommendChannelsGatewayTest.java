@@ -5,6 +5,7 @@ import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
 import junit.framework.TestCase;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -48,11 +49,30 @@ public class RecommendChannelsGatewayTest extends BaseGatewayTestCase {
         assertNotNull(douban.recommendChannel);
         assertThat(douban.recommendChannel.name, equalTo("JUST FEELING"));
     }
+
     @Test
     public void shouldHaveCookie() throws Exception {
         recommendChannelsGateway.query(channelIds, new Callback());
         ApiRequest apiRequest = apiGateway.getLatestRequest();
         TestCase.assertTrue(apiRequest.getHeaders().containsKey("Cookie"));
         assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
+    }
+
+    @Test
+    public void shouldCallOnFailureWhenParseRespError() throws Exception {
+        recommendChannelsGateway.query(channelIds, new Callback());
+        apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
+        assertNotNull(recommendChannelsGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("500"));
+
+    }
+
+    @Test
+    public void shouldCallOnFailureWhenCallerError() throws Exception {
+        recommendChannelsGateway.query(channelIds,badCallback);
+        apiGateway.simulateTextResponse(200, TestResponses.REC_CHANNELS_JSON, null);
+        assertNotNull(recommendChannelsGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
+
     }
 }

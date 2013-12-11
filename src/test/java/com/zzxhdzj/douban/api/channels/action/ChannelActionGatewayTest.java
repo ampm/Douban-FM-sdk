@@ -4,10 +4,12 @@ import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertNull;
+import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
@@ -54,6 +56,24 @@ public class ChannelActionGatewayTest extends BaseGatewayTestCase {
         ApiRequest apiRequest = apiGateway.getLatestRequest();
         assertTrue(apiRequest.getHeaders().containsKey("Cookie"));
         assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
+    }
+
+    @Test
+    public void shouldCallOnFailureWhenParseRespError() throws Exception {
+        channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, new Callback());
+        apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
+        assertNotNull(channelActionGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("500"));
+
+    }
+
+    @Test
+    public void shouldCallOnFailureWhenCallerError() throws Exception {
+        channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, badCallback);
+        apiGateway.simulateTextResponse(200, TestResponses.FAV_A_CHANNEL_JSON, null);
+        assertNotNull(channelActionGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
+
     }
 
 }

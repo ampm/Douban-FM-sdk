@@ -1,6 +1,5 @@
 package com.zzxhdzj.douban.api;
 
-import android.content.Context;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.modules.Resp;
 import com.zzxhdzj.douban.modules.RespStatusCode;
@@ -25,12 +24,13 @@ public class BaseApiGateway {
         this.douban = douban;
         this.apiGateway = apiGateway;
     }
-    protected boolean isRespOk(Resp resp){
-        if(respType!=null){
-            if(respType.equals(RespType.R)){
-                return resp.r== RespStatusCode.R_TYPE_OK.code;
+
+    protected boolean isRespOk(Resp resp) {
+        if (respType != null) {
+            if (respType.equals(RespType.R)) {
+                return resp.r == RespStatusCode.R_TYPE_OK.code;
             } else {
-                return resp.status==RespStatusCode.STATUS_TYPE_OK.status;
+                return resp.status == RespStatusCode.STATUS_TYPE_OK.status;
             }
         }
         return true;

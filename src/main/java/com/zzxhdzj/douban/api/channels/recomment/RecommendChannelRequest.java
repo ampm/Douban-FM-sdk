@@ -18,14 +18,14 @@ public class RecommendChannelRequest extends AuthApiRequest<TextApiResponse> {
     private ArrayList<Integer> channelIds;
     private final String recChlsUrl;
 
-    public RecommendChannelRequest(ArrayList<Integer> channelIds, String recChlsUrl,Context context) {
+    public RecommendChannelRequest(ArrayList<Integer> channelIds, String recChlsUrl, Context context) {
         super(context);
         this.channelIds = channelIds;
         this.recChlsUrl = recChlsUrl;
     }
 
     public String getUrlString() {
-        return recChlsUrl +"?orecs="+ getOrecsParams();
+        return recChlsUrl + "?orecs=" + getOrecsParams();
     }
 
     @Override
@@ -37,9 +37,9 @@ public class RecommendChannelRequest extends AuthApiRequest<TextApiResponse> {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < channelIds.size(); i++) {
             Integer index = channelIds.get(i);
-            if(i==(channelIds.size()-1)){
+            if (i == (channelIds.size() - 1)) {
                 stringBuilder.append(index);
-            }else stringBuilder.append(index).append("|");
+            } else stringBuilder.append(index).append("|");
         }
         return stringBuilder.toString();
     }

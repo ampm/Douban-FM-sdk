@@ -1,5 +1,7 @@
 package com.zzxhdzj.douban.modules;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created with IntelliJ IDEA.
  * User: yangning.roy
@@ -10,4 +12,7 @@ package com.zzxhdzj.douban.modules;
 public class Resp {
     public boolean status;
     public int r;
+    public String msg;
+    @SerializedName("err_msg")
+    public String errMsg;
 }

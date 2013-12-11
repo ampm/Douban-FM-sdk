@@ -9,13 +9,10 @@ import com.google.gson.annotations.SerializedName;
  * Time: 3:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class LoginResp {
+public class LoginResp extends Resp{
     @SerializedName("user_info")
     public UserInfo userInfo;
-    @SerializedName("r")
-    public int r;
     @SerializedName("err_no")
     public int errNo;
-    @SerializedName("err_msg")
-    public String errMsg;
+
 }

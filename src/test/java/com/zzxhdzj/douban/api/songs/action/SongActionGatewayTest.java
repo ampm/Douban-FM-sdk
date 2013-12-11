@@ -1,7 +1,6 @@
 package com.zzxhdzj.douban.api.songs.action;
 
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
-import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
@@ -30,12 +29,12 @@ public class SongActionGatewayTest extends BaseGatewayTestCase {
         super.setUp();
         sid = 551805;
         channelId = 0;
-        favSongGateway = new SongActionGateway(douban, apiGateway,channelId, sid);
+        favSongGateway = new SongActionGateway(douban, apiGateway);
     }
 
     @Test
     public void shouldFavASongSuccess() throws Exception {
-        favSongGateway.songAction(SongActionType.FAV, new Callback());
+        favSongGateway.songAction(SongActionType.FAV, channelId, sid, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_SONG_JSON, null);
         assertTrue(favSongGateway.onCompleteWasCalled);
         assertNull(favSongGateway.failureResponse);
@@ -44,15 +43,16 @@ public class SongActionGatewayTest extends BaseGatewayTestCase {
 
     @Test
     public void shouldFavASongFail() throws Exception {
-        favSongGateway.songAction(SongActionType.FAV, new Callback());
+        favSongGateway.songAction(SongActionType.FAV, channelId, sid, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_SONG_FAIL_JSON, null);
         assertTrue(favSongGateway.onCompleteWasCalled);
         assertNotNull(favSongGateway.failureResponse);
         assertNull(douban.songs);
     }
+
     @Test
     public void shouldUnFavASongSuccess() throws Exception {
-        favSongGateway.songAction(SongActionType.UNFAV, new Callback());
+        favSongGateway.songAction(SongActionType.UNFAV, channelId, sid, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_SONG_JSON, null);
         assertTrue(favSongGateway.onCompleteWasCalled);
         assertNull(favSongGateway.failureResponse);
@@ -61,17 +61,35 @@ public class SongActionGatewayTest extends BaseGatewayTestCase {
 
     @Test
     public void shouldUnFavASongFail() throws Exception {
-        favSongGateway.songAction(SongActionType.UNFAV, new Callback());
+        favSongGateway.songAction(SongActionType.UNFAV, channelId, sid, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_SONG_FAIL_JSON, null);
         assertTrue(favSongGateway.onCompleteWasCalled);
         assertNotNull(favSongGateway.failureResponse);
         assertNull(douban.songs);
     }
+
     @Test
     public void shouldHaveCookie() throws Exception {
-        favSongGateway.songAction(SongActionType.UNFAV, new Callback());
+        favSongGateway.songAction(SongActionType.UNFAV, channelId, sid, new Callback());
         ApiRequest apiRequest = apiGateway.getLatestRequest();
         TestCase.assertTrue(apiRequest.getHeaders().containsKey("Cookie"));
         Assert.assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
+    }
+
+    @Test
+    public void shouldCallOnFailureWhenParseRespError() throws Exception {
+        favSongGateway.songAction(SongActionType.UNFAV, channelId, sid, new Callback());
+        apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
+        assertNotNull(favSongGateway.failureResponse);
+        Assert.assertThat(douban.apiRespErrorCode.getCode(), equalTo("500"));
+
+    }
+
+    @Test
+    public void shouldCallOnFailureWhenCallerError() throws Exception {
+        favSongGateway.songAction(SongActionType.UNFAV, channelId, sid, badCallback);
+        apiGateway.simulateTextResponse(200, TestResponses.FAV_A_SONG_JSON, null);
+        assertNotNull(favSongGateway.failureResponse);
+        Assert.assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
     }
 }

@@ -1,7 +1,8 @@
 package com.zzxhdzj.douban.api.channels.recomment;
 
-import android.content.Context;
 import com.google.gson.Gson;
+import com.zzxhdzj.douban.ApiInternalError;
+import com.zzxhdzj.douban.ApiRespErrorCode;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseApiGateway;
@@ -26,8 +27,8 @@ public class LoginRecommendChannelGateway extends BaseApiGateway {
         respType = RespType.STATUS;
     }
 
-    public void query(int userId, Callback callback) {
-        apiGateway.makeRequest(new LoginRecommendChannelRequest(userId, Constants.LOGIN_CHLS_URL,douban.getContext()), new LoginChannelsApiResponseCallbacks(callback));
+    public void query(String userId, Callback callback) {
+        apiGateway.makeRequest(new LoginRecommendChannelRequest(userId, Constants.LOGIN_CHLS_URL, douban.getContext()), new LoginChannelsApiResponseCallbacks(callback));
     }
 
     private class LoginChannelsApiResponseCallbacks implements ApiResponseCallbacks<TextApiResponse> {
@@ -41,19 +42,34 @@ public class LoginRecommendChannelGateway extends BaseApiGateway {
         public void onSuccess(TextApiResponse textApiResponse) throws IOException {
             Gson gson = new Gson();
             LoginChannelsResp loginChannelsResp = gson.fromJson(textApiResponse.getResp(), LoginChannelsResp.class);
-            douban.favChannels = loginChannelsResp.loginChannelsData.result.favoriteChannels;
-            douban.recChannels = loginChannelsResp.loginChannelsData.result.recommentChannels;
-            callback.onSuccess();
+            if(isRespOk(loginChannelsResp)){
+                douban.favChannels = loginChannelsResp.loginChannelsData.result.favoriteChannels;
+                douban.recChannels = loginChannelsResp.loginChannelsData.result.recommentChannels;
+                try{
+                    callback.onSuccess();
+                }catch (Exception onSuccessExp){
+                    douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.CALLER_ERROR_ON_SUCCESS);
+                    onFailure(textApiResponse);
+                }
+            }else {
+                douban.apiRespErrorCode = new ApiRespErrorCode(respType,loginChannelsResp, loginChannelsResp.msg);
+                onFailure(textApiResponse);
+            }
+
         }
 
         @Override
         public void onFailure(ApiResponse apiResponse) {
-           failureResponse = apiResponse;
+            failureResponse = apiResponse;
+            if(douban.apiRespErrorCode==null){
+                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.INTERNAL_ERROR);
+            }
+            callback.onFailure();
         }
 
         @Override
         public void onComplete() {
-           onCompleteWasCalled = true;
+            onCompleteWasCalled = true;
         }
     }
 }

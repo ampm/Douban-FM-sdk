@@ -7,6 +7,7 @@ import com.zzxhdzj.http.Callback;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -29,16 +30,30 @@ public class AuthenGetCaptchaGatewayTest extends BaseGatewayTestCase {
     //test#01
     @Test
     public void shouldMakeARemoteCallWhenFetchNewCaptchaId() {
-        authenGetCaptchaGateway.newCapthaId(new Callback());
+        authenGetCaptchaGateway.newCaptchaId(new Callback());
         String urlString = apiGateway.getLatestRequest().getUrlString();
         assertThat(urlString, equalTo("http://douban.fm/j/new_captcha"));
     }
 
     @Test
     public void shouldReturnNewCaptchaId() throws Exception {
-        authenGetCaptchaGateway.newCapthaId(new Callback());
+        authenGetCaptchaGateway.newCaptchaId(new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NEW_CAPTCHA, null);
         assertThat(douban.captchaImageUrl, equalTo(Constants.CAPTCHA_URL + "&id=8Z9w6tODHEukHkAmBz52dWg4:en"));
+    }
+    @Test
+    public void shouldCallOnFailureWhenParseRespError() throws Exception {
+        authenGetCaptchaGateway.newCaptchaId(new Callback());
+        apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
+        assertNotNull(authenGetCaptchaGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(),equalTo("500"));
+    }
+    @Test
+    public void shouldCallOnFailureWhenCallerError() throws Exception {
+        authenGetCaptchaGateway.newCaptchaId(badCallback);
+        apiGateway.simulateTextResponse(200, TestResponses.NEW_CAPTCHA, null);
+        assertNotNull(authenGetCaptchaGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(),equalTo("-1"));
     }
 
 }

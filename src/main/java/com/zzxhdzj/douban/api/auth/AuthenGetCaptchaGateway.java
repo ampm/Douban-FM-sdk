@@ -1,11 +1,12 @@
 package com.zzxhdzj.douban.api.auth;
 
 import com.google.gson.Gson;
+import com.zzxhdzj.douban.ApiInternalError;
+import com.zzxhdzj.douban.ApiRespErrorCode;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseApiGateway;
 import com.zzxhdzj.http.*;
-
 import java.io.IOException;
 
 /**
@@ -21,7 +22,7 @@ public class AuthenGetCaptchaGateway extends BaseApiGateway {
         super(douban, apiGateway);
     }
 
-    public void newCapthaId(Callback callback) {
+    public void newCaptchaId(Callback callback) {
         apiGateway.makeRequest(new AuthGetCaptchaRequest(), new AuthenGetCaptchaCallback(callback));
     }
 
@@ -40,12 +41,21 @@ public class AuthenGetCaptchaGateway extends BaseApiGateway {
             Object obj = gson.fromJson(response.getResp(), Object.class);
             douban.captchaId = obj.toString();
             douban.captchaImageUrl = Constants.CAPTCHA_URL + "&id=" + douban.captchaId;
-            callback.onSuccess();
+            try{
+                callback.onSuccess();
+            }catch (Exception onSuccessExp){
+                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.CALLER_ERROR_ON_SUCCESS);
+                onFailure(response);
+            }
         }
 
         @Override
         public void onFailure(ApiResponse response) {
             failureResponse = response;
+            if(douban.apiRespErrorCode==null){
+                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.INTERNAL_ERROR);
+            }
+            callback.onFailure();
         }
 
         @Override

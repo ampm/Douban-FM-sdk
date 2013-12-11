@@ -19,11 +19,11 @@ import static org.junit.Assert.assertThat;
  */
 public class LoginRecommendChannelsRequestTest extends BaseAuthApiRequestTestCase{
         private LoginRecommendChannelRequest request;
-        private int userId;
+        private String userId;
 
         @Before
         public void setUp() throws Exception {
-            userId = 69077079;
+            userId = "69077079";
             request = new LoginRecommendChannelRequest(userId,Constants.LOGIN_CHLS_URL,context);
         }
 

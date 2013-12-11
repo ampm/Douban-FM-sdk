@@ -7,18 +7,13 @@ import com.zzxhdzj.douban.modules.LoginParams;
 import com.zzxhdzj.douban.modules.LoginParamsBuilder;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.util.HiUtil;
-import org.apache.commons.compress.utils.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.message.BasicHeader;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
 
-import java.io.*;
-
+import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -85,8 +80,24 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
         Header[] header = new Header[0];
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_ERROR, header);
         assertThat(douban.isAuthenticated(), equalTo(false));
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo(1011));
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("1011"));
         assertThat(douban.apiRespErrorCode.getMsg(), equalTo("验证码不正确"));
     }
 
+    @Test
+    public void shouldCallOnFailureWhenParseRespError() throws Exception {
+        authenticationGateway.signIn(loginParams, new Callback());
+        apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
+        assertNotNull(authenticationGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(),equalTo("500"));
+
+    }
+
+    @Test
+    public void shouldCallOnFailureWhenCallerError() throws Exception {
+        authenticationGateway.signIn(loginParams, badCallback);
+        apiGateway.simulateTextResponse(200, TestResponses.AUTH_SUCCESS, null);
+        assertNotNull(authenticationGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(),equalTo("-1"));
+    }
 }

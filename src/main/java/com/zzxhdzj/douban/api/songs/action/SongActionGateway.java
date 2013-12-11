@@ -1,7 +1,8 @@
 package com.zzxhdzj.douban.api.songs.action;
 
-import android.content.Context;
 import com.google.gson.Gson;
+import com.zzxhdzj.douban.ApiInternalError;
+import com.zzxhdzj.douban.ApiRespErrorCode;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseApiGateway;
 import com.zzxhdzj.douban.api.RespType;
@@ -19,22 +20,19 @@ import java.io.IOException;
  */
 public class SongActionGateway extends BaseApiGateway {
 
-    private final int currentChannelId;
-    private final int songId;
 
-    public SongActionGateway(Douban douban, ApiGateway apiGateway,int currentChannelId, int songId) {
+    public SongActionGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway);
-        this.currentChannelId = currentChannelId;
-        this.songId = songId;
         this.respType = RespType.R;
     }
 
-    public void songAction(SongActionType songActionType, Callback callback) {
-        apiGateway.makeRequest(new SongActionRequest(songActionType,currentChannelId, songId,douban.getContext()), new SongApiResponseCallbacks(callback));
+    public void songAction(SongActionType songActionType, int currentChannelId, int songId, Callback callback) {
+        apiGateway.makeRequest(new SongActionRequest(songActionType, currentChannelId, songId, douban.getContext()), new SongApiResponseCallbacks(callback));
     }
 
     private class SongApiResponseCallbacks implements ApiResponseCallbacks<TextApiResponse> {
         private Callback callback;
+
         public SongApiResponseCallbacks(Callback callback) {
             this.callback = callback;
         }
@@ -43,15 +41,26 @@ public class SongActionGateway extends BaseApiGateway {
         public void onSuccess(TextApiResponse textApiResponse) throws IOException {
             Gson gson = new Gson();
             SongResp songResp = gson.fromJson(textApiResponse.getResp(), SongResp.class);
-            if(isRespOk(songResp)){
+            if (isRespOk(songResp)) {
                 douban.songs = songResp.songs;
-                callback.onSuccess();
-            }else onFailure(textApiResponse);
+                try {
+                    callback.onSuccess();
+                } catch (Exception onSuccessExp) {
+                    douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.CALLER_ERROR_ON_SUCCESS);
+                    onFailure(textApiResponse);
+                }
+            } else {
+                douban.apiRespErrorCode = new ApiRespErrorCode(respType, songResp, songResp.msg);
+                onFailure(textApiResponse);
+            }
         }
 
         @Override
         public void onFailure(ApiResponse apiResponse) {
             failureResponse = apiResponse;
+            if (douban.apiRespErrorCode == null) {
+                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.INTERNAL_ERROR);
+            }
             callback.onFailure();
         }
 

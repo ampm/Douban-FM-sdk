@@ -5,6 +5,7 @@ import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
 import junit.framework.TestCase;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -46,11 +47,29 @@ public class GenreChannelsGatewayTest extends BaseGatewayTestCase {
         assertThat(douban.channels.size(), equalTo(1));
         assertThat(douban.channels.get(0).name, equalTo("摇滚"));
     }
+
     @Test
     public void shouldHaveCookie() throws Exception {
         genreChannelGateway.fetchChannelsByGenreId(genreId, start, limit, new Callback());
         ApiRequest apiRequest = apiGateway.getLatestRequest();
         TestCase.assertTrue(apiRequest.getHeaders().containsKey("Cookie"));
         assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
+    }
+
+    @Test
+    public void shouldCallOnFailureWhenParseRespError() throws Exception {
+        genreChannelGateway.fetchChannelsByGenreId(genreId, start, limit, new Callback());
+        apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
+        assertNotNull(genreChannelGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("500"));
+
+    }
+    @Test
+    public void shouldCallOnFailureWhenCallerError() throws Exception {
+        genreChannelGateway.fetchChannelsByGenreId(genreId, start, limit, badCallback);
+        apiGateway.simulateTextResponse(200, TestResponses.ROCK_CHANNELS_JSON, null);
+        assertNotNull(genreChannelGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
+
     }
 }

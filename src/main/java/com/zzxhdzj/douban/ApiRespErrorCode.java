@@ -1,5 +1,8 @@
 package com.zzxhdzj.douban;
 
+import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.modules.Resp;
+
 /**
  * Created with IntelliJ IDEA.
  * User: yangning.roy
@@ -8,18 +11,27 @@ package com.zzxhdzj.douban;
  * To change this template use File | Settings | File Templates.
  */
 public class ApiRespErrorCode {
-    private int code=500;
-    private String msg="程序内部错误";
+    private String code;
+    private String msg;
 
-    public ApiRespErrorCode(int code, String msg) {
+    public ApiRespErrorCode(ApiInternalError apiInternalError) {
+        this.code = apiInternalError.getCode();
+        this.msg = apiInternalError.getMsg();
+    }
+
+    public ApiRespErrorCode(String code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public ApiRespErrorCode() {
+    public ApiRespErrorCode(RespType respType, Resp resp, String msg) {
+        if (respType.equals(RespType.R)) {
+            this.code = resp.r + "";
+        } else this.code = resp.status + "";
+        this.msg = msg;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
@@ -29,6 +41,6 @@ public class ApiRespErrorCode {
 
     @Override
     public String toString() {
-        return "[code="+code+",msg="+msg+"]";    //To change body of overridden methods use File | Settings | File Templates.
+        return "[code=" + code + ",msg=" + msg + "]";    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

@@ -4,10 +4,12 @@ import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
@@ -51,6 +53,7 @@ public class StaticChannelGatewayTest extends BaseGatewayTestCase {
         assertNotNull(douban.channels);
         assertThat(douban.channels.size(), equalTo(1));
     }
+
     @Test
     public void shouldHaveCookie() throws Exception {
         staticChannelGateway.fetchTrendingChannels(start, limit, new Callback());
@@ -59,4 +62,20 @@ public class StaticChannelGatewayTest extends BaseGatewayTestCase {
         assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
     }
 
+    @Test
+    public void shouldCallOnFailureWhenParseRespError() throws Exception {
+        staticChannelGateway.fetchTrendingChannels(start, limit, new Callback());
+        apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
+        assertNotNull(staticChannelGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("500"));
+    }
+
+    @Test
+    public void shouldCallOnFailureWhenCallerError() throws Exception {
+        staticChannelGateway.fetchTrendingChannels(start, limit, badCallback);
+        apiGateway.simulateTextResponse(200, TestResponses.FAST_CHANNELS_JSON, null);
+        assertNotNull(staticChannelGateway.failureResponse);
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
+
+    }
 }

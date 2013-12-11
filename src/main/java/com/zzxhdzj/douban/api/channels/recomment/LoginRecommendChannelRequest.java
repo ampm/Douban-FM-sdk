@@ -13,17 +13,17 @@ import org.apache.http.Header;
  * To change this template use File | Settings | File Templates.
  */
 public class LoginRecommendChannelRequest extends AuthApiRequest<TextApiResponse> {
-    private int userId;
+    private String userId;
     private final String loginChlsUrl;
 
-    public LoginRecommendChannelRequest(int userId, String loginChlsUrl,Context context) {
+    public LoginRecommendChannelRequest(String userId, String loginChlsUrl, Context context) {
         super(context);
         this.userId = userId;
         this.loginChlsUrl = loginChlsUrl;
     }
 
     public String getUrlString() {
-        return loginChlsUrl+"?uk="+userId;
+        return loginChlsUrl + "?uk=" + userId;
     }
 
     @Override
