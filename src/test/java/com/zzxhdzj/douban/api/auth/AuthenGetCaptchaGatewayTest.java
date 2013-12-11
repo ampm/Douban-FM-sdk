@@ -53,7 +53,7 @@ public class AuthenGetCaptchaGatewayTest extends BaseGatewayTestCase {
         authenGetCaptchaGateway.newCaptchaId(badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.NEW_CAPTCHA, null);
         assertNotNull(authenGetCaptchaGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(),equalTo("-1"));
+        assertThat(douban.apiRespErrorCode.getCode(),equalTo("-2"));
     }
 
 }

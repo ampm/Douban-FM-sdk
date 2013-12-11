@@ -20,6 +20,7 @@ import com.zzxhdzj.douban.modules.song.Song;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.util.Strings;
+import org.afinal.simplecache.ACache;
 import org.apache.http.Header;
 
 import java.util.ArrayList;
@@ -52,7 +53,17 @@ public class Douban {
     }
 
     public static String getCookie(Context context) {
-        return context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).getString(Constants.COOKIE, "");
+        return context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).getString(CacheConstant.COOKIE_KEY, "");
+    }
+    public static void reset(Context context){
+        context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).edit().remove(CacheConstant.COOKIE_KEY).commit();
+        ACache aCache = ACache.get(context);
+        aCache.clear();
+    }
+
+    public static UserInfo getCachedUserInfo(Context context) {
+        ACache aCache = ACache.get(context);
+        return (UserInfo) aCache.getAsObject(CacheConstant.USER_KEY);
     }
 
     /**

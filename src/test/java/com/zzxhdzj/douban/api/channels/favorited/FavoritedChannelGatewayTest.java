@@ -62,7 +62,7 @@ public class FavoritedChannelGatewayTest extends BaseGatewayTestCase {
         favoritedChannelGateway.fetchFavChannels(badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.HOT_CHANNELS_JSON, null);
         assertNotNull(favoritedChannelGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
 
     }
 }

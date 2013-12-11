@@ -60,6 +60,6 @@ public class SongsGatewayTest extends BaseGatewayTestCase {
         songsGateway.querySongsByChannelId(Constants.songType, 1, 128,badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.ROCK_CHANNELS_SONGS_JSON, null);
         TestCase.assertNotNull(songsGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
     }
 }

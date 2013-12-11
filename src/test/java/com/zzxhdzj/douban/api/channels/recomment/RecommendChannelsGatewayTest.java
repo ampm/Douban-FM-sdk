@@ -72,7 +72,7 @@ public class RecommendChannelsGatewayTest extends BaseGatewayTestCase {
         recommendChannelsGateway.query(channelIds,badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.REC_CHANNELS_JSON, null);
         assertNotNull(recommendChannelsGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
 
     }
 }

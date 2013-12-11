@@ -72,7 +72,7 @@ public class ChannelActionGatewayTest extends BaseGatewayTestCase {
         channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_CHANNEL_JSON, null);
         assertNotNull(channelActionGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
 
     }
 

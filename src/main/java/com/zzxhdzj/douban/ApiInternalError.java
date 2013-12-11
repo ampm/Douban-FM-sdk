@@ -9,8 +9,8 @@ package com.zzxhdzj.douban;
  */
 public enum ApiInternalError {
     INTERNAL_ERROR("500", "内部错误:处理豆瓣服务返回失败"),
-    CALLER_ERROR_ON_SUCCESS("-1", "调用错误:调用方ON_SUCCESS出错"),
-    NETWORK_ERROR("-2", "网络异常，请确认连接成功后再尝试");
+    NETWORK_ERROR("-1", "网络异常，请确认连接成功后再尝试"),
+    CALLER_ERROR_ON_SUCCESS("-2", "调用错误:调用方ON_SUCCESS出错"),;
     private String code;
     private String msg;
 

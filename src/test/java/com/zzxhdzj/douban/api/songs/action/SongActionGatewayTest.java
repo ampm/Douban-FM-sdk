@@ -90,6 +90,6 @@ public class SongActionGatewayTest extends BaseGatewayTestCase {
         favSongGateway.songAction(SongActionType.UNFAV, channelId, sid, badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_SONG_JSON, null);
         assertNotNull(favSongGateway.failureResponse);
-        Assert.assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
+        Assert.assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
     }
 }

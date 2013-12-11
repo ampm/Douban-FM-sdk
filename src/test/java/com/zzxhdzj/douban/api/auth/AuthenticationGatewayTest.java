@@ -73,7 +73,7 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
         header[0] = new BasicHeader(HttpHeaders.SET_COOKIE, "__utmz=58778424.1386727495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); ac=\"1386727493\"; bid=\"q8NdsTdgKGtx\"; ck=\"bPhq\"; dbcl2=\"69077079:YhxxsJoFZ11\"; flag=\"ok\"; fmNlogin=\"y\"; show_pro_init_tip=N");
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_SUCCESS, header);
         assertThat(douban.isAuthenticated(), equalTo(true));
-        assertThat(douban.getCookie(Robolectric.application.getApplicationContext()), equalTo("bid=\"q8NdsTdgKGtx\";ck=\"bPhq\";dbcl2=\"69077079:YhxxsJoFZ11\";"));
+        assertThat(Douban.getCookie(Robolectric.application.getApplicationContext()), equalTo("bid=\"q8NdsTdgKGtx\";ck=\"bPhq\";dbcl2=\"69077079:YhxxsJoFZ11\";"));
     }
 
     @Test
@@ -101,6 +101,6 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
         authenticationGateway.signIn(loginParams, badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_SUCCESS, null);
         assertNotNull(authenticationGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(),equalTo("-1"));
+        assertThat(douban.apiRespErrorCode.getCode(),equalTo("-2"));
     }
 }

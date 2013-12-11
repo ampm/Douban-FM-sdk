@@ -64,7 +64,9 @@ public class StaticChannelGateway extends BaseApiGateway {
         @Override
         public void onFailure(ApiResponse response) {
             failureResponse = response;
-            if (douban.apiRespErrorCode == null) {
+            if((response.getHttpResponseCode()+"").equals(ApiInternalError.NETWORK_ERROR.getCode())){
+                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.NETWORK_ERROR);
+            }else if (douban.apiRespErrorCode == null) {
                 douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.INTERNAL_ERROR);
             }
             callback.onFailure();

@@ -69,7 +69,7 @@ public class GenreChannelsGatewayTest extends BaseGatewayTestCase {
         genreChannelGateway.fetchChannelsByGenreId(genreId, start, limit, badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.ROCK_CHANNELS_JSON, null);
         assertNotNull(genreChannelGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
 
     }
 }

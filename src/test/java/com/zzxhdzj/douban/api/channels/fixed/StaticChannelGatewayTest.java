@@ -75,7 +75,7 @@ public class StaticChannelGatewayTest extends BaseGatewayTestCase {
         staticChannelGateway.fetchTrendingChannels(start, limit, badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.FAST_CHANNELS_JSON, null);
         assertNotNull(staticChannelGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-1"));
+        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
 
     }
 }
