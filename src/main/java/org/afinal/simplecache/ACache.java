@@ -72,18 +72,18 @@ public class ACache {
         return get(cacheDir, MAX_SIZE, MAX_COUNT);
     }
 
-    public static ACache get(Context ctx, long max_zise, int max_count) {
+    public static ACache get(Context ctx, long max_size, int max_count) {
         File f = new File(ctx.getCacheDir(), "ACache");
-        return get(f, max_zise, max_count);
+        return get(f, max_size, max_count);
     }
 
-    public static ACache get(File cacheDir, long max_zise, int max_count) {
+    public static ACache get(File cacheDir, long max_size, int max_count) {
         if(Constants.UNIT_TEST){
             cacheDir=new File("./");
         }
         ACache manager = mInstanceMap.get(cacheDir.getAbsoluteFile() + myPid());
         if (manager == null) {
-            manager = new ACache(cacheDir, max_zise, max_count);
+            manager = new ACache(cacheDir, max_size, max_count);
             mInstanceMap.put(cacheDir.getAbsolutePath() + myPid(), manager);
         }
         return manager;
