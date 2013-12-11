@@ -73,6 +73,7 @@ public class StaticChannelGateway extends BaseApiGateway {
         @Override
         public void onComplete() {
             onCompleteWasCalled = true;
+            douban.clear();
         }
     }
 }

@@ -14,11 +14,13 @@ import com.zzxhdzj.douban.api.songs.SongsGateway;
 import com.zzxhdzj.douban.api.songs.action.SongActionGateway;
 import com.zzxhdzj.douban.api.songs.action.SongActionType;
 import com.zzxhdzj.douban.modules.LoginParams;
+import com.zzxhdzj.douban.modules.UserInfo;
 import com.zzxhdzj.douban.modules.channel.Channel;
 import com.zzxhdzj.douban.modules.song.Song;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.util.Strings;
+import org.apache.http.Header;
 
 import java.util.ArrayList;
 
@@ -31,10 +33,12 @@ public class Douban {
     public ArrayList<Channel> channels;
     public ArrayList<Channel> favChannels;
     public ArrayList<Channel> recChannels;
+    public Header[] headers;
     public Channel recommendChannel;
     public ArrayList<Song> songs;
     private final ApiGateway apiGateway;
     private Context context;
+    public UserInfo userInfo;
 
     public Douban(Context context) {
         this.context = context;
@@ -48,7 +52,7 @@ public class Douban {
     }
 
     public static String getCookie(Context context) {
-        return sharedPreferences.getString(Constants.COOKIE, "");
+        return context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).getString(Constants.COOKIE, "");
     }
 
     /**
@@ -64,7 +68,7 @@ public class Douban {
     /**
      * 登录
      *
-     * @param loginParams 登录信息
+     * @param loginParams 登录信息userInfo
      * @param callback
      */
     public void login(LoginParams loginParams, Callback callback) {
@@ -132,7 +136,8 @@ public class Douban {
     }
 
     /**
-     *  获取登录后推荐频道,同时返回收藏频道和推荐频道，可通过douban.favChannels 和 douban.recChannels 获取
+     * 获取登录后推荐频道,同时返回收藏频道和推荐频道，可通过douban.favChannels 和 douban.recChannels 获取
+     *
      * @param userId
      * @param callback
      */
@@ -144,6 +149,7 @@ public class Douban {
 
     /**
      * 求推荐：对应官方的"试试这些",可通过douban.channels获取
+     *
      * @param channelIds
      * @param callback
      */
@@ -155,6 +161,7 @@ public class Douban {
 
     /**
      * 收藏频道
+     *
      * @param channelId
      * @param callback
      */
@@ -166,6 +173,7 @@ public class Douban {
 
     /**
      * 取消收藏频道
+     *
      * @param channelId
      * @param callback
      */
@@ -177,6 +185,7 @@ public class Douban {
 
     /**
      * 私人频道，可通过douban.channels获取
+     *
      * @param bitRate
      * @param callback
      */
@@ -188,6 +197,7 @@ public class Douban {
 
     /**
      * 红心歌曲(对应红心频道)，可通过douban.songs获取
+     *
      * @param bitRate
      * @param callback
      */
@@ -199,6 +209,7 @@ public class Douban {
 
     /**
      * 跳过当前播放，返回新的一组歌曲，可通过douban.songs获取
+     *
      * @param currentChannelId
      * @param songId
      * @param callback
@@ -211,6 +222,7 @@ public class Douban {
 
     /**
      * 添加红心，同时返回下组歌曲，可通过douban.songs获取
+     *
      * @param currentChannelId
      * @param songId
      * @param callback
@@ -223,6 +235,7 @@ public class Douban {
 
     /**
      * 取消红心，同时返回下组歌曲，可通过douban.songs获取
+     *
      * @param currentChannelId
      * @param songId
      * @param callback
@@ -232,8 +245,10 @@ public class Douban {
         SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway);
         songActionGateway.songAction(SongActionType.UNFAV, currentChannelId, songId, callback);
     }
+
     /**
      * 不再播放此曲，同时返回下组歌曲，可通过douban.songs获取
+     *
      * @param currentChannelId
      * @param songId
      * @param callback
@@ -254,8 +269,13 @@ public class Douban {
     }
 
     public void clear() {
-        this.songs = null;
-        this.channels = null;
+        if (!Constants.UNIT_TEST) {
+            this.songs = null;
+            this.channels = null;
+            this.recChannels = null;
+            this.favChannels = null;
+            this.recommendChannel = null;
+        }
         System.gc();
     }
 }

@@ -68,6 +68,7 @@ public class FavoritedChannelGateway extends BaseApiGateway {
         @Override
         public void onComplete() {
             onCompleteWasCalled = true;
+            douban.clear();
         }
     }
 }

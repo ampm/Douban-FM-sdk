@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.api;
 
+import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.mock.TestApiGateway;
@@ -26,6 +27,7 @@ public abstract class BaseGatewayTestCase {
     public void setUp() {
         apiGateway = new TestApiGateway();
         douban = new Douban(Robolectric.application.getApplicationContext());
+        Constants.UNIT_TEST =true;
         badCallback = new Callback() {
             @Override
             public void onSuccess() {

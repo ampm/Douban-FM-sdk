@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.auth;
 
 import com.google.common.net.HttpHeaders;
+import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.douban.modules.LoginParams;
@@ -12,6 +13,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.message.BasicHeader;
 import org.junit.Before;
 import org.junit.Test;
+import org.robolectric.Robolectric;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -68,9 +70,10 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
         assertThat(douban.isAuthenticated(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
         Header[] header = new Header[1];
-        header[0] = new BasicHeader(HttpHeaders.SET_COOKIE, "ue=\"xxxx@gmail.com\"; domain=.douban.com; expires=Mon, 24-Nov-2014 16:29:27 GMT,fmNlogin=\"y\"; path=/; domain=.douban.fm; expires=Tue, 24-Dec-2013 16:29:27 GMT,bid=\"jAT3l2qRKfc\"; path=/; domain=.douban.com; expires=Mon, 24-Nov-2014 16:29:27 GMT,dbcl2=\"69077079:YhfWsJoFZ00\"; path=/; domain=.douban.fm; expires=Tue, 24-Dec-2013 16:29:27 GMT; httponly,ck=\"10se\"; path=/; domain=.douban.fm");
+        header[0] = new BasicHeader(HttpHeaders.SET_COOKIE, "__utmz=58778424.1386727495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); ac=\"1386727493\"; bid=\"q8NdsTdgKGtx\"; ck=\"bPhq\"; dbcl2=\"69077079:YhxxsJoFZ11\"; flag=\"ok\"; fmNlogin=\"y\"; show_pro_init_tip=N");
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_SUCCESS, header);
         assertThat(douban.isAuthenticated(), equalTo(true));
+        assertThat(douban.getCookie(Robolectric.application.getApplicationContext()), equalTo("bid=\"q8NdsTdgKGtx\";ck=\"bPhq\";dbcl2=\"69077079:YhxxsJoFZ11\";"));
     }
 
     @Test

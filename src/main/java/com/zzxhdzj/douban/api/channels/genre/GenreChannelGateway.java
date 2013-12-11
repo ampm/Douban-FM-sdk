@@ -71,6 +71,7 @@ public class GenreChannelGateway extends BaseApiGateway {
         @Override
         public void onComplete() {
             onCompleteWasCalled = true;
+            douban.clear();
         }
     }
 }

@@ -15,4 +15,5 @@ import org.robolectric.RobolectricTestRunner;
 @RunWith(RobolectricTestRunner.class)
 public abstract class BaseAuthApiRequestTestCase {
     protected Context context = Robolectric.application.getApplicationContext();
+
 }

@@ -29,4 +29,5 @@ public class Constants {
     public static final String SONG_ACTION_URL =BASER_URL+ "/j/mine/playlist?from=mainsite&kbps=64";
     public static final String CHANNEL_ACTION_URL = BASER_URL+"/j/explore/";
     public static final String FAV_CHANNELS = BASER_URL+"/j/fav_channels";
+    public static boolean UNIT_TEST = false;
 }

@@ -110,7 +110,7 @@ POST Params:
 Response：
 
 	Content-Type:application/json; charset=utf-8
-	set-Cookie:ue="xxxx@gmail.com";bid="ErJySOFkyp4";dbcl2="69077079:YhfWsJoFZ00";
+	set-Cookie:bid="U6ALTWjZexM";ck="bPhq"; dbcl2="69077079:hXADDW6guJg";
 
 	OK_Body:
 	{
@@ -674,7 +674,8 @@ http://douban.fm/j/mine/playlist?from=mainsite&channel=-3&kbps=64&h=&sid=&type=n
 	}
 	
 
-##跳过此曲-
+##跳过此曲- 
+pt=playtime(秒)
 type=s
 
 http://douban.fm/j/mine/playlist?type=s&sid=747683&pt=102.3&channel=0&context=tags:&pb=64&from=mainsite&r=3446e34ae3
