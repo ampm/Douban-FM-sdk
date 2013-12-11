@@ -1,8 +1,9 @@
 package com.zzxhdzj.douban.api.channels.action;
 
+import android.content.Context;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.BaseApiGateway;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.modules.channel.FavChannelResp;
 import com.zzxhdzj.http.*;
@@ -16,7 +17,7 @@ import java.io.IOException;
  * Time: 3:07 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ChannelActionGateway extends BaseGateway{
+public class ChannelActionGateway extends BaseApiGateway {
 
 
     public ChannelActionGateway(Douban douban, ApiGateway apiGateway) {
@@ -25,7 +26,7 @@ public class ChannelActionGateway extends BaseGateway{
     }
 
     public void favAChannel(ChannelActionType favChannel, int channelId, Callback callback) {
-        apiGateway.makeRequest(new ChannelActionRequest(favChannel,channelId),new ChannelActionApiResponseCallbacks(callback));
+        apiGateway.makeRequest(new ChannelActionRequest(favChannel,channelId,douban.getContext()),new ChannelActionApiResponseCallbacks(callback));
     }
 
     private class ChannelActionApiResponseCallbacks implements ApiResponseCallbacks<TextApiResponse> {

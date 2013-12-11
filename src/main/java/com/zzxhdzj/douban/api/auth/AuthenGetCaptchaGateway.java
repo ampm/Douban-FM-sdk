@@ -3,8 +3,7 @@ package com.zzxhdzj.douban.api.auth;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.api.BaseGateway;
-import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.api.BaseApiGateway;
 import com.zzxhdzj.http.*;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.io.IOException;
  * Time: 12:20 AM
  * To change this template use File | Settings | File Templates.
  */
-public class AuthenGetCaptchaGateway extends BaseGateway{
+public class AuthenGetCaptchaGateway extends BaseApiGateway {
 
     public AuthenGetCaptchaGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway);

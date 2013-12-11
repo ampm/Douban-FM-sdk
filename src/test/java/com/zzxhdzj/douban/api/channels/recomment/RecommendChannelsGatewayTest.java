@@ -2,7 +2,9 @@ package com.zzxhdzj.douban.api.channels.recomment;
 
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
+import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
+import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,7 +45,14 @@ public class RecommendChannelsGatewayTest extends BaseGatewayTestCase {
         apiGateway.simulateTextResponse(200, TestResponses.REC_CHANNELS_JSON, null);
         assertNull(recommendChannelsGateway.failureResponse);
         assertTrue(recommendChannelsGateway.onCompleteWasCalled);
-        assertNotNull(douban.recommendChannle);
-        assertThat(douban.recommendChannle.name, equalTo("JUST FEELING"));
+        assertNotNull(douban.recommendChannel);
+        assertThat(douban.recommendChannel.name, equalTo("JUST FEELING"));
+    }
+    @Test
+    public void shouldHaveCookie() throws Exception {
+        recommendChannelsGateway.query(channelIds, new Callback());
+        ApiRequest apiRequest = apiGateway.getLatestRequest();
+        TestCase.assertTrue(apiRequest.getHeaders().containsKey("Cookie"));
+        assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
     }
 }

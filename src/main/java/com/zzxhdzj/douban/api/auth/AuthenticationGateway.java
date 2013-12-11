@@ -7,7 +7,7 @@ import com.google.gson.Gson;
 import com.zzxhdzj.douban.ApiRespErrorCode;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.BaseApiGateway;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.modules.LoginParams;
 import com.zzxhdzj.douban.modules.LoginResp;
@@ -23,15 +23,11 @@ import java.io.IOException;
  * Time: 5:30 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AuthenticationGateway extends BaseGateway {
+public class AuthenticationGateway extends BaseApiGateway {
 
-    private final SharedPreferences sharedPreferences;
-
-
-    public AuthenticationGateway(Douban douban, ApiGateway apiGateway, Context context) {
+    public AuthenticationGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway);
         respType = RespType.R;
-        this.sharedPreferences = context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE);
     }
 
     public void signOut() {
@@ -59,7 +55,7 @@ public class AuthenticationGateway extends BaseGateway {
                     Header header = headers[i];
                     if (header.getName().equals(HttpHeaders.SET_COOKIE)) {
                         String token = header.getValue();
-                        sharedPreferences.edit().putString(Constants.TOKEN, token).commit();
+                        douban.getDoubanSharedPreferences().edit().putString(Constants.COOKIE, token).commit();
                         break;
                     }
                 }

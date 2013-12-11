@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.channels.recomment;
 
-import com.zzxhdzj.http.ApiRequest;
+import android.content.Context;
+import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
 import org.apache.http.Header;
 
@@ -13,11 +14,12 @@ import java.util.ArrayList;
  * Time: 5:29 PM
  * To change this template use File | Settings | File Templates.
  */
-public class RecommendChannelRequest extends ApiRequest<TextApiResponse> {
+public class RecommendChannelRequest extends AuthApiRequest<TextApiResponse> {
     private ArrayList<Integer> channelIds;
     private final String recChlsUrl;
 
-    public RecommendChannelRequest(ArrayList<Integer> channelIds, String recChlsUrl) {
+    public RecommendChannelRequest(ArrayList<Integer> channelIds, String recChlsUrl,Context context) {
+        super(context);
         this.channelIds = channelIds;
         this.recChlsUrl = recChlsUrl;
     }

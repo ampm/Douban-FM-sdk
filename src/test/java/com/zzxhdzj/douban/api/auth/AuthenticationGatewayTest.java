@@ -29,7 +29,6 @@ import static org.junit.Assert.assertThat;
  * Time: 12:21 AM
  * To change this template use File | Settings | File Templates.
  */
-@RunWith(RobolectricTestRunner.class)
 public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     private LoginParams loginParams;
     private AuthenticationGateway authenticationGateway;
@@ -37,7 +36,7 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     @Before
     public void setUp() {
         super.setUp();
-        authenticationGateway = new AuthenticationGateway(douban, apiGateway, Robolectric.application.getApplicationContext());
+        authenticationGateway = new AuthenticationGateway(douban, apiGateway);
         loginParams = LoginParamsBuilder.aLoginParams()
                 .withRemember("on")
                 .withSource("radio")
@@ -71,21 +70,21 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     //test#03
     @Test
     public void shouldReturnTrueSignedIn() throws Exception {
-        assertThat(douban.isAuthenticated(Robolectric.application.getApplicationContext()), equalTo(false));
+        assertThat(douban.isAuthenticated(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
         Header[] header = new Header[1];
         header[0] = new BasicHeader(HttpHeaders.SET_COOKIE, "ue=\"xxxx@gmail.com\"; domain=.douban.com; expires=Mon, 24-Nov-2014 16:29:27 GMT,fmNlogin=\"y\"; path=/; domain=.douban.fm; expires=Tue, 24-Dec-2013 16:29:27 GMT,bid=\"jAT3l2qRKfc\"; path=/; domain=.douban.com; expires=Mon, 24-Nov-2014 16:29:27 GMT,dbcl2=\"69077079:YhfWsJoFZ00\"; path=/; domain=.douban.fm; expires=Tue, 24-Dec-2013 16:29:27 GMT; httponly,ck=\"10se\"; path=/; domain=.douban.fm");
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_SUCCESS, header);
-        assertThat(douban.isAuthenticated(Robolectric.application.getApplicationContext()), equalTo(true));
+        assertThat(douban.isAuthenticated(), equalTo(true));
     }
 
     @Test
     public void shouldReturnFalseWhenSignedInWithCaptchaCodeError() throws Exception {
-        assertThat(douban.isAuthenticated(Robolectric.application.getApplicationContext()), equalTo(false));
+        assertThat(douban.isAuthenticated(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
         Header[] header = new Header[0];
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_ERROR, header);
-        assertThat(douban.isAuthenticated(Robolectric.application.getApplicationContext()), equalTo(false));
+        assertThat(douban.isAuthenticated(), equalTo(false));
         assertThat(douban.apiRespErrorCode.getCode(), equalTo(1011));
         assertThat(douban.apiRespErrorCode.getMsg(), equalTo("验证码不正确"));
     }

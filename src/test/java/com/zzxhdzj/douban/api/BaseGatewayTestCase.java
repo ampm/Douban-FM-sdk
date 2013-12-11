@@ -5,6 +5,7 @@ import com.zzxhdzj.http.mock.TestApiGateway;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
 /**
@@ -22,7 +23,7 @@ public abstract class BaseGatewayTestCase {
     @Before
     public void setUp() {
         apiGateway = new TestApiGateway();
-        douban = new Douban();
+        douban = new Douban(Robolectric.application.getApplicationContext());
     }
 
 }

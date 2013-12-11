@@ -1,9 +1,10 @@
 package com.zzxhdzj.douban.api.channels.fixed;
 
+import android.content.Context;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.BaseApiGateway;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.modules.channel.ChannelResp;
 import com.zzxhdzj.http.*;
@@ -17,7 +18,7 @@ import java.io.IOException;
  * Time: 12:38 AM
  * To change this template use File | Settings | File Templates.
  */
-public class StaticChannelGateway extends BaseGateway {
+public class StaticChannelGateway extends BaseApiGateway {
 
     public StaticChannelGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway);
@@ -25,11 +26,11 @@ public class StaticChannelGateway extends BaseGateway {
     }
 
     public void fetchHotChannels(int start, int limit, Callback callback) {
-        apiGateway.makeRequest(new StaticChannelRequest(start, limit, Constants.HOT_CHANNELS), new HotChannelCallback(callback));
+        apiGateway.makeRequest(new StaticChannelRequest(start, limit, Constants.HOT_CHANNELS,douban.getContext()), new HotChannelCallback(callback));
     }
 
     public void fetchTrendingChannels(int start, int limit, Callback callback) {
-        apiGateway.makeRequest(new StaticChannelRequest(start, limit, Constants.TRENDING_CHANNELS), new HotChannelCallback(callback));
+        apiGateway.makeRequest(new StaticChannelRequest(start, limit, Constants.TRENDING_CHANNELS,douban.getContext()), new HotChannelCallback(callback));
     }
 
     private class HotChannelCallback implements ApiResponseCallbacks<TextApiResponse> {

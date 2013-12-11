@@ -3,7 +3,11 @@ package com.zzxhdzj.douban.api.songs;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
+import com.zzxhdzj.douban.api.songs.action.SongActionType;
+import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
+import junit.framework.TestCase;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,5 +38,12 @@ public class SongsGatewayTest extends BaseGatewayTestCase {
         assertNotNull(douban.songs);
         assertThat(douban.songs.size(), equalTo(2));
         assertThat(douban.songs.get(0).aid, equalTo("25779410"));
+    }
+    @Test
+    public void shouldHaveCookie() throws Exception {
+        songsGateway.querySongsByChannelId(Constants.songType, 1, 128, new Callback());
+        ApiRequest apiRequest = apiGateway.getLatestRequest();
+        TestCase.assertTrue(apiRequest.getHeaders().containsKey("Cookie"));
+        Assert.assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
     }
 }

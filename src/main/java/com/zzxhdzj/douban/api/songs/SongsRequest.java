@@ -1,6 +1,8 @@
 package com.zzxhdzj.douban.api.songs;
 
+import android.content.Context;
 import com.zzxhdzj.douban.Constants;
+import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
 import org.apache.http.Header;
@@ -12,12 +14,13 @@ import org.apache.http.Header;
  * Time: 12:26 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SongsRequest extends ApiRequest<TextApiResponse> {
+public class SongsRequest extends AuthApiRequest<TextApiResponse> {
     private final int channelId;
     private final int bitRate;
     private final String songType;
 
-    public SongsRequest(int channelId, int bitRate, String songType) {
+    public SongsRequest(int channelId, int bitRate, String songType,Context context) {
+        super(context);
         this.channelId = channelId;
         this.bitRate = bitRate;
         this.songType = songType;

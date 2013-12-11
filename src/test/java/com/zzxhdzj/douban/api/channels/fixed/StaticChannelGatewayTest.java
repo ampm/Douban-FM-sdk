@@ -2,11 +2,13 @@ package com.zzxhdzj.douban.api.channels.fixed;
 
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
+import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
 import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.Assert.*;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 
@@ -49,6 +51,12 @@ public class StaticChannelGatewayTest extends BaseGatewayTestCase {
         assertNotNull(douban.channels);
         assertThat(douban.channels.size(), equalTo(1));
     }
-
+    @Test
+    public void shouldHaveCookie() throws Exception {
+        staticChannelGateway.fetchTrendingChannels(start, limit, new Callback());
+        ApiRequest apiRequest = apiGateway.getLatestRequest();
+        assertTrue(apiRequest.getHeaders().containsKey("Cookie"));
+        assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
+    }
 
 }

@@ -1,7 +1,8 @@
 package com.zzxhdzj.douban.api.channels.favorited;
 
+import android.content.Context;
 import com.zzxhdzj.douban.Constants;
-import com.zzxhdzj.http.ApiRequest;
+import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
 import org.apache.http.Header;
 
@@ -12,7 +13,11 @@ import org.apache.http.Header;
  * Time: 12:35 AM
  * To change this template use File | Settings | File Templates.
  */
-public class FavoritedChannelRequest extends ApiRequest<TextApiResponse> {
+public class FavoritedChannelRequest extends AuthApiRequest<TextApiResponse> {
+
+    protected FavoritedChannelRequest(Context context) {
+        super(context);
+    }
 
     @Override
     public String getUrlString() {

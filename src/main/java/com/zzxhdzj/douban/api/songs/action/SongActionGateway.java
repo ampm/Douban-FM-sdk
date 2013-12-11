@@ -1,8 +1,9 @@
 package com.zzxhdzj.douban.api.songs.action;
 
+import android.content.Context;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.BaseApiGateway;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.modules.song.SongResp;
 import com.zzxhdzj.http.*;
@@ -16,7 +17,7 @@ import java.io.IOException;
  * Time: 10:22 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SongActionGateway extends BaseGateway {
+public class SongActionGateway extends BaseApiGateway {
 
     private final int currentChannelId;
     private final int songId;
@@ -29,7 +30,7 @@ public class SongActionGateway extends BaseGateway {
     }
 
     public void songAction(SongActionType songActionType, Callback callback) {
-        apiGateway.makeRequest(new SongActionRequest(songActionType,currentChannelId, songId), new SongApiResponseCallbacks(callback));
+        apiGateway.makeRequest(new SongActionRequest(songActionType,currentChannelId, songId,douban.getContext()), new SongApiResponseCallbacks(callback));
     }
 
     private class SongApiResponseCallbacks implements ApiResponseCallbacks<TextApiResponse> {

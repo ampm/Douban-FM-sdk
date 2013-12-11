@@ -41,4 +41,5 @@ public class AuthenticationRequestTest {
         assertThat(url, equalTo("http://douban.fm/j/login"));
     }
 
+
 }

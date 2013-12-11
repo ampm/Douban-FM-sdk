@@ -26,9 +26,33 @@ SDK dependency:
 
 
 
-TODO:换频率报告
-TODO:切换频率
-TODO:是否已收藏频率
+
+	-TODO:换频率报告
+	-TODO:切换频率
+	-TODO:是否已收藏频率
+
+1、douban中列出所有需要鉴权的入口
+
+client.getCookieStore().addCookie();
+         BasicClientCookie basicClientCookie = new BasicClientCookie("","");
+         basicClientCookie.setAttribute();
+
+默认全部读取preference Apirequest:super.getHeaders().put();
+在入口处判断是否需要授权。
+
+2、鉴权：
+
+	0、必须登录的，入口直接返回错误码，提示登录。
+	1、如果可选登录的接口未登录，有warnning，清除token。
+	2、必须登录的，根据错误码，清除token。
+
+
+
+
+{"user_info":{"ck":"bPhq","play_record":{"fav_chls_count":3,"liked":77,"banned":52,"played":1976},"is_new_user":0,"uid":"69077079","third_party_info":null,"url":"http:\/\/www.douban.com\/people\/69077079\/","is_dj":false,"id":"69077079","is_pro":true,"name":"hijack"},"r":0}
+
+ue="hellooooy@gmail.com"; domain=.douban.com; expires=Wed, 10-Dec-2014 11:18:43 GMT,ck="bPhq"; path=/; domain=.douban.fm,dbcl2="69077079:hXADDW6guJg"; path=/; domain=.douban.fm; httponly,fmNlogin="y"; path=/; domain=.douban.fm; expires=Thu, 09-Jan-2014 11:18:43 GMT
+
 #公共API
 
 无需登录授权,url get 参数需要urlencode
@@ -769,10 +793,6 @@ resp:
     }
 
 
-
-
-
-	
 
 
 

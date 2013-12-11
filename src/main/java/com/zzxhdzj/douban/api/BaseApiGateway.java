@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.api;
 
+import android.content.Context;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.modules.Resp;
 import com.zzxhdzj.douban.modules.RespStatusCode;
@@ -13,14 +14,14 @@ import com.zzxhdzj.http.ApiResponse;
  * Time: 12:21 AM
  * To change this template use File | Settings | File Templates.
  */
-public class BaseGateway {
+public class BaseApiGateway {
     protected final ApiGateway apiGateway;
     protected final Douban douban;
     protected RespType respType;
     public ApiResponse failureResponse;
     public Boolean onCompleteWasCalled;
 
-    public BaseGateway(Douban douban, ApiGateway apiGateway) {
+    public BaseApiGateway(Douban douban, ApiGateway apiGateway) {
         this.douban = douban;
         this.apiGateway = apiGateway;
     }

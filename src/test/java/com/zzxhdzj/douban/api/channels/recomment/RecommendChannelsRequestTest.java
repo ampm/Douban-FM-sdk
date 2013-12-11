@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.channels.recomment;
 
 import com.zzxhdzj.douban.Constants;
+import com.zzxhdzj.douban.api.BaseAuthApiRequestTestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,8 +21,7 @@ import static org.junit.Assert.assertThat;
  * Time: 5:26 PM
  * To change this template use File | Settings | File Templates.
  */
-@RunWith(RobolectricTestRunner.class)
-public class RecommendChannelsRequestTest {
+public class RecommendChannelsRequestTest extends BaseAuthApiRequestTestCase {
         private RecommendChannelRequest request;
         private ArrayList<Integer> channelIds;
 
@@ -32,7 +32,7 @@ public class RecommendChannelsRequestTest {
             channelIds.add(61);
             channelIds.add(9);
             channelIds.add(14);
-            request = new RecommendChannelRequest(channelIds,Constants.REC_CHLS_URL);
+            request = new RecommendChannelRequest(channelIds,Constants.REC_CHLS_URL,context);
         }
 
         @Test

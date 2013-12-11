@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.api.channels.favorited;
 
+import com.zzxhdzj.douban.api.BaseAuthApiRequestTestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,12 +17,12 @@ import static org.junit.Assert.assertThat;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(RobolectricTestRunner.class)
-public class FavoritedChannelRequestTest {
+public class FavoritedChannelRequestTest extends BaseAuthApiRequestTestCase {
     private FavoritedChannelRequest request;
 
     @Before
     public void setUp() throws Exception {
-        request = new FavoritedChannelRequest();
+        request = new FavoritedChannelRequest(context);
     }
 
     @Test

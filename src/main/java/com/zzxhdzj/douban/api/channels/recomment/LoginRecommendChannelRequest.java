@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.channels.recomment;
 
-import com.zzxhdzj.http.ApiRequest;
+import android.content.Context;
+import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
 import org.apache.http.Header;
 
@@ -11,11 +12,12 @@ import org.apache.http.Header;
  * Time: 5:29 PM
  * To change this template use File | Settings | File Templates.
  */
-public class LoginRecommendChannelRequest extends ApiRequest<TextApiResponse> {
+public class LoginRecommendChannelRequest extends AuthApiRequest<TextApiResponse> {
     private int userId;
     private final String loginChlsUrl;
 
-    public LoginRecommendChannelRequest(int userId, String loginChlsUrl) {
+    public LoginRecommendChannelRequest(int userId, String loginChlsUrl,Context context) {
+        super(context);
         this.userId = userId;
         this.loginChlsUrl = loginChlsUrl;
     }

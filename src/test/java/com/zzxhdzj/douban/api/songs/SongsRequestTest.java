@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.songs;
 
 import com.zzxhdzj.douban.Constants;
+import com.zzxhdzj.douban.api.BaseAuthApiRequestTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,16 +15,14 @@ import static org.junit.Assert.assertThat;
  * Time: 12:20 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SongsRequestTest {
+public class SongsRequestTest extends BaseAuthApiRequestTestCase {
     private SongsRequest request;
 
     @Before
     public void setUp() throws Exception {
-        int start = 1;
-        int limit = 1;
         int bitrate = 128;
         int channelId = 1;
-        request = new SongsRequest(channelId, bitrate, Constants.songType);
+        request = new SongsRequest(channelId, bitrate, Constants.songType,context);
     }
 
     @Test

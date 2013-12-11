@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.channels.fixed;
 
 import com.zzxhdzj.douban.Constants;
+import com.zzxhdzj.douban.api.BaseAuthApiRequestTestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +17,7 @@ import static org.junit.Assert.assertThat;
  * Time: 12:33 AM
  * To change this template use File | Settings | File Templates.
  */
-@RunWith(RobolectricTestRunner.class)
-public class StaticChannelRequestTest {
+public class StaticChannelRequestTest extends BaseAuthApiRequestTestCase{
     private StaticChannelRequest request;
     private int start, limit;
 
@@ -25,7 +25,7 @@ public class StaticChannelRequestTest {
     public void setUp() throws Exception {
         start = 1;
         limit = 1;
-        request = new StaticChannelRequest(start, limit, Constants.HOT_CHANNELS);
+        request = new StaticChannelRequest(start, limit, Constants.HOT_CHANNELS,context);
     }
 
     @Test

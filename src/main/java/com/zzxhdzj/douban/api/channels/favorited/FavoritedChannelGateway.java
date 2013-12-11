@@ -1,9 +1,9 @@
 package com.zzxhdzj.douban.api.channels.favorited;
 
+import android.content.Context;
 import com.google.gson.Gson;
-import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.api.BaseGateway;
+import com.zzxhdzj.douban.api.BaseApiGateway;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.modules.channel.ChannelResp;
 import com.zzxhdzj.http.*;
@@ -17,7 +17,7 @@ import java.io.IOException;
  * Time: 12:38 AM
  * To change this template use File | Settings | File Templates.
  */
-public class FavoritedChannelGateway extends BaseGateway {
+public class FavoritedChannelGateway extends BaseApiGateway {
 
     public FavoritedChannelGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway);
@@ -25,11 +25,11 @@ public class FavoritedChannelGateway extends BaseGateway {
     }
 
     public void fetchHotChannels(Callback callback) {
-        apiGateway.makeRequest(new FavoritedChannelRequest(), new HotChannelCallback(callback));
+        apiGateway.makeRequest(new FavoritedChannelRequest(douban.getContext()), new HotChannelCallback(callback));
     }
 
     public void fetchTrendingChannels(Callback callback) {
-        apiGateway.makeRequest(new FavoritedChannelRequest(), new HotChannelCallback(callback));
+        apiGateway.makeRequest(new FavoritedChannelRequest(douban.getContext()), new HotChannelCallback(callback));
     }
 
     private class HotChannelCallback implements ApiResponseCallbacks<TextApiResponse> {

@@ -1,15 +1,16 @@
 package com.zzxhdzj.douban.api.channels.action;
 
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
-import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.api.mock.TestResponses;
+import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
 import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertNull;
 import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,23 +28,32 @@ public class ChannelActionGatewayTest extends BaseGatewayTestCase {
     public void setUp() {
         super.setUp();
         channelId = 1;
+        channelActionGateway = new ChannelActionGateway(douban, apiGateway);
+
     }
 
     @Test
     public void shouldReturnFavSuccess() throws Exception {
-        channelActionGateway = new ChannelActionGateway(douban, apiGateway);
         channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_CHANNEL_JSON, null);
         assertNull(channelActionGateway.failureResponse);
         assertTrue(channelActionGateway.onCompleteWasCalled);
     }
+
     @Test
     public void shouldReturnUnFavSuccess() throws Exception {
-        channelActionGateway = new ChannelActionGateway(douban, apiGateway);
         channelActionGateway.favAChannel(ChannelActionType.UNFAV_CHANNEL, channelId, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_CHANNEL_JSON, null);
         assertNull(channelActionGateway.failureResponse);
         assertTrue(channelActionGateway.onCompleteWasCalled);
+    }
+
+    @Test
+    public void shouldHaveCookie() {
+        channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, new Callback());
+        ApiRequest apiRequest = apiGateway.getLatestRequest();
+        assertTrue(apiRequest.getHeaders().containsKey("Cookie"));
+        assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
     }
 
 }
