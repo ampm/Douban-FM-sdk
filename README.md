@@ -26,7 +26,8 @@ SDK dependency:
 
 Test
 
-Test-Coverage-Report
+![Test-Coverage-Report](Test-Coverage-Report.png)
+
 
 
 	-TODO:换频率报告
