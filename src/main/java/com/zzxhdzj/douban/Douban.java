@@ -99,14 +99,14 @@ public class Douban {
     /**
      * 根据流派查询频道，通过douban.channels获取
      *
-     * @param genreid
+     * @param genreId
      * @param start
      * @param limit
      * @param callback
      */
-    public void queryChannlesByGenre(int genreid, int start, int limit, Callback callback) {
+    public void queryChannlesByGenre(int genreId, int start, int limit, Callback callback) {
         GenreChannelGateway genreChannelGateway = new GenreChannelGateway(this, apiGateway);
-        genreChannelGateway.fetchChannelsByGenreId(genreid, start, limit, callback);
+        genreChannelGateway.fetchChannelsByGenreId(genreId, start, limit, callback);
     }
 
     /**

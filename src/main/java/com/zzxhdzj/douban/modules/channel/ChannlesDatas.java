@@ -1,7 +1,5 @@
 package com.zzxhdzj.douban.modules.channel;
 
-import com.zzxhdzj.douban.modules.channel.Channel;
-
 import java.util.ArrayList;
 
 /**

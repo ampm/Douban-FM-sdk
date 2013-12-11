@@ -1,6 +1,5 @@
 package com.zzxhdzj.douban.api.channels.fixed;
 
-import android.content.Context;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.ApiRespErrorCode;
@@ -28,11 +27,11 @@ public class StaticChannelGateway extends BaseApiGateway {
     }
 
     public void fetchHotChannels(int start, int limit, Callback callback) {
-        apiGateway.makeRequest(new StaticChannelRequest(start, limit, Constants.HOT_CHANNELS,douban.getContext()), new HotChannelCallback(callback));
+        apiGateway.makeRequest(new StaticChannelRequest(start, limit, Constants.HOT_CHANNELS, douban.getContext()), new HotChannelCallback(callback));
     }
 
     public void fetchTrendingChannels(int start, int limit, Callback callback) {
-        apiGateway.makeRequest(new StaticChannelRequest(start, limit, Constants.TRENDING_CHANNELS,douban.getContext()), new HotChannelCallback(callback));
+        apiGateway.makeRequest(new StaticChannelRequest(start, limit, Constants.TRENDING_CHANNELS, douban.getContext()), new HotChannelCallback(callback));
     }
 
     private class HotChannelCallback implements ApiResponseCallbacks<TextApiResponse> {
@@ -47,17 +46,17 @@ public class StaticChannelGateway extends BaseApiGateway {
         public void onSuccess(TextApiResponse response) throws IOException {
             Gson gson = new Gson();
             ChannelResp channelResp = gson.fromJson(response.getResp(), ChannelResp.class);
-            if(isRespOk(channelResp)){
+            if (isRespOk(channelResp)) {
                 douban.channels = channelResp.channlesDatas.channels;
-                try{
+                try {
                     callback.onSuccess();
-                }catch (Exception onSuccessExp){
+                } catch (Exception onSuccessExp) {
                     douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.CALLER_ERROR_ON_SUCCESS);
                     onFailure(response);
                 }
-            }else {
-                douban.apiRespErrorCode = new ApiRespErrorCode(respType,channelResp, channelResp.msg);
-                 onFailure(response);
+            } else {
+                douban.apiRespErrorCode = new ApiRespErrorCode(respType, channelResp, channelResp.msg);
+                onFailure(response);
             }
 
         }
@@ -65,7 +64,7 @@ public class StaticChannelGateway extends BaseApiGateway {
         @Override
         public void onFailure(ApiResponse response) {
             failureResponse = response;
-            if(douban.apiRespErrorCode==null){
+            if (douban.apiRespErrorCode == null) {
                 douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.INTERNAL_ERROR);
             }
             callback.onFailure();

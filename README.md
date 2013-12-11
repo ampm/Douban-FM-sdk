@@ -24,27 +24,15 @@ SDK dependency:
 	    <version>1.0-SNAPSHOT</version>
 	</dependency>
 
+Test
 
+Test-Coverage-Report
 
 
 	-TODO:换频率报告
 	-TODO:切换频率
 	-TODO:是否已收藏频率
 
-1、douban中列出所有需要鉴权的入口
-
-client.getCookieStore().addCookie();
-         BasicClientCookie basicClientCookie = new BasicClientCookie("","");
-         basicClientCookie.setAttribute();
-
-默认全部读取preference Apirequest:super.getHeaders().put();
-在入口处判断是否需要授权。
-
-2、鉴权：
-
-	0、必须登录的，入口直接返回错误码，提示登录。
-	1、如果可选登录的接口未登录，有warnning，清除token。
-	2、必须登录的，根据错误码，清除token。
 
 
 

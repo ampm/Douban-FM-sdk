@@ -27,12 +27,6 @@ public class ChannelActionRequest extends AuthApiRequest<TextApiResponse> {
         this.channelId = channelId;
     }
 
-    @Override
-    public Map<String, String> getHeaders() {
-        Map<String,String> headers = super.getHeaders();
-        headers.put("Cookie", Douban.getCookie(context));
-        return headers;
-    }
 
     @Override
     public String getUrlString() {
