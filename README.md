@@ -44,12 +44,6 @@ pre dependency:
 
 
 
-
-
-{"user_info":{"ck":"bPhq","play_record":{"fav_chls_count":3,"liked":77,"banned":52,"played":1976},"is_new_user":0,"uid":"69077079","third_party_info":null,"url":"http:\/\/www.douban.com\/people\/69077079\/","is_dj":false,"id":"69077079","is_pro":true,"name":"hijack"},"r":0}
-
-ue="hellooooy@gmail.com"; domain=.douban.com; expires=Wed, 10-Dec-2014 11:18:43 GMT,ck="bPhq"; path=/; domain=.douban.fm,dbcl2="69077079:hXADDW6guJg"; path=/; domain=.douban.fm; httponly,fmNlogin="y"; path=/; domain=.douban.fm; expires=Thu, 09-Jan-2014 11:18:43 GMT
-
 #公共API
 
 无需登录授权,url get 参数需要urlencode
