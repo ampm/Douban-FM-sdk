@@ -3,6 +3,17 @@ Douban FM API
 #Logs
 
 - 2013-12-11 1.0-SNAPSHOT
+- 2014-03-29 1.0-RC
+
+    增加surefire-report支持
+
+        mvn site
+        mvn surefire-report:report
+
+    错误级别细分
+
+        CommonTextApiResponseCallback
+
 
 #Usage:
 
@@ -33,6 +44,10 @@ pre dependency:
     ASimpleCache: https://github.com/yangfuhai/ASimpleCache
 
 5 Test
+
+        mvn site
+        mvn surefire-report:report
+6 coverage by Intellij
 
 ![Test-Coverage-Report](Test-Coverage-Report.png)
 
