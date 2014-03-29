@@ -1,15 +1,16 @@
 package com.zzxhdzj.douban.api.channels.action;
 
 import com.google.gson.Gson;
-import com.zzxhdzj.douban.ApiInternalError;
-import com.zzxhdzj.douban.ApiRespErrorCode;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseApiGateway;
+import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.api.base.ApiInstance;
+import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
 import com.zzxhdzj.douban.modules.channel.FavChannelResp;
-import com.zzxhdzj.http.*;
-
-import java.io.IOException;
+import com.zzxhdzj.http.ApiGateway;
+import com.zzxhdzj.http.Callback;
+import com.zzxhdzj.http.TextApiResponse;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,53 +23,38 @@ public class ChannelActionGateway extends BaseApiGateway {
 
 
     public ChannelActionGateway(Douban douban, ApiGateway apiGateway) {
-        super(douban, apiGateway);
-        this.respType = RespType.STATUS;
+        super(douban, apiGateway, RespType.STATUS);
     }
 
     public void favAChannel(ChannelActionType favChannel, int channelId, Callback callback) {
-        apiGateway.makeRequest(new ChannelActionRequest(favChannel, channelId, douban.getContext()), new ChannelActionApiResponseCallbacks(callback));
+        apiGateway.makeRequest(new ChannelActionRequest(favChannel, channelId, douban.getContext()), new ChannelActionApiResponseCallbacks(callback, this, douban));
     }
 
-    private class ChannelActionApiResponseCallbacks implements ApiResponseCallbacks<TextApiResponse> {
-        private Callback callback;
+    private class ChannelActionApiResponseCallbacks extends CommonTextApiResponseCallback {
 
-        public ChannelActionApiResponseCallbacks(Callback callback) {
-            this.callback = callback;
+        private FavChannelResp favChannelResp;
+
+        public ChannelActionApiResponseCallbacks(Callback bizCallback, BaseApiGateway gateway, ApiInstance apiInstance) {
+            super(bizCallback, gateway, apiInstance);
         }
 
         @Override
-        public void onSuccess(TextApiResponse response) throws IOException {
+        public void _extractRespData(TextApiResponse response) {
             Gson gson = new Gson();
-            FavChannelResp favChannelResp = gson.fromJson(response.getResp(), FavChannelResp.class);
+            favChannelResp = gson.fromJson(response.getResp(), FavChannelResp.class);
+        }
+
+        @Override
+        public boolean _handleRespData(TextApiResponse response) {
             if (isRespOk(favChannelResp)) {
-                try {
-                    callback.onSuccess();
-                } catch (Exception onSuccessExp) {
-                    douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.CALLER_ERROR_ON_SUCCESS);
-                    onFailure(response);
-                }
+                callOnSuccess(response);
+                return true;
             } else {
-                douban.apiRespErrorCode = new ApiRespErrorCode(respType, favChannelResp, favChannelResp.msg);
-                onFailure(response);
+                douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(favChannelResp.getCode(respType), favChannelResp.getMessage(respType));
+                return false;
             }
         }
 
-        @Override
-        public void onFailure(ApiResponse response) {
-            failureResponse = response;
-            if((response.getHttpResponseCode()+"").equals(ApiInternalError.NETWORK_ERROR.getCode())){
-                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.NETWORK_ERROR);
-            }else if (douban.apiRespErrorCode == null) {
-                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.INTERNAL_ERROR);
-            }
-            callback.onFailure();
-        }
-
-        @Override
-        public void onComplete() {
-            onCompleteWasCalled = true;
-            douban.clear();
-        }
     }
+
 }

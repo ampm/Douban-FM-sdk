@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.api.channels.action;
 
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.ApiRequest;
@@ -63,7 +64,7 @@ public class ChannelActionGatewayTest extends BaseGatewayTestCase {
         channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
         assertNotNull(channelActionGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("500"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
 
     }
 
@@ -72,7 +73,7 @@ public class ChannelActionGatewayTest extends BaseGatewayTestCase {
         channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.FAV_A_CHANNEL_JSON, null);
         assertNotNull(channelActionGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.CALLER_ERROR.getCode()));
 
     }
 

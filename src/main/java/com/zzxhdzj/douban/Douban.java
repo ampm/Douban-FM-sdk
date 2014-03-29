@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import com.zzxhdzj.douban.api.auth.AuthenGetCaptchaGateway;
 import com.zzxhdzj.douban.api.auth.AuthenticationGateway;
+import com.zzxhdzj.douban.api.base.ApiInstance;
 import com.zzxhdzj.douban.api.channels.action.ChannelActionGateway;
 import com.zzxhdzj.douban.api.channels.action.ChannelActionType;
 import com.zzxhdzj.douban.api.channels.fixed.StaticChannelGateway;
@@ -25,12 +26,12 @@ import org.apache.http.Header;
 
 import java.util.ArrayList;
 
-public class Douban {
+public class Douban extends ApiInstance {
 
     public static SharedPreferences sharedPreferences;
     public String captchaImageUrl;
     public String captchaId;
-    public ApiRespErrorCode apiRespErrorCode;
+//    public ApiRespErrorCode apiRespErrorCode;
     public ArrayList<Channel> channels;
     public ArrayList<Channel> favChannels;
     public ArrayList<Channel> recChannels;

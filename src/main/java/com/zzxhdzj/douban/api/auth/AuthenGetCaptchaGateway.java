@@ -1,12 +1,16 @@
 package com.zzxhdzj.douban.api.auth;
 
+import android.text.TextUtils;
 import com.google.gson.Gson;
-import com.zzxhdzj.douban.ApiInternalError;
-import com.zzxhdzj.douban.ApiRespErrorCode;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseApiGateway;
-import com.zzxhdzj.http.*;
+import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
+import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
+import com.zzxhdzj.http.ApiGateway;
+import com.zzxhdzj.http.Callback;
+import com.zzxhdzj.http.TextApiResponse;
+
 import java.io.IOException;
 
 /**
@@ -23,47 +27,33 @@ public class AuthenGetCaptchaGateway extends BaseApiGateway {
     }
 
     public void newCaptchaId(Callback callback) {
-        apiGateway.makeRequest(new AuthGetCaptchaRequest(), new AuthenGetCaptchaCallback(callback));
+        apiGateway.makeRequest(new AuthGetCaptchaRequest(), new AuthenGetCaptchaCallback(callback, this, douban));
     }
 
-    private class AuthenGetCaptchaCallback implements ApiResponseCallbacks<TextApiResponse> {
 
-        private final Callback callback;
+    private class AuthenGetCaptchaCallback extends CommonTextApiResponseCallback<Douban> {
 
-        public AuthenGetCaptchaCallback(Callback callback) {
-
-            this.callback = callback;
+        public AuthenGetCaptchaCallback(Callback bizCallback, BaseApiGateway gateway, Douban apiInstance) {
+            super(bizCallback, gateway, apiInstance);
         }
 
         @Override
-        public void onSuccess(TextApiResponse response) throws IOException {
+        public void _extractRespData(TextApiResponse response) {
             Gson gson = new Gson();
             Object obj = gson.fromJson(response.getResp(), Object.class);
             douban.captchaId = obj.toString();
-            douban.captchaImageUrl = Constants.CAPTCHA_URL + "&id=" + douban.captchaId;
-            try{
-                callback.onSuccess();
-            }catch (Exception onSuccessExp){
-                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.CALLER_ERROR_ON_SUCCESS);
-                onFailure(response);
-            }
         }
 
         @Override
-        public void onFailure(ApiResponse response) {
-            failureResponse = response;
-            if((response.getHttpResponseCode()+"").equals(ApiInternalError.NETWORK_ERROR.getCode())){
-                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.NETWORK_ERROR);
-            }else if (douban.apiRespErrorCode == null) {
-                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.INTERNAL_ERROR);
+        public boolean _handleRespData(TextApiResponse response){
+            if (TextUtils.isEmpty(douban.captchaId)) {
+                douban.mApiRespErrorCode = ApiRespErrorCode.createBizError("-1", "验证码ID获取失败");
+                return false;
+            }else {
+                douban.captchaImageUrl = Constants.CAPTCHA_URL + "&id=" + douban.captchaId;
+                return true;
             }
-            callback.onFailure();
         }
 
-        @Override
-        public void onComplete() {
-            onCompleteWasCalled = true;
-            douban.clear();
-        }
     }
 }

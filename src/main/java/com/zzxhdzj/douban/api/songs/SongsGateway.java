@@ -1,15 +1,14 @@
 package com.zzxhdzj.douban.api.songs;
 
 import com.google.gson.Gson;
-import com.zzxhdzj.douban.ApiInternalError;
-import com.zzxhdzj.douban.ApiRespErrorCode;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseApiGateway;
+import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.modules.song.SongResp;
-import com.zzxhdzj.http.*;
-
-import java.io.IOException;
+import com.zzxhdzj.http.ApiGateway;
+import com.zzxhdzj.http.Callback;
+import com.zzxhdzj.http.TextApiResponse;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,57 +20,38 @@ import java.io.IOException;
 public class SongsGateway extends BaseApiGateway {
 
     public SongsGateway(Douban douban, ApiGateway apiGateway) {
-        super(douban, apiGateway);
-        respType = RespType.R;
+        super(douban, apiGateway,RespType.R);
     }
 
     public void querySongsByChannelId(String songType, int channelId, int bitRate, Callback callback) {
-        apiGateway.makeRequest(new SongsRequest(channelId, bitRate, songType, douban.getContext()), new SongApiResponseCallback(callback));
+        apiGateway.makeRequest(new SongsRequest(channelId, bitRate, songType, douban.getContext()), new SongApiResponseCallback(callback, this, douban));
     }
 
-    private class SongApiResponseCallback implements ApiResponseCallbacks<TextApiResponse> {
-        private Callback callback;
+    private class SongApiResponseCallback extends CommonTextApiResponseCallback {
 
-        public SongApiResponseCallback(Callback callback) {
+        private SongResp songResp;
 
-            this.callback = callback;
+        public SongApiResponseCallback(Callback callback, BaseApiGateway songGateway, Douban douban) {
+            super(callback, songGateway, douban);
+        }
+
+
+        @Override
+        public void _extractRespData(TextApiResponse response) {
+            Gson gson = new Gson();
+            songResp = gson.fromJson(response.getResp(), SongResp.class);
         }
 
         @Override
-        public void onSuccess(TextApiResponse response) throws IOException {
-            Gson gson = new Gson();
-            SongResp songResp = gson.fromJson(response.getResp(), SongResp.class);
+        public boolean _handleRespData(TextApiResponse response) {
             if (isRespOk(songResp)) {
                 douban.songs = songResp.songs;
-                try {
-                    callback.onSuccess();
-                } catch (Exception onSuccessExp) {
-                    douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.CALLER_ERROR_ON_SUCCESS);
-                    onFailure(response);
-                }
+                return true;
             } else {
-                douban.apiRespErrorCode = new ApiRespErrorCode(respType, songResp, songResp.msg);
-                onFailure(response);
+                douban.mApiRespErrorCode = com.zzxhdzj.douban.api.base.ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
+                return false;
             }
-
-
-        }
-
-        @Override
-        public void onFailure(ApiResponse response) {
-            failureResponse = response;
-            if((response.getHttpResponseCode()+"").equals(ApiInternalError.NETWORK_ERROR.getCode())){
-                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.NETWORK_ERROR);
-            }else if (douban.apiRespErrorCode == null) {
-                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.INTERNAL_ERROR);
-            }
-            callback.onFailure();
-        }
-
-        @Override
-        public void onComplete() {
-            onCompleteWasCalled = true;
-            douban.clear();
         }
     }
+
 }

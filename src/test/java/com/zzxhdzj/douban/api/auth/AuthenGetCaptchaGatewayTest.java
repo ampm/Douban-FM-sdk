@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.api.auth;
 
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
@@ -44,16 +45,23 @@ public class AuthenGetCaptchaGatewayTest extends BaseGatewayTestCase {
     @Test
     public void shouldCallOnFailureWhenParseRespError() throws Exception {
         authenGetCaptchaGateway.newCaptchaId(new Callback());
+        apiGateway.simulateTextResponse(200, TestResponses.ERROR_RESP, null);
+        assertNotNull(authenGetCaptchaGateway.failureResponse);
+        assertThat(douban.mApiRespErrorCode.getCode(),equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
+    }
+    @Test
+    public void shouldCallOnFailureWhenResponseBodyEmpty() throws Exception {
+        authenGetCaptchaGateway.newCaptchaId(new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
         assertNotNull(authenGetCaptchaGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(),equalTo("500"));
+        assertThat(douban.mApiRespErrorCode.getCode(),equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
     }
     @Test
     public void shouldCallOnFailureWhenCallerError() throws Exception {
         authenGetCaptchaGateway.newCaptchaId(badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.NEW_CAPTCHA, null);
         assertNotNull(authenGetCaptchaGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(),equalTo("-2"));
+        assertThat(douban.mApiRespErrorCode.getCode(),equalTo(ApiInternalError.CALLER_ERROR.getCode()));
     }
 
 }

@@ -7,10 +7,19 @@ package com.zzxhdzj.douban;
  * Time: 2:27 PM
  * To change this template use File | Settings | File Templates.
  */
+
 public enum ApiInternalError {
-    INTERNAL_ERROR("500", "内部错误:处理豆瓣服务返回失败"),
-    NETWORK_ERROR("-1", "网络异常，请确认连接成功后再尝试"),
-    CALLER_ERROR_ON_SUCCESS("-2", "调用错误:调用方ON_SUCCESS出错"),;
+    INTERNAL_ERROR("-4", "内部错误:失败响应处理"),
+
+    CALLER_ERROR("-3", "调用错误:调用方出错"),
+
+    UNKNOWN_ERROR("-5", "未知错误"),
+    //请求失败
+    PARSE_ERROR("-2", "解析服务器的返回时发生错误"),
+    NETWORK_ERROR("-10", "网络异常或服务器无响应，请确认连接成功后再尝试"),
+    NETWORK_DNS_ERROR("-11", "域名无法解析"),
+    SERVER_503_ERROR("503", "服务器异常"),
+    SERVER_404_ERROR("404", "找不到请求地址");
     private String code;
     private String msg;
 
@@ -26,5 +35,12 @@ public enum ApiInternalError {
 
     public String getMsg() {
         return msg;
+    }
+
+    public static ApiInternalError getByCode(String code) {
+        for(ApiInternalError e : values()) {
+            if(e.code.equals(code)) return e;
+        }
+        return null;
     }
 }

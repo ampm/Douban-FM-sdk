@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.api.channels.fixed;
 
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.ApiRequest;
@@ -67,7 +68,7 @@ public class StaticChannelGatewayTest extends BaseGatewayTestCase {
         staticChannelGateway.fetchTrendingChannels(start, limit, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
         assertNotNull(staticChannelGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("500"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
     }
 
     @Test
@@ -75,7 +76,7 @@ public class StaticChannelGatewayTest extends BaseGatewayTestCase {
         staticChannelGateway.fetchTrendingChannels(start, limit, badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.FAST_CHANNELS_JSON, null);
         assertNotNull(staticChannelGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.CALLER_ERROR.getCode()));
 
     }
 }

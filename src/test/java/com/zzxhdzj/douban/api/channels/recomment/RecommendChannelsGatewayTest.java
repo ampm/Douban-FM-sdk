@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.api.channels.recomment;
 
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.ApiRequest;
@@ -63,7 +64,7 @@ public class RecommendChannelsGatewayTest extends BaseGatewayTestCase {
         recommendChannelsGateway.query(channelIds, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
         assertNotNull(recommendChannelsGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("500"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
 
     }
 
@@ -72,7 +73,7 @@ public class RecommendChannelsGatewayTest extends BaseGatewayTestCase {
         recommendChannelsGateway.query(channelIds,badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.REC_CHANNELS_JSON, null);
         assertNotNull(recommendChannelsGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.CALLER_ERROR.getCode()));
 
     }
 }

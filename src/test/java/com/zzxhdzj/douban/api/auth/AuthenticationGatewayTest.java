@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.auth;
 
 import com.google.common.net.HttpHeaders;
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
@@ -26,6 +27,7 @@ import static org.junit.Assert.assertThat;
  * Time: 12:21 AM
  * To change this template use File | Settings | File Templates.
  */
+
 public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     private LoginParams loginParams;
     private AuthenticationGateway authenticationGateway;
@@ -61,7 +63,7 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
         HttpEntity postEntity = authenticationRequest.getPostEntity();
         assertThat(postEntity.getContentType().getValue(), equalTo("application/x-www-form-urlencoded; charset=UTF-8"));
         String content = HiUtil.dump(postEntity);
-        assertThat(content, equalTo("remember=on&captcha_id=&captcha_solution=cheese&source=radio&alias=test%40gmail.com&form_password=password"));
+        assertThat(content, equalTo("remember=on&form_password=password&captcha_id=&alias=test%40gmail.com&source=radio&captcha_solution=cheese"));
     }
 
     //test#03
@@ -77,14 +79,14 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     }
 
     @Test
-    public void shouldReturnFalseWhenSignedInWithCaptchaCodeError() throws Exception {
+    public void shouldReturnFalseWhenSignedInWithWrongCaptchaCode() throws Exception {
         assertThat(douban.isAuthenticated(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
         Header[] header = new Header[0];
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_ERROR, header);
         assertThat(douban.isAuthenticated(), equalTo(false));
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("1011"));
-        assertThat(douban.apiRespErrorCode.getMsg(), equalTo("验证码不正确"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo("1"));
+        assertThat(douban.mApiRespErrorCode.getMsg(), equalTo("验证码不正确"));
     }
 
     @Test
@@ -92,7 +94,7 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
         authenticationGateway.signIn(loginParams, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
         assertNotNull(authenticationGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(),equalTo("500"));
+        assertThat(douban.mApiRespErrorCode.getCode(),equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
 
     }
 
@@ -101,6 +103,6 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
         authenticationGateway.signIn(loginParams, badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_SUCCESS, null);
         assertNotNull(authenticationGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(),equalTo("-2"));
+        assertThat(douban.mApiRespErrorCode.getCode(),equalTo(ApiInternalError.CALLER_ERROR.getCode()));
     }
 }

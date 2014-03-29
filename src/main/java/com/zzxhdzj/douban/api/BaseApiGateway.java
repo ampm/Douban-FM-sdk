@@ -20,6 +20,11 @@ public class BaseApiGateway {
     public ApiResponse failureResponse;
     public Boolean onCompleteWasCalled;
 
+    public BaseApiGateway(Douban douban, ApiGateway apiGateway,RespType respType) {
+        this.douban = douban;
+        this.apiGateway = apiGateway;
+        this.respType = respType;
+    }
     public BaseApiGateway(Douban douban, ApiGateway apiGateway) {
         this.douban = douban;
         this.apiGateway = apiGateway;

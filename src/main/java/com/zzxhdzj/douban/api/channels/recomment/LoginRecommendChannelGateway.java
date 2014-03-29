@@ -1,17 +1,15 @@
 package com.zzxhdzj.douban.api.channels.recomment;
 
 import com.google.gson.Gson;
-import com.zzxhdzj.douban.ApiInternalError;
-import com.zzxhdzj.douban.ApiRespErrorCode;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseApiGateway;
+import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.api.base.ApiInstance;
+import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
 import com.zzxhdzj.douban.modules.channel.LoginChannelsResp;
 import com.zzxhdzj.http.*;
-
-import java.io.IOException;
-
 /**
  * Created with IntelliJ IDEA.
  * User: yangning.roy
@@ -23,56 +21,38 @@ public class LoginRecommendChannelGateway extends BaseApiGateway {
 
 
     public LoginRecommendChannelGateway(Douban douban, ApiGateway apiGateway) {
-        super(douban, apiGateway);
-        respType = RespType.STATUS;
+        super(douban, apiGateway,RespType.STATUS);
     }
 
     public void query(String userId, Callback callback) {
-        apiGateway.makeRequest(new LoginRecommendChannelRequest(userId, Constants.LOGIN_CHLS_URL, douban.getContext()), new LoginChannelsApiResponseCallbacks(callback));
+        apiGateway.makeRequest(new LoginRecommendChannelRequest(userId, Constants.LOGIN_CHLS_URL, douban.getContext()), new LoginChannelsApiResponseCallbacks(callback,this,douban));
     }
 
-    private class LoginChannelsApiResponseCallbacks implements ApiResponseCallbacks<TextApiResponse> {
-        private Callback callback;
+    private class LoginChannelsApiResponseCallbacks extends CommonTextApiResponseCallback {
 
-        public LoginChannelsApiResponseCallbacks(Callback callback) {
-            this.callback = callback;
+        private LoginChannelsResp loginChannelsResp;
+
+        public LoginChannelsApiResponseCallbacks(Callback bizCallback, BaseApiGateway gateway, ApiInstance apiInstance) {
+            super(bizCallback, gateway, apiInstance);
         }
 
         @Override
-        public void onSuccess(TextApiResponse textApiResponse) throws IOException {
+        public void _extractRespData(TextApiResponse response) {
             Gson gson = new Gson();
-            LoginChannelsResp loginChannelsResp = gson.fromJson(textApiResponse.getResp(), LoginChannelsResp.class);
+            loginChannelsResp = gson.fromJson(response.getResp(), LoginChannelsResp.class);
+        }
+
+        @Override
+        public boolean _handleRespData(TextApiResponse response) {
             if(isRespOk(loginChannelsResp)){
                 douban.favChannels = loginChannelsResp.loginChannelsData.result.favoriteChannels;
                 douban.recChannels = loginChannelsResp.loginChannelsData.result.recommentChannels;
-                try{
-                    callback.onSuccess();
-                }catch (Exception onSuccessExp){
-                    douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.CALLER_ERROR_ON_SUCCESS);
-                    onFailure(textApiResponse);
-                }
+                return true;
             }else {
-                douban.apiRespErrorCode = new ApiRespErrorCode(respType,loginChannelsResp, loginChannelsResp.msg);
-                onFailure(textApiResponse);
+                douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(loginChannelsResp.getCode(respType), loginChannelsResp.getMessage(respType));
+                return false;
             }
-
-        }
-
-        @Override
-        public void onFailure(ApiResponse response) {
-            failureResponse = response;
-            if((response.getHttpResponseCode()+"").equals(ApiInternalError.NETWORK_ERROR.getCode())){
-                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.NETWORK_ERROR);
-            }else if (douban.apiRespErrorCode == null) {
-                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.INTERNAL_ERROR);
-            }
-            callback.onFailure();
-        }
-
-        @Override
-        public void onComplete() {
-            onCompleteWasCalled = true;
-            douban.clear();
         }
     }
+
 }

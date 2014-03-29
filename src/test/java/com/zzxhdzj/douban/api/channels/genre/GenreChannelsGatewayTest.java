@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.api.channels.genre;
 
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.ApiRequest;
@@ -61,7 +62,7 @@ public class GenreChannelsGatewayTest extends BaseGatewayTestCase {
         genreChannelGateway.fetchChannelsByGenreId(genreId, start, limit, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
         assertNotNull(genreChannelGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("500"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
 
     }
     @Test
@@ -69,7 +70,7 @@ public class GenreChannelsGatewayTest extends BaseGatewayTestCase {
         genreChannelGateway.fetchChannelsByGenreId(genreId, start, limit, badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.ROCK_CHANNELS_JSON, null);
         assertNotNull(genreChannelGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.CALLER_ERROR.getCode()));
 
     }
 }

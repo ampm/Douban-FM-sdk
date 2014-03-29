@@ -1,18 +1,19 @@
 package com.zzxhdzj.douban.api.channels.recomment;
 
 import com.google.gson.Gson;
-import com.zzxhdzj.douban.ApiInternalError;
-import com.zzxhdzj.douban.ApiRespErrorCode;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseApiGateway;
+import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.api.base.ApiInstance;
 import com.zzxhdzj.douban.modules.channel.Channel;
 import com.zzxhdzj.douban.modules.channel.ChannelBuilder;
 import com.zzxhdzj.douban.modules.channel.RecommendChannelsResp;
-import com.zzxhdzj.http.*;
+import com.zzxhdzj.http.ApiGateway;
+import com.zzxhdzj.http.Callback;
+import com.zzxhdzj.http.TextApiResponse;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -25,61 +26,44 @@ import java.util.ArrayList;
 public class RecommendChannelsGateway extends BaseApiGateway {
 
     public RecommendChannelsGateway(Douban douban, ApiGateway apiGateway) {
-        super(douban, apiGateway);
-        respType = RespType.STATUS;
+        super(douban, apiGateway, RespType.STATUS);
 
     }
 
     public void query(ArrayList<Integer> channelIds, Callback callback) {
-        apiGateway.makeRequest(new RecommendChannelRequest(channelIds, Constants.REC_CHLS_URL, douban.getContext()), new RecommendApiResponseCallbacks(callback));
+        apiGateway.makeRequest(new RecommendChannelRequest(channelIds, Constants.REC_CHLS_URL, douban.getContext()),
+                new RecommendApiResponseCallbacks(callback, this, douban));
     }
 
-    private class RecommendApiResponseCallbacks implements ApiResponseCallbacks<TextApiResponse> {
-        private Callback callback;
+    private class RecommendApiResponseCallbacks extends CommonTextApiResponseCallback {
 
-        public RecommendApiResponseCallbacks(Callback callback) {
-            this.callback = callback;
+        private RecommendChannelsResp recommendChannelsResp;
+
+        public RecommendApiResponseCallbacks(Callback bizCallback, BaseApiGateway gateway, ApiInstance apiInstance) {
+            super(bizCallback, gateway, apiInstance);
         }
 
         @Override
-        public void onSuccess(TextApiResponse textApiResponse) throws IOException {
+        public void _extractRespData(TextApiResponse response) {
             Gson gson = new Gson();
-            RecommendChannelsResp rc = gson.fromJson(textApiResponse.getResp(), RecommendChannelsResp.class);
-            if(isRespOk(rc)){
+            recommendChannelsResp = gson.fromJson(response.getResp(), RecommendChannelsResp.class);
+        }
+
+        @Override
+        public boolean _handleRespData(TextApiResponse response) {
+            if (isRespOk(recommendChannelsResp)) {
                 Channel channel = ChannelBuilder.aChannel()
-                        .withId(rc.recommendChannelData.result.id)
-                        .withName(rc.recommendChannelData.result.name)
-                        .withCover(rc.recommendChannelData.result.cover)
-                        .withIntro(rc.recommendChannelData.result.intro).build();
+                        .withId(recommendChannelsResp.recommendChannelData.result.id)
+                        .withName(recommendChannelsResp.recommendChannelData.result.name)
+                        .withCover(recommendChannelsResp.recommendChannelData.result.cover)
+                        .withIntro(recommendChannelsResp.recommendChannelData.result.intro).build();
                 douban.recommendChannel = channel;
-                try{
-                    callback.onSuccess();
-                }catch (Exception onSuccessExp){
-                    douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.CALLER_ERROR_ON_SUCCESS);
-                    onFailure(textApiResponse);
-                }
-            }else {
-                douban.apiRespErrorCode = new ApiRespErrorCode(respType,rc, rc.msg);
-                onFailure(textApiResponse);
+                return true;
+            } else {
+                douban.mApiRespErrorCode = com.zzxhdzj.douban.api.base.ApiRespErrorCode.createBizError(recommendChannelsResp.getCode(respType), recommendChannelsResp.getMessage(respType));
+                return false;
             }
-
-        }
-
-        @Override
-        public void onFailure(ApiResponse response) {
-            failureResponse = response;
-            if((response.getHttpResponseCode()+"").equals(ApiInternalError.NETWORK_ERROR.getCode())){
-                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.NETWORK_ERROR);
-            }else if (douban.apiRespErrorCode == null) {
-                douban.apiRespErrorCode = new ApiRespErrorCode(ApiInternalError.INTERNAL_ERROR);
-            }
-            callback.onFailure();
-        }
-
-        @Override
-        public void onComplete() {
-            onCompleteWasCalled = true;
-            douban.clear();
         }
     }
+
 }

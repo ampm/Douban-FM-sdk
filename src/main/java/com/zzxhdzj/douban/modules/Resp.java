@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.modules;
 
 import com.google.gson.annotations.SerializedName;
+import com.zzxhdzj.douban.api.RespType;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +13,17 @@ import com.google.gson.annotations.SerializedName;
 public class Resp {
     public boolean status;
     public int r;
-    public String msg;
+    private String msg;
     @SerializedName("err_msg")
-    public String errMsg;
+    private String errMsg;
+    public String getMessage(RespType respType){
+        if(respType.equals(RespType.R)){
+            return errMsg;
+        }else  return msg;
+    }
+    public String getCode(RespType respType){
+        if(respType.equals(RespType.R)){
+            return r+"";
+        }else return status?"1":"0";
+    }
 }

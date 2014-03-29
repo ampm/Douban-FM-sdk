@@ -1,11 +1,11 @@
 package com.zzxhdzj.douban.api.channels.favorited;
 
+
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
-import com.zzxhdzj.douban.api.channels.action.ChannelActionType;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,7 +54,7 @@ public class FavoritedChannelGatewayTest extends BaseGatewayTestCase {
         favoritedChannelGateway.fetchFavChannels(new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
         assertNotNull(favoritedChannelGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("500"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
     }
 
     @Test
@@ -62,7 +62,7 @@ public class FavoritedChannelGatewayTest extends BaseGatewayTestCase {
         favoritedChannelGateway.fetchFavChannels(badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.HOT_CHANNELS_JSON, null);
         assertNotNull(favoritedChannelGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.CALLER_ERROR.getCode()));
 
     }
 }

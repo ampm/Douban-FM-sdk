@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.api.songs;
 
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
@@ -52,7 +53,7 @@ public class SongsGatewayTest extends BaseGatewayTestCase {
         songsGateway.querySongsByChannelId(Constants.songType, 1, 128, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
         TestCase.assertNotNull(songsGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("500"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
     }
 
     @Test
@@ -60,6 +61,6 @@ public class SongsGatewayTest extends BaseGatewayTestCase {
         songsGateway.querySongsByChannelId(Constants.songType, 1, 128,badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.ROCK_CHANNELS_SONGS_JSON, null);
         TestCase.assertNotNull(songsGateway.failureResponse);
-        assertThat(douban.apiRespErrorCode.getCode(), equalTo("-2"));
+        assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.CALLER_ERROR.getCode()));
     }
 }
