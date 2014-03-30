@@ -3,6 +3,7 @@ package com.zzxhdzj.douban.api.songs;
 import android.content.Context;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.AuthApiRequest;
+import com.zzxhdzj.douban.api.base.RandomUtil;
 import com.zzxhdzj.http.TextApiResponse;
 import org.apache.http.Header;
 
@@ -26,7 +27,7 @@ public class SongsRequest extends AuthApiRequest<TextApiResponse> {
     }
 
     public String getUrlString() {
-        return Constants.SONGS_URL + "?channel=" + channelId + "&kbps=" + bitRate + "&type=" + songType;  //To change body of created methods use File | Settings | File Templates.
+        return Constants.SONGS_URL + "?from=mainsite&channel=" + channelId +"&kbps=" + bitRate +"&r="+ RandomUtil.getRandomString(13)+ "&type=" + songType;  //To change body of created methods use File | Settings | File Templates.
     }
 
     @Override

@@ -19,7 +19,7 @@ public class Song {
     public String kbps;
     @SerializedName("length")
     public String lengthSeconds;
-    public boolean like;
+    public int like;
     public String picture;
     @SerializedName("public_time")
     public String publicTime;
