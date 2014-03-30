@@ -2,12 +2,9 @@ package com.zzxhdzj.douban.api.channels.action;
 
 import android.content.Context;
 import com.zzxhdzj.douban.Constants;
-import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
 import org.apache.http.Header;
-
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,6 +32,6 @@ public class ChannelActionRequest extends AuthApiRequest<TextApiResponse> {
 
     @Override
     public TextApiResponse createResponse(int statusCode, Header[] headers) {
-        return new TextApiResponse(statusCode);
+        return new TextApiResponse(statusCode,headers);
     }
 }

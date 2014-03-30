@@ -1,6 +1,7 @@
-package com.zzxhdzj.douban.api;
+package com.zzxhdzj.douban.api.base;
 
 import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.modules.Resp;
 import com.zzxhdzj.douban.modules.RespStatusCode;
 import com.zzxhdzj.http.ApiGateway;

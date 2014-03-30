@@ -1,11 +1,13 @@
 package com.zzxhdzj.douban.api.auth;
 
+import com.zzxhdzj.douban.api.BaseAuthApiRequestTestCase;
 import com.zzxhdzj.douban.modules.LoginParams;
 import com.zzxhdzj.douban.modules.LoginParamsBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -17,8 +19,9 @@ import static org.junit.Assert.assertThat;
  * Time: 12:43 AM
  * To change this template use File | Settings | File Templates.
  */
+@Config(manifest=Config.NONE)
 @RunWith(RobolectricTestRunner.class)
-public class AuthenticationRequestTest {
+public class AuthenticationRequestTest extends BaseAuthApiRequestTestCase {
     private AuthenticationRequest request;
     private LoginParams loginParams;
 
@@ -31,7 +34,7 @@ public class AuthenticationRequestTest {
                 .withLoginMail("test@gmail.com")
                 .withPassword("password")
                 .build();
-        request = new AuthenticationRequest(loginParams);
+        request = new AuthenticationRequest(loginParams,context);
 
     }
 

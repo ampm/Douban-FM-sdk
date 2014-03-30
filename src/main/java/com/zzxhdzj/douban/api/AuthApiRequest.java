@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api;
 
 import android.content.Context;
+import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.ApiResponse;
@@ -25,6 +26,8 @@ public abstract class AuthApiRequest<T extends ApiResponse> extends ApiRequest {
     public Map<String, String> getHeaders() {
         Map<String,String> headers = super.getHeaders();
         headers.put("Cookie", Douban.getCookie(context));
+        headers.put("Host", "douban.fm");
+        headers.put("User-Agent", Constants.USER_AGENT);
         return headers;
     }
 }

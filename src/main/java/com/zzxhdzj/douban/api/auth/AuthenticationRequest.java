@@ -1,8 +1,9 @@
 package com.zzxhdzj.douban.api.auth;
 
+import android.content.Context;
 import com.zzxhdzj.douban.Constants;
+import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.douban.modules.LoginParams;
-import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
 import com.zzxhdzj.http.util.HiUtil;
 import org.apache.http.Header;
@@ -18,10 +19,11 @@ import org.apache.http.protocol.HTTP;
  * Time: 12:30 AM
  * To change this template use File | Settings | File Templates.
  */
-public class AuthenticationRequest extends ApiRequest<TextApiResponse> {
+public class AuthenticationRequest extends AuthApiRequest<TextApiResponse> {
     private final LoginParams loginParams;
 
-    public AuthenticationRequest(LoginParams loginParams) {
+    public AuthenticationRequest(LoginParams loginParams,Context context) {
+        super(context);
         this.loginParams = loginParams;
         this.method = HttpPost.METHOD_NAME;
     }

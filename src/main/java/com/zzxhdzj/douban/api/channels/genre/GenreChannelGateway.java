@@ -3,14 +3,13 @@ package com.zzxhdzj.douban.api.channels.genre;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.api.BaseApiGateway;
+import com.zzxhdzj.douban.api.base.BaseApiGateway;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.api.base.ApiInstance;
 import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
 import com.zzxhdzj.douban.modules.channel.ChannelResp;
 import com.zzxhdzj.http.ApiGateway;
-import com.zzxhdzj.http.ApiResponse;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.TextApiResponse;
 

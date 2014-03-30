@@ -26,6 +26,6 @@ public class FavoritedChannelRequest extends AuthApiRequest<TextApiResponse> {
 
     @Override
     public TextApiResponse createResponse(int statusCode, Header[] headers) {
-        return new TextApiResponse(statusCode);
+        return new TextApiResponse(statusCode,headers);
     }
 }

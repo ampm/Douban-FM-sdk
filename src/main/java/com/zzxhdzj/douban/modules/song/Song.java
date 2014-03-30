@@ -31,5 +31,5 @@ public class Song {
     @SerializedName("subtype")
     public String subType;
     public String title;
-    String url;
+    public String url;
 }

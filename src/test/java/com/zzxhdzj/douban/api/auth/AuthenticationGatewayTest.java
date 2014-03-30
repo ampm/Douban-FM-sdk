@@ -59,7 +59,7 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     public void shouldSendLoginParams() throws Exception {
         authenticationGateway.signIn(loginParams, new Callback());
         AuthenticationRequest authenticationRequest = (AuthenticationRequest) apiGateway.getLatestRequest();
-        assertThat(authenticationRequest, equalTo(new AuthenticationRequest(loginParams)));
+        assertThat(authenticationRequest, equalTo(new AuthenticationRequest(loginParams,douban.getContext())));
         HttpEntity postEntity = authenticationRequest.getPostEntity();
         assertThat(postEntity.getContentType().getValue(), equalTo("application/x-www-form-urlencoded; charset=UTF-8"));
         String content = HiUtil.dump(postEntity);
@@ -69,22 +69,22 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     //test#03
     @Test
     public void shouldReturnTrueSignedIn() throws Exception {
-        assertThat(douban.isAuthenticated(), equalTo(false));
+        assertThat(douban.isInitialized(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
         Header[] header = new Header[1];
         header[0] = new BasicHeader(HttpHeaders.SET_COOKIE, "__utmz=58778424.1386727495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); ac=\"1386727493\"; bid=\"q8NdsTdgKGtx\"; ck=\"bPhq\"; dbcl2=\"69077079:YhxxsJoFZ11\"; flag=\"ok\"; fmNlogin=\"y\"; show_pro_init_tip=N");
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_SUCCESS, header);
-        assertThat(douban.isAuthenticated(), equalTo(true));
+        assertThat(douban.isInitialized(), equalTo(true));
         assertThat(Douban.getCookie(Robolectric.application.getApplicationContext()), equalTo("bid=\"q8NdsTdgKGtx\";ck=\"bPhq\";dbcl2=\"69077079:YhxxsJoFZ11\";"));
     }
 
     @Test
     public void shouldReturnFalseWhenSignedInWithWrongCaptchaCode() throws Exception {
-        assertThat(douban.isAuthenticated(), equalTo(false));
+        assertThat(douban.isInitialized(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
         Header[] header = new Header[0];
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_ERROR, header);
-        assertThat(douban.isAuthenticated(), equalTo(false));
+        assertThat(douban.isInitialized(), equalTo(false));
         assertThat(douban.mApiRespErrorCode.getCode(), equalTo("1"));
         assertThat(douban.mApiRespErrorCode.getMsg(), equalTo("验证码不正确"));
     }

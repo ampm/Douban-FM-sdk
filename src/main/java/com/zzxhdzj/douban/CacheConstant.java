@@ -10,4 +10,5 @@ package com.zzxhdzj.douban;
 public class CacheConstant {
     public static final String USER_KEY = "dou_user_info";
     public static final String COOKIE_KEY = "dou_cookie";
+    public static final String LOGGED = "dou_logged";
 }

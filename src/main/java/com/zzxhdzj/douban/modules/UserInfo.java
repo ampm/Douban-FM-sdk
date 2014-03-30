@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class UserInfo implements Serializable {
     private String ck;
     @SerializedName("play_record")
-    private PlayRecord playRecord;
+    public PlayRecord playRecord;
     @SerializedName("is_new_user")
     private int isNewUser;
     public String uid;

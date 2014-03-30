@@ -3,7 +3,7 @@ package com.zzxhdzj.douban.api.channels.recomment;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.api.BaseApiGateway;
+import com.zzxhdzj.douban.api.base.BaseApiGateway;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.api.base.ApiInstance;

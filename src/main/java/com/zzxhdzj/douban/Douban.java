@@ -28,10 +28,11 @@ import java.util.ArrayList;
 
 public class Douban extends ApiInstance {
 
+    public static final String USER_INFO_CACHE = "user_info";
     public static SharedPreferences sharedPreferences;
     public String captchaImageUrl;
     public String captchaId;
-//    public ApiRespErrorCode apiRespErrorCode;
+    //    public ApiRespErrorCode apiRespErrorCode;
     public ArrayList<Channel> channels;
     public ArrayList<Channel> favChannels;
     public ArrayList<Channel> recChannels;
@@ -40,7 +41,6 @@ public class Douban extends ApiInstance {
     public ArrayList<Song> songs;
     private final ApiGateway apiGateway;
     private Context context;
-    public UserInfo userInfo;
 
     public Douban(Context context) {
         this.context = context;
@@ -49,14 +49,15 @@ public class Douban extends ApiInstance {
     }
 
 
-    public boolean isAuthenticated() {
+    public boolean isInitialized() {//是否获取到cookie
         return !Strings.isEmptyOrWhitespace(getCookie(context));
     }
 
     public static String getCookie(Context context) {
         return context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).getString(CacheConstant.COOKIE_KEY, "");
     }
-    public static void reset(Context context){
+
+    public static void reset(Context context) {
         context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).edit().remove(CacheConstant.COOKIE_KEY).commit();
         ACache aCache = ACache.get(context);
         aCache.clear();
@@ -67,9 +68,11 @@ public class Douban extends ApiInstance {
         return (UserInfo) aCache.getAsObject(CacheConstant.USER_KEY);
     }
 
+
+
     /**
      * 获取验证码CaptchaId
-     *
+     *s
      * @param callback
      */
     public void fecthCaptcha(Callback callback) {
@@ -141,7 +144,7 @@ public class Douban extends ApiInstance {
      * -----Auth required API -----*
      */
     private void checkAuth(Callback callback) {
-        if (!isAuthenticated()) {
+        if (!isInitialized()) {
             callback.onFailure();
             return;
         }
@@ -288,6 +291,13 @@ public class Douban extends ApiInstance {
             this.favChannels = null;
             this.recommendChannel = null;
         }
-        System.gc();
+    }
+
+    public boolean isLogged() {
+        return context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).getBoolean(CacheConstant.LOGGED, false);
+    }
+
+    public UserInfo getUserInfo() {
+        return (UserInfo) ACache.get(getContext()).getAsObject(USER_INFO_CACHE);
     }
 }

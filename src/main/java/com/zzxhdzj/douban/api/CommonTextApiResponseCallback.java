@@ -3,6 +3,7 @@ package com.zzxhdzj.douban.api;
 import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.api.base.ApiInstance;
 import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
+import com.zzxhdzj.douban.api.base.BaseApiGateway;
 import com.zzxhdzj.http.ApiResponse;
 import com.zzxhdzj.http.ApiResponseCallbacks;
 import com.zzxhdzj.http.Callback;

@@ -4,6 +4,7 @@ import android.content.Context;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,6 +13,7 @@ import org.robolectric.RobolectricTestRunner;
  * Time: 10:54 AM
  * To change this template use File | Settings | File Templates.
  */
+@Config(manifest=Config.NONE)
 @RunWith(RobolectricTestRunner.class)
 public abstract class BaseAuthApiRequestTestCase {
     protected Context context = Robolectric.application.getApplicationContext();
