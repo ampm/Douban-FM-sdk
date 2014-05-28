@@ -17,11 +17,7 @@ public class FavoritedChannelRequest extends AuthApiRequest<TextApiResponse> {
 
     protected FavoritedChannelRequest(Context context) {
         super(context);
-    }
-
-    @Override
-    public String getUrlString() {
-        return Constants.FAV_CHANNELS;
+        super.setBaseUrl(Constants.FAV_CHANNELS);
     }
 
     @Override

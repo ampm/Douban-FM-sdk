@@ -5,7 +5,7 @@ import com.zzxhdzj.douban.api.BaseAuthApiRequestTestCase;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -28,6 +28,6 @@ public class SongsRequestTest extends BaseAuthApiRequestTestCase {
     @Test
     public void shouldHaveRequestUrl() {
         String url = request.getUrlString();
-        assertThat(url, equalTo("http://douban.fm/j/mine/playlist?channel=1&kbps=128&type=n"));
+        assertThat(url, containsString("http://douban.fm/j/mine/playlist?channel=1&kbps=128&type=n"));
     }
 }

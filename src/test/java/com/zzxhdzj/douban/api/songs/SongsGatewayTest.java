@@ -4,10 +4,8 @@ import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
-import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
 import junit.framework.TestCase;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,13 +38,6 @@ public class SongsGatewayTest extends BaseGatewayTestCase {
         assertThat(douban.songs.get(0).aid, equalTo("25779410"));
     }
 
-    @Test
-    public void shouldHaveCookie() throws Exception {
-        songsGateway.querySongsByChannelId(Constants.songType, 1, 128, new Callback());
-        ApiRequest apiRequest = apiGateway.getLatestRequest();
-        TestCase.assertTrue(apiRequest.getHeaders().containsKey("Cookie"));
-        Assert.assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
-    }
 
     @Test
     public void shouldCallOnFailureWhenParseRespError() throws Exception {
@@ -57,7 +48,7 @@ public class SongsGatewayTest extends BaseGatewayTestCase {
     }
 
     @Test
-    public void shouldCallOnFailureWhenCallerError() throws Exception {
+    public void shouldCallOnFailureWhenCallerErrorWithABadCallback() throws Exception {
         songsGateway.querySongsByChannelId(Constants.songType, 1, 128,badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.ROCK_CHANNELS_SONGS_JSON, null);
         TestCase.assertNotNull(songsGateway.failureResponse);

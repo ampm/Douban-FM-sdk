@@ -9,7 +9,7 @@ package com.zzxhdzj.douban;
  */
 
 public enum ApiInternalError {
-    INTERNAL_ERROR("-4", "内部错误:失败响应处理"),
+    INTERNAL_ERROR("-4", "内部错误:处理响应失败(eg.解析失败)"),
 
     CALLER_ERROR("-3", "调用错误:调用方出错"),
 

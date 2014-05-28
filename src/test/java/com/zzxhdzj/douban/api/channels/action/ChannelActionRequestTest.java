@@ -1,7 +1,6 @@
 package com.zzxhdzj.douban.api.channels.action;
 
 import com.zzxhdzj.douban.api.BaseAuthApiRequestTestCase;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 

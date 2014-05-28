@@ -3,9 +3,7 @@ package com.zzxhdzj.douban.api.songs.action;
 import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
-import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
-import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -69,13 +67,6 @@ public class SongActionGatewayTest extends BaseGatewayTestCase {
         assertNull(douban.songs);
     }
 
-    @Test
-    public void shouldHaveCookie() throws Exception {
-        favSongGateway.songAction(SongActionType.UNFAV, channelId, sid, new Callback());
-        ApiRequest apiRequest = apiGateway.getLatestRequest();
-        TestCase.assertTrue(apiRequest.getHeaders().containsKey("Cookie"));
-        Assert.assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
-    }
 
     @Test
     public void shouldCallOnFailureWhenParseRespError() throws Exception {

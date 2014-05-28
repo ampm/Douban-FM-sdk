@@ -13,18 +13,12 @@ import org.apache.http.Header;
  * To change this template use File | Settings | File Templates.
  */
 public class LoginRecommendChannelRequest extends AuthApiRequest<TextApiResponse> {
-    private String userId;
-    private final String loginChlsUrl;
 
     public LoginRecommendChannelRequest(String userId, String loginChlsUrl, Context context) {
         super(context);
-        this.userId = userId;
-        this.loginChlsUrl = loginChlsUrl;
+        super.appendParameter("uk",userId).setBaseUrl(loginChlsUrl);
     }
 
-    public String getUrlString() {
-        return loginChlsUrl + "?uk=" + userId;
-    }
 
     @Override
     public TextApiResponse createResponse(int statusCode, Header[] headers) {

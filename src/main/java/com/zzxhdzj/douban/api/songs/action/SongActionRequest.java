@@ -14,24 +14,17 @@ import org.apache.http.Header;
  * To change this template use File | Settings | File Templates.
  */
 public class SongActionRequest extends AuthApiRequest<TextApiResponse> {
-    private SongActionType songActionType;
-    private final int currentChannelId;
-    private final int songId;
 
-    public SongActionRequest(SongActionType songActionType, int currentChannelId, int songId,Context context) {
+    public SongActionRequest(SongActionType songActionType, int currentChannelId, int songId, Context context) {
         super(context);
-        this.songActionType = songActionType;
-        this.currentChannelId = currentChannelId;
-        this.songId = songId;
+        super.appendParameter("from", "mainsite")
+                .appendParameter("kbps", 64+"")
+                .appendParameter("type", songActionType.getCode())
+                .appendParameter("channel", currentChannelId + "")
+                .appendParameter("sid", songId + "")
+                .setBaseUrl(Constants.SONG_ACTION_URL);
     }
 
-    @Override
-    public String getUrlString() {
-        return Constants.SONG_ACTION_URL
-                +"&type="+songActionType.getCode()
-                +"&channel="+currentChannelId
-                +"&sid="+songId;
-    }
 
     @Override
     public TextApiResponse createResponse(int statusCode, Header[] headers) {

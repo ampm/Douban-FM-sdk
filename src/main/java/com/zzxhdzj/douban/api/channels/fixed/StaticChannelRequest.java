@@ -13,20 +13,12 @@ import org.apache.http.Header;
  * To change this template use File | Settings | File Templates.
  */
 public class StaticChannelRequest extends AuthApiRequest<TextApiResponse> {
-    private final int start;
-    private final int limit;
-    public final String channelsUrl;
 
     public StaticChannelRequest(int start, int limit, String channelsUrl,Context context) {
         super(context);
-        this.start = start;
-        this.limit = limit;
-        this.channelsUrl = channelsUrl;
-    }
-
-    @Override
-    public String getUrlString() {
-        return channelsUrl + "?start=" + start + "&limit=" + limit;
+        super.appendParameter("start",start+"")
+                .appendParameter("limit",limit+"")
+        .setBaseUrl(channelsUrl);
     }
 
     @Override

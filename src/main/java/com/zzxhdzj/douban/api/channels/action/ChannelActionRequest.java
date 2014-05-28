@@ -15,19 +15,11 @@ import org.apache.http.Header;
  */
 public class ChannelActionRequest extends AuthApiRequest<TextApiResponse> {
 
-    private final ChannelActionType channelActionType;
-    private final int channelId;
 
     public ChannelActionRequest(ChannelActionType channelActionType, int channelId, Context context) {
         super(context);
-        this.channelActionType = channelActionType;
-        this.channelId = channelId;
-    }
-
-
-    @Override
-    public String getUrlString() {
-        return Constants.CHANNEL_ACTION_URL+channelActionType.getKey()+"?cid="+channelId;
+        super.appendParameter("cid",channelId+"")
+        .setBaseUrl(Constants.CHANNEL_ACTION_URL+channelActionType.getKey());
     }
 
     @Override

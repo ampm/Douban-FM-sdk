@@ -26,11 +26,7 @@ public class AuthenticationRequest extends AuthApiRequest<TextApiResponse> {
         super(context);
         this.loginParams = loginParams;
         this.method = HttpPost.METHOD_NAME;
-    }
-
-    @Override
-    public String getUrlString() {
-        return Constants.LOGIN_URL;
+        super.setBaseUrl(Constants.LOGIN_URL);
     }
 
     @Override

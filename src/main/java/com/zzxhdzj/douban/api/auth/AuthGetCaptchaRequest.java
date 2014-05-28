@@ -16,13 +16,10 @@ import org.apache.http.Header;
 public class AuthGetCaptchaRequest extends AuthApiRequest<TextApiResponse> {
     protected AuthGetCaptchaRequest(Context context) {
         super(context);
-        allowRedirect = false;
+        allowRedirect = true;
+        super.setBaseUrl(Constants.CAPTCHA_ID);
     }
 
-    @Override
-    public String getUrlString() {
-        return Constants.CAPTCHA_ID;
-    }
 
     @Override
     public TextApiResponse createResponse(int statusCode, Header[] headers) {

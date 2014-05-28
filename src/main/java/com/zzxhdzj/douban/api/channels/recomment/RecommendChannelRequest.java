@@ -15,17 +15,11 @@ import java.util.ArrayList;
  * To change this template use File | Settings | File Templates.
  */
 public class RecommendChannelRequest extends AuthApiRequest<TextApiResponse> {
-    private ArrayList<Integer> channelIds;
-    private final String recChlsUrl;
 
     public RecommendChannelRequest(ArrayList<Integer> channelIds, String recChlsUrl, Context context) {
         super(context);
-        this.channelIds = channelIds;
-        this.recChlsUrl = recChlsUrl;
-    }
-
-    public String getUrlString() {
-        return recChlsUrl + "?orecs=" + getOrecsParams();
+        super.appendParameter("orecs",getOrecsParams(channelIds))
+        .setBaseUrl(recChlsUrl);
     }
 
     @Override
@@ -33,7 +27,7 @@ public class RecommendChannelRequest extends AuthApiRequest<TextApiResponse> {
         return new TextApiResponse(statusCode,headers);
     }
 
-    public String getOrecsParams() {
+    public String getOrecsParams(ArrayList<Integer> channelIds) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < channelIds.size(); i++) {
             Integer index = channelIds.get(i);

@@ -20,6 +20,7 @@ import com.zzxhdzj.douban.modules.channel.Channel;
 import com.zzxhdzj.douban.modules.song.Song;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
+import com.zzxhdzj.http.Http;
 import com.zzxhdzj.http.util.Strings;
 import org.afinal.simplecache.ACache;
 import org.apache.http.Header;
@@ -47,7 +48,9 @@ public class Douban extends ApiInstance {
         apiGateway = new ApiGateway();
         sharedPreferences = context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE);
     }
-
+    public static void init(Context context){
+        Http.initCookieManager(context);
+    }
 
     public boolean isInitialized() {//是否获取到cookie
         return !Strings.isEmptyOrWhitespace(getCookie(context));

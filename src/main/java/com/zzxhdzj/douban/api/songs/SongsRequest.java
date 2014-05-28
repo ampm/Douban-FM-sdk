@@ -15,23 +15,22 @@ import org.apache.http.Header;
  * To change this template use File | Settings | File Templates.
  */
 public class SongsRequest extends AuthApiRequest<TextApiResponse> {
-    private final int channelId;
-    private final int bitRate;
-    private final String songType;
+//    private final int channelId;
+//    private final int bitRate;
+//    private final String songType;
 
     public SongsRequest(int channelId, int bitRate, String songType, Context context) {
         super(context);
-        this.channelId = channelId;
-        this.bitRate = bitRate;
-        this.songType = songType;
-    }
-
-    public String getUrlString() {
-        return Constants.SONGS_URL + "?from=mainsite&channel=" + channelId +"&kbps=" + bitRate +"&r="+ RandomUtil.getRandomString(13)+ "&type=" + songType;  //To change body of created methods use File | Settings | File Templates.
+        super.appendParameter("channel", channelId + "")
+                .appendParameter("kbps", bitRate + "")
+                .appendParameter("type", songType + "")
+                .appendParameter("from", "mainsite")
+                .appendParameter("r", RandomUtil.getRandomString(13))
+                .setBaseUrl(Constants.SONGS_URL);
     }
 
     @Override
     public TextApiResponse createResponse(int statusCode, Header[] headers) {
-        return new TextApiResponse(statusCode,headers);
+        return new TextApiResponse(statusCode, headers);
     }
 }

@@ -13,8 +13,16 @@ Douban FM API
     错误级别细分
 
         CommonTextApiResponseCallback
-
-
+- 2014-05-28
+    
+    因302 set-cookie问题使用apache-http未能解决（之前采用了禁止redirect方式），所以client换做UrlConnection，但保留apache-http的数据结构，比较方便。
+    
+    通过vm-wide+SharedPreference持久化cookie[Sessions with Cookies](http://developer.android.com/reference/java/net/HttpURLConnection.html)
+    
+    重构部分代码
+    
+    unitest mock http request 换用 okhttp的mockwebserver
+    
 #Usage:
 
 1 install

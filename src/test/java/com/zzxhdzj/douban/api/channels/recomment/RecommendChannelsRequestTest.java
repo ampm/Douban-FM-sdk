@@ -4,12 +4,8 @@ import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.BaseAuthApiRequestTestCase;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -38,7 +34,7 @@ public class RecommendChannelsRequestTest extends BaseAuthApiRequestTestCase {
         @Test
         public void shouldHaveRequestUrl() {
             String url = request.getUrlString();
-            assertThat(url, equalTo("http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14"));
+            assertThat(url, equalTo("http://douban.fm/j/explore/get_recommend_chl?orecs=2%7C61%7C9%7C14"));//2|61|9|14
         }
 
 }

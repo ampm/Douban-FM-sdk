@@ -13,22 +13,13 @@ import org.apache.http.Header;
  * To change this template use File | Settings | File Templates.
  */
 public class GenreChannelRequest extends AuthApiRequest<TextApiResponse> {
-    private final int start;
-    private final int limit;
-    private final String channelsUrl;
-    private int genreId;
 
     public GenreChannelRequest(int start, int limit, int genreId, String channelsUrl,Context context) {
         super(context);
-        this.start = start;
-        this.limit = limit;
-        this.genreId = genreId;
-        this.channelsUrl = channelsUrl;
-    }
-
-    @Override
-    public String getUrlString() {
-        return channelsUrl + "?gid="+genreId+"&start=" + start + "&limit=" + limit;
+        super.appendParameter("start",start+"")
+        .appendParameter("limit",limit+"")
+        .appendParameter("genreId",genreId+"")
+        .setBaseUrl(channelsUrl);
     }
 
     @Override

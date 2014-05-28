@@ -3,9 +3,7 @@ package com.zzxhdzj.douban.api.channels.action;
 import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
-import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.Callback;
-import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -51,13 +49,6 @@ public class ChannelActionGatewayTest extends BaseGatewayTestCase {
         assertTrue(channelActionGateway.onCompleteWasCalled);
     }
 
-    @Test
-    public void shouldHaveCookie() {
-        channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, new Callback());
-        ApiRequest apiRequest = apiGateway.getLatestRequest();
-        assertTrue(apiRequest.getHeaders().containsKey("Cookie"));
-        assertThat(apiRequest.getHeaders().get("Cookie").toString(), equalTo(""));
-    }
 
     @Test
     public void shouldCallOnFailureWhenParseRespError() throws Exception {
