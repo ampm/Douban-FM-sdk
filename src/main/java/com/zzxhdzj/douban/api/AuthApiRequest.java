@@ -2,7 +2,7 @@ package com.zzxhdzj.douban.api;
 
 import android.content.Context;
 import com.zzxhdzj.http.ApiRequest;
-import com.zzxhdzj.http.ApiResponse;
+import com.zzxhdzj.http.TextApiResponse;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,19 +11,11 @@ import com.zzxhdzj.http.ApiResponse;
  * Time: 10:23 AM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class AuthApiRequest<T extends ApiResponse> extends ApiRequest {
+public abstract class AuthApiRequest extends ApiRequest<TextApiResponse> {
     protected Context context;
 
     protected AuthApiRequest(Context context) {
         this.context = context;
     }
 
-//    @Override
-//    public Map<String, String> getHeaders() {
-//        Map<String,String> headers = super.getHeaders();
-//        headers.put("Cookie", Douban.getCookie(context));
-//        headers.put("Host", "douban.fm");
-//        headers.put("User-Agent", Constants.USER_AGENT);
-//        return headers;
-//    }
 }

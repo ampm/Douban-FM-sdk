@@ -3,7 +3,9 @@ package com.zzxhdzj.douban.api.channels.recomment;
 import android.content.Context;
 import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
-import org.apache.http.Header;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +14,7 @@ import org.apache.http.Header;
  * Time: 5:29 PM
  * To change this template use File | Settings | File Templates.
  */
-public class LoginRecommendChannelRequest extends AuthApiRequest<TextApiResponse> {
+public class LoginRecommendChannelRequest extends AuthApiRequest {
 
     public LoginRecommendChannelRequest(String userId, String loginChlsUrl, Context context) {
         super(context);
@@ -21,7 +23,7 @@ public class LoginRecommendChannelRequest extends AuthApiRequest<TextApiResponse
 
 
     @Override
-    public TextApiResponse createResponse(int statusCode, Header[] headers) {
+    public TextApiResponse createResponse(int statusCode,Map<String, List<String>> headers) {
         return new TextApiResponse(statusCode,headers);
     }
 }

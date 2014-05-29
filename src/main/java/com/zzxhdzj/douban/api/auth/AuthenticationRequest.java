@@ -6,11 +6,13 @@ import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.douban.modules.LoginParams;
 import com.zzxhdzj.http.TextApiResponse;
 import com.zzxhdzj.http.util.HiUtil;
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.protocol.HTTP;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,7 +21,7 @@ import org.apache.http.protocol.HTTP;
  * Time: 12:30 AM
  * To change this template use File | Settings | File Templates.
  */
-public class AuthenticationRequest extends AuthApiRequest<TextApiResponse> {
+public class AuthenticationRequest extends AuthApiRequest {
     private final LoginParams loginParams;
 
     public AuthenticationRequest(LoginParams loginParams,Context context) {
@@ -36,7 +38,7 @@ public class AuthenticationRequest extends AuthApiRequest<TextApiResponse> {
     }
 
     @Override
-    public TextApiResponse createResponse(int statusCode, Header[] headers) {
+    public TextApiResponse createResponse(int statusCode,  Map<String, List<String>> headers) {
         return new TextApiResponse(statusCode, headers);
     }
 

@@ -3,7 +3,9 @@ package com.zzxhdzj.douban.api.channels.fixed;
 import android.content.Context;
 import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
-import org.apache.http.Header;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,7 +14,7 @@ import org.apache.http.Header;
  * Time: 12:35 AM
  * To change this template use File | Settings | File Templates.
  */
-public class StaticChannelRequest extends AuthApiRequest<TextApiResponse> {
+public class StaticChannelRequest extends AuthApiRequest{
 
     public StaticChannelRequest(int start, int limit, String channelsUrl,Context context) {
         super(context);
@@ -22,7 +24,7 @@ public class StaticChannelRequest extends AuthApiRequest<TextApiResponse> {
     }
 
     @Override
-    public TextApiResponse createResponse(int statusCode, Header[] headers) {
+    public TextApiResponse createResponse(int statusCode,  Map<String, List<String>> headers) {
         return new TextApiResponse(statusCode,headers);
     }
 }

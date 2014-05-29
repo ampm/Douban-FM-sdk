@@ -1,6 +1,5 @@
 package com.zzxhdzj.douban.api.auth;
 
-import com.google.common.net.HttpHeaders;
 import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
@@ -10,7 +9,6 @@ import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.util.HiUtil;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
-import org.apache.http.message.BasicHeader;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -71,8 +69,8 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
         assertThat(douban.isInitialized(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
         Header[] header = new Header[1];
-        header[0] = new BasicHeader(HttpHeaders.SET_COOKIE, "__utmz=58778424.1386727495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); ac=\"1386727493\"; bid=\"q8NdsTdgKGtx\"; ck=\"bPhq\"; dbcl2=\"69077079:YhxxsJoFZ11\"; flag=\"ok\"; fmNlogin=\"y\"; show_pro_init_tip=N");
-        apiGateway.simulateTextResponse(200, TestResponses.AUTH_SUCCESS, header);
+//        header[0] = new BasicHeader(HttpHeaders.SET_COOKIE, "__utmz=58778424.1386727495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); ac=\"1386727493\"; bid=\"q8NdsTdgKGtx\"; ck=\"bPhq\"; dbcl2=\"69077079:YhxxsJoFZ11\"; flag=\"ok\"; fmNlogin=\"y\"; show_pro_init_tip=N");
+        apiGateway.simulateTextResponse(200, TestResponses.AUTH_SUCCESS, null);
         assertThat(douban.isInitialized(), equalTo(true));
 //        this url params may different each time cause we didn't order it.
 //        assertThat(Douban.getCookie(Robolectric.application.getApplicationContext()), equalTo("bid=\"q8NdsTdgKGtx\";ck=\"bPhq\";dbcl2=\"69077079:YhxxsJoFZ11\";"));
@@ -83,7 +81,7 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
         assertThat(douban.isInitialized(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
         Header[] header = new Header[0];
-        apiGateway.simulateTextResponse(200, TestResponses.AUTH_ERROR, header);
+        apiGateway.simulateTextResponse(200, TestResponses.AUTH_ERROR, null);
         assertThat(douban.isInitialized(), equalTo(false));
         assertThat(douban.mApiRespErrorCode.getCode(), equalTo("1"));
         assertThat(douban.mApiRespErrorCode.getMsg(), equalTo("验证码不正确"));

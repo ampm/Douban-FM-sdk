@@ -5,7 +5,9 @@ import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.douban.api.base.RandomUtil;
 import com.zzxhdzj.http.TextApiResponse;
-import org.apache.http.Header;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,7 +16,7 @@ import org.apache.http.Header;
  * Time: 12:26 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SongsRequest extends AuthApiRequest<TextApiResponse> {
+public class SongsRequest extends AuthApiRequest {
 //    private final int channelId;
 //    private final int bitRate;
 //    private final String songType;
@@ -30,7 +32,7 @@ public class SongsRequest extends AuthApiRequest<TextApiResponse> {
     }
 
     @Override
-    public TextApiResponse createResponse(int statusCode, Header[] headers) {
+    public TextApiResponse createResponse(int statusCode, Map<String, List<String>> headers) {
         return new TextApiResponse(statusCode, headers);
     }
 }

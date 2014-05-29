@@ -4,7 +4,9 @@ import android.content.Context;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
-import org.apache.http.Header;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,7 +15,7 @@ import org.apache.http.Header;
  * Time: 10:19 AM
  * To change this template use File | Settings | File Templates.
  */
-public class SongActionRequest extends AuthApiRequest<TextApiResponse> {
+public class SongActionRequest extends AuthApiRequest{
 
     public SongActionRequest(SongActionType songActionType, int currentChannelId, int songId, Context context) {
         super(context);
@@ -27,7 +29,7 @@ public class SongActionRequest extends AuthApiRequest<TextApiResponse> {
 
 
     @Override
-    public TextApiResponse createResponse(int statusCode, Header[] headers) {
+    public TextApiResponse createResponse(int statusCode, Map<String, List<String>> headers) {
         return null;
     }
 }

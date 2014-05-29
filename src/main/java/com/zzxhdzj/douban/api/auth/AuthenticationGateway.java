@@ -1,6 +1,5 @@
 package com.zzxhdzj.douban.api.auth;
 
-import com.google.common.net.HttpHeaders;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.CacheConstant;
 import com.zzxhdzj.douban.Douban;
@@ -13,12 +12,10 @@ import com.zzxhdzj.douban.modules.LoginParams;
 import com.zzxhdzj.douban.modules.LoginResp;
 import com.zzxhdzj.douban.modules.UserInfo;
 import com.zzxhdzj.http.ApiGateway;
-import com.zzxhdzj.http.ApiResponse;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.TextApiResponse;
 import com.zzxhdzj.http.util.HiUtil;
 import org.afinal.simplecache.ACache;
-import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 
 import java.util.Iterator;
@@ -83,7 +80,6 @@ public class AuthenticationGateway<T extends ApiInstance> extends BaseApiGateway
             if (isRespOk(loginResp)) {
                 markAsLogged();
                 saveUserInfo(loginResp.userInfo);
-                updateCookie(response);
                 return true;
             } else {
                 douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(loginResp.getCode(respType), loginResp.getMessage(respType));
@@ -98,20 +94,4 @@ public class AuthenticationGateway<T extends ApiInstance> extends BaseApiGateway
         }
     }
 
-    private void updateCookie(ApiResponse response) {
-        Header[] headers = response.getHeaders();
-        if (headers != null) {
-            StringBuilder sb = null;
-            for (int i = 0; i < headers.length; i++) {
-                Header header = headers[i];
-
-                if (header.getName().equals(HttpHeaders.SET_COOKIE)) {
-                    if (sb == null) sb = new StringBuilder();
-                    String token = header.getValue();
-                    sb.append(token+";");
-                }
-            }
-            douban.getDoubanSharedPreferences().edit().putString(CacheConstant.COOKIE_KEY, sb.toString()).commit();
-        }
-    }
 }

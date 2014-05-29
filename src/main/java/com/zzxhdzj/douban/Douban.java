@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import com.zzxhdzj.douban.api.auth.AuthenGetCaptchaGateway;
 import com.zzxhdzj.douban.api.auth.AuthenticationGateway;
 import com.zzxhdzj.douban.api.base.ApiInstance;
+import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
 import com.zzxhdzj.douban.api.channels.action.ChannelActionGateway;
 import com.zzxhdzj.douban.api.channels.action.ChannelActionType;
 import com.zzxhdzj.douban.api.channels.fixed.StaticChannelGateway;
@@ -25,6 +26,7 @@ import com.zzxhdzj.http.util.Strings;
 import org.afinal.simplecache.ACache;
 import org.apache.http.Header;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class Douban extends ApiInstance {
@@ -52,16 +54,13 @@ public class Douban extends ApiInstance {
         Http.initCookieManager(context);
     }
 
-    public boolean isInitialized() {//是否获取到cookie
-        return !Strings.isEmptyOrWhitespace(getCookie(context));
+    public boolean isInitialized() throws URISyntaxException {//是否获取到cookie
+        return !Strings.isEmptyOrWhitespace("");
     }
 
-    public static String getCookie(Context context) {
-        return context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).getString(CacheConstant.COOKIE_KEY, "");
-    }
+
 
     public static void reset(Context context) {
-        context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).edit().remove(CacheConstant.COOKIE_KEY).commit();
         ACache aCache = ACache.get(context);
         aCache.clear();
     }
@@ -147,9 +146,15 @@ public class Douban extends ApiInstance {
      * -----Auth required API -----*
      */
     private void checkAuth(Callback callback) {
-        if (!isInitialized()) {
+        try {
+            if (!isInitialized()) {
+                this.mApiRespErrorCode= ApiRespErrorCode.createNonBizError("-1","未登录");
+                callback.onFailure();
+                return;
+            }
+        } catch (URISyntaxException e) {
+            this.mApiRespErrorCode= ApiRespErrorCode.createNonBizError(ApiInternalError.INTERNAL_ERROR);
             callback.onFailure();
-            return;
         }
     }
 
