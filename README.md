@@ -21,7 +21,12 @@ Douban FM API
     
     重构部分代码
     
-    unitest mock http request 换用 okhttp的[mockwebserver](https://github.com/square/okhttp/tree/master/mockwebserver)
+    unitest mock http request 换用 okhttp的mockwebserver
+
+- 2014-05-29
+    
+    重构HiHttp:custom PrefsCookieStore:uri去掉path（暂时可以满足path为`/`的情况，以后再逐步增加cookie支持）。
+    
     
 #Usage:
 
