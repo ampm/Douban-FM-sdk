@@ -20,8 +20,9 @@ import com.zzxhdzj.http.TextApiResponse;
 public class SongActionGateway extends BaseApiGateway {
 
 
-    public SongActionGateway(Douban douban, ApiGateway apiGateway) {
+    public SongActionGateway(Douban douban, ApiGateway apiGateway,boolean isAuthRequire) {
         super(douban, apiGateway, RespType.R);
+        this.isAuthRequire = isAuthRequire;
     }
 
     public void songAction(SongActionType songActionType, int currentChannelId, int songId, Callback callback) {
@@ -44,7 +45,9 @@ public class SongActionGateway extends BaseApiGateway {
                 douban.songs = songResp.songs;
                 callOnSuccess(response);
             } else {
-                douban.mApiRespErrorCode = com.zzxhdzj.douban.api.base.ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
+                if(douban.mApiRespErrorCode==null){
+                    douban.mApiRespErrorCode = com.zzxhdzj.douban.api.base.ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
+                }
                 onBizFailure(response);
             }
         }
@@ -61,7 +64,9 @@ public class SongActionGateway extends BaseApiGateway {
                 douban.songs = songResp.songs;
                 return true;
             } else {
-                douban.mApiRespErrorCode = com.zzxhdzj.douban.api.base.ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
+                if(douban.mApiRespErrorCode==null){
+                    douban.mApiRespErrorCode = com.zzxhdzj.douban.api.base.ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
+                }
                 return false;
             }
         }

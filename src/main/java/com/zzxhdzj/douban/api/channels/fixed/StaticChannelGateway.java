@@ -54,7 +54,9 @@ public class StaticChannelGateway extends BaseApiGateway {
                 douban.channels = channelResp.channlesDatas.channels;
                 return true;
             } else {
-                douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(channelResp.getCode(respType), channelResp.getMessage(respType));
+                if(douban.mApiRespErrorCode==null){
+                    douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(channelResp.getCode(respType), channelResp.getMessage(respType));
+                }
                 return false;
             }
         }

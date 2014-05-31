@@ -67,7 +67,9 @@ public class AuthenticationGateway<T extends ApiInstance> extends BaseApiGateway
                 cacheUserInfo(loginResp.userInfo);
                 return true;
             } else {
-                douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(loginResp.getCode(respType), loginResp.getMessage(respType));
+                if(douban.mApiRespErrorCode==null){
+                    douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(loginResp.getCode(respType), loginResp.getMessage(respType));
+                }
                 return false;
             }
         }

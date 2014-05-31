@@ -51,7 +51,9 @@ public class ChannelActionGateway extends BaseApiGateway {
                 callOnSuccess(response);
                 return true;
             } else {
-                douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(favChannelResp.getCode(respType), favChannelResp.getMessage(respType));
+                if(douban.mApiRespErrorCode==null){
+                    douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(favChannelResp.getCode(respType), favChannelResp.getMessage(respType));
+                }
                 return false;
             }
         }

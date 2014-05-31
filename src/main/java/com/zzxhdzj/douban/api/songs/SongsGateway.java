@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.songs;
 
 import com.google.gson.Gson;
+import com.zzxhdzj.douban.ChannelConstantIds;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
@@ -25,6 +26,10 @@ public class SongsGateway extends BaseApiGateway {
     }
 
     public void querySongsByChannelId(String songType, int channelId, int bitRate, Callback callback) {
+        if(channelId== ChannelConstantIds.PRIVATE_CHANNEL
+                ||channelId== ChannelConstantIds.FAV){
+            this.isAuthRequire=true;
+        }
         apiGateway.makeRequest(new SongsRequest(channelId, bitRate, songType, douban.getContext()), new SongApiResponseCallback(callback, this, douban));
     }
 
@@ -49,7 +54,9 @@ public class SongsGateway extends BaseApiGateway {
                 douban.songs = songResp.songs;
                 return true;
             } else {
-                douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
+                if(douban.mApiRespErrorCode==null){
+                    douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
+                }
                 return false;
             }
         }

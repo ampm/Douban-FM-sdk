@@ -48,11 +48,10 @@ public class BaseApiGateway {
         if(!TextUtils.isEmpty(resp.warning)&&(resp.warning.contains("user_is_ananymous")||resp.warning.contains("user_is_anonymous"))){
             //anonymous:豆瓣官方拼写错误，防止他将来纠正过来,user_is_anonymous 也判断一下
             douban.getDoubanSharedPreferences().edit().putBoolean(CacheConstant.LOGGED, false).commit();
-        }
-
-        if(!TextUtils.isEmpty(resp.isShowQuickStart)&&resp.isShowQuickStart.equals("1")){
-            isOk = false;
-            douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(ApiInternalError.AUTH_ERROR.getCode(),ApiInternalError.AUTH_ERROR.getMsg());
+            if(isAuthRequire){
+                isOk = false;
+                douban.mApiRespErrorCode = ApiRespErrorCode.createNonBizError(ApiInternalError.AUTH_ERROR);
+            }
         }
         return isOk;
     }

@@ -50,7 +50,9 @@ public class LoginRecommendChannelGateway extends BaseApiGateway {
                 douban.recChannels = loginChannelsResp.loginChannelsData.result.recommentChannels;
                 return true;
             }else {
-                douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(loginChannelsResp.getCode(respType), loginChannelsResp.getMessage(respType));
+                if(douban.mApiRespErrorCode==null){
+                    douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(loginChannelsResp.getCode(respType), loginChannelsResp.getMessage(respType));
+                }
                 return false;
             }
         }
