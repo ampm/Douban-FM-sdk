@@ -16,7 +16,9 @@ public class Resp {
     private String msg;
     @SerializedName("err_msg")
     private String errMsg;
-    private String warning;
+    public String warning;
+    @SerializedName("is_show_quick_start")
+    public String isShowQuickStart;//如果0，无需强制跳到登录，可以匿名调用。
     public String getMessage(RespType respType){
         if(respType.equals(RespType.R)){
             return errMsg;

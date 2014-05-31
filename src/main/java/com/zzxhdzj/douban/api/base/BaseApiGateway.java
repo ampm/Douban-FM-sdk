@@ -1,5 +1,8 @@
 package com.zzxhdzj.douban.api.base;
 
+import android.text.TextUtils;
+import com.zzxhdzj.douban.ApiInternalError;
+import com.zzxhdzj.douban.CacheConstant;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.modules.Resp;
@@ -33,13 +36,24 @@ public class BaseApiGateway {
     }
 
     protected boolean isRespOk(Resp resp) {
+        boolean isOk = false;
         if (respType != null) {
             if (respType.equals(RespType.R)) {
-                return resp.r == RespStatusCode.R_TYPE_OK.code;
+                isOk = resp.r == RespStatusCode.R_TYPE_OK.code;
+
             } else {
-                return resp.status == RespStatusCode.STATUS_TYPE_OK.status;
+                isOk = resp.status == RespStatusCode.STATUS_TYPE_OK.status;
             }
         }
-        return true;
+        if(!TextUtils.isEmpty(resp.warning)&&(resp.warning.contains("user_is_ananymous")||resp.warning.contains("user_is_anonymous"))){
+            //anonymous:豆瓣官方拼写错误，防止他将来纠正过来,user_is_anonymous 也判断一下
+            douban.getDoubanSharedPreferences().edit().putBoolean(CacheConstant.LOGGED, false).commit();
+        }
+
+        if(!TextUtils.isEmpty(resp.isShowQuickStart)&&resp.isShowQuickStart.equals("1")){
+            isOk = false;
+            douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(ApiInternalError.AUTH_ERROR.getCode(),ApiInternalError.AUTH_ERROR.getMsg());
+        }
+        return isOk;
     }
 }

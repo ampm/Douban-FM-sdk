@@ -51,12 +51,6 @@ public class Douban extends ApiInstance {
         Http.initCookieManager(context);
     }
 
-//    public boolean isInitialized() throws URISyntaxException {//是否获取到cookie
-//        return !Strings.isEmptyOrWhitespace("");
-//    }
-
-
-
     public static void reset(Context context) {
         ACache aCache = ACache.get(context);
         aCache.clear();
@@ -139,21 +133,6 @@ public class Douban extends ApiInstance {
         songsGateway.querySongsByChannelId(Constants.songType, channelId, bitRate, callback);
     }
 
-//    /**
-//     * -----Auth required API -----*
-//     */
-//    private void checkAuth(Callback callback) {
-//        try {
-//            if (!isInitialized()) {
-//                this.mApiRespErrorCode= ApiRespErrorCode.createNonBizError("-1","未登录");
-//                callback.onFailure();
-//                return;
-//            }
-//        } catch (URISyntaxException e) {
-//            this.mApiRespErrorCode= ApiRespErrorCode.createNonBizError(ApiInternalError.INTERNAL_ERROR);
-//            callback.onFailure();
-//        }
-//    }
 
     /**
      * 获取登录后推荐频道,同时返回收藏频道和推荐频道，可通过douban.favChannels 和 douban.recChannels 获取

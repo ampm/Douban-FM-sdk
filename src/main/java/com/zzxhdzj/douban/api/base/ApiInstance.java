@@ -12,4 +12,8 @@ import com.zzxhdzj.http.ApiGateway;
 public class ApiInstance {
     public ApiRespErrorCode mApiRespErrorCode;
     protected ApiGateway apiGateway = new ApiGateway();
+
+    public ApiGateway getApiGateway() {
+        return apiGateway;
+    }
 }
