@@ -186,7 +186,7 @@ public class Douban extends ApiInstance {
      */
     public void songsOfPrivateChannels(int bitRate, Callback callback) {
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
-        songsGateway.querySongsByChannelId(Constants.songType, 0, bitRate, callback);
+        songsGateway.querySongsByChannelId(Constants.songType, ChannelConstantIds.PRIVATE_CHANNEL, bitRate, callback);
     }
 
     /**
@@ -197,7 +197,7 @@ public class Douban extends ApiInstance {
      */
     public void favSongs(int bitRate, Callback callback) {
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
-        songsGateway.querySongsByChannelId(Constants.songType, -3, bitRate, callback);
+        songsGateway.querySongsByChannelId(Constants.songType, ChannelConstantIds.FAV, bitRate, callback);
     }
 
     /**
@@ -208,7 +208,7 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void skipSong(int currentChannelId, int songId, Callback callback) {
-        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway);
+        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway,false);
         songActionGateway.songAction(SongActionType.SKIP, currentChannelId, songId, callback);
     }
 
@@ -220,7 +220,7 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void favASong(int currentChannelId, int songId, Callback callback) {
-        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway);
+        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway,true);
         songActionGateway.songAction(SongActionType.FAV, currentChannelId, songId, callback);
     }
 
@@ -232,7 +232,7 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void unfavASong(int currentChannelId, int songId, Callback callback) {
-        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway);
+        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway,true);
         songActionGateway.songAction(SongActionType.UNFAV, currentChannelId, songId, callback);
     }
 
@@ -244,7 +244,7 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void banASong(int currentChannelId, int songId, Callback callback) {
-        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway);
+        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway,true);
         songActionGateway.songAction(SongActionType.BAN, currentChannelId, songId, callback);
     }
 
