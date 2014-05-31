@@ -27,6 +27,13 @@ Douban FM API
     
     重构HiHttp:custom PrefsCookieStore:uri去掉path（暂时可以满足path为`/`的情况，以后再逐步增加cookie支持）。
     
+- 2014-05-30
+    
+    匿名接口和禁止匿名接口的错误封装
+    
+    Cookie remove的线程安全
+    
+    
     
 #Usage:
 0 [demo]<https://github.com/ampm/DoubanFM-android.git>
