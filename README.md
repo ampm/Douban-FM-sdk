@@ -568,14 +568,17 @@ http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14
         {"r":"0"}
 
 ##切换频率-
- type=n 
-0. Log change channel action
-1. change channel.
-http://douban.fm/j/mine/playlist?type=n&sid=660489&pt=28.4&channel=1004097&pb=64&from=mainsite&r=c7ed82182f
+    http://douban.fm/j/mine/playlist?type=n&sid=660489&pt=28.4&channel=1004097&pb=64&from=mainsite&r=c7ed82182f
+            
+    type=n 
+    0. Log change channel action
+    1. change channel.
 
 
-Resp:
-    warning:opt
+
+
+-Resp
+
 
     {
         "r": 0,
@@ -605,7 +608,11 @@ Resp:
 
 ##是否已收藏频率-
 
-http://douban.fm/j/explore/is_fav_channel?uk=69077079&cid=1003464
+API
+
+	http://douban.fm/j/explore/is_fav_channel?uk=69077079&cid=1003464
+	
+Resp
 
     {"status":true,"data":{"res":{"is_fav":false}}}
 
@@ -613,18 +620,22 @@ http://douban.fm/j/explore/is_fav_channel?uk=69077079&cid=1003464
 
 ##我的私人调频-
 无需登录，但是返回的歌曲肯定不是你自己的啦
+  
+	http://douban.fm/j/mine/playlist?type=n&sid=1394146&pt=99.7&channel=0&context=tags:&pb=64&from=mainsite&r=98d6af28bb
+  
+参数说明
 
-0. Log change channel action
-1. get songs from my private channel
+	channel=0
+	0. Log change channel action
+	1. get songs from my private channel
 
-channel=0
-type=n(null) 
+	type=n(null 意思无操作，其他的如b=ban 不在播放) 
 
-    http://douban.fm/j/mine/playlist?type=n&sid=1394146&pt=99.7&channel=0&context=tags:&pb=64&from=mainsite&r=98d6af28bb
+  
+    
+Resp
 
-
-
-    {
+	{
         "r": 0,
         "song": [
             {
@@ -673,7 +684,7 @@ type=n(null)
 
 ##红心调频歌曲-
 
-http://douban.fm/j/mine/playlist?from=mainsite&channel=-3&kbps=64&h=&sid=&type=n&r=927c04500d89d
+	http://douban.fm/j/mine/playlist?from=mainsite&channel=-3&kbps=64&h=&sid=&type=n&r=927c04500d89d
 
 主要参数：channel=-3
 
@@ -706,10 +717,13 @@ http://douban.fm/j/mine/playlist?from=mainsite&channel=-3&kbps=64&h=&sid=&type=n
     
 
 ##跳过此曲- 
+
+	http://douban.fm/j/mine/playlist?type=s&sid=747683&pt=102.3&channel=0&context=tags:&pb=64&from=mainsite&r=3446e34ae3
+
+参数说明：
 pt=playtime(秒)
 type=s
 
-http://douban.fm/j/mine/playlist?type=s&sid=747683&pt=102.3&channel=0&context=tags:&pb=64&from=mainsite&r=3446e34ae3
 
     {
         "r": 0,
@@ -739,6 +753,9 @@ http://douban.fm/j/mine/playlist?type=s&sid=747683&pt=102.3&channel=0&context=ta
 
 
 ## 添加红心
+
+	http://douban.fm/j/mine/playlist?type=r&sid=626659&channel=0&from=mainsite&kbps=192
+
 type=r
 
 GET
@@ -747,7 +764,7 @@ GET
 r=01e5eedc7f
 
 
-http://douban.fm/j/mine/playlist?type=r&sid=626659&channel=0&from=mainsite&kbps=192
+
 
 
     {
@@ -776,15 +793,22 @@ http://douban.fm/j/mine/playlist?type=r&sid=626659&channel=0&from=mainsite&kbps=
     }
 
 ##取消红心-
-type=u
+	http://douban.fm/j/mine/playlist?type=u&sid=626659&channel=0&from=mainsite&kbps=192
 
-http://douban.fm/j/mine/playlist?type=u&sid=626659&channel=0&from=mainsite&kbps=192
+Resp
+
+	type=u
+
 
 
 ##不再播放-
-type=b
+	http://douban.fm/j/mine/playlist?type=b&sid=1767085&pt=15.5&channel=0&context=tags:&pb=64&from=mainsite&r=041f860f26
 
-http://douban.fm/j/mine/playlist?type=b&sid=1767085&pt=15.5&channel=0&context=tags:&pb=64&from=mainsite&r=041f860f26
+Resp
+	
+	type=b(ban)
+
+
 
 resp:
 
