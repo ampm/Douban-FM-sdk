@@ -127,7 +127,7 @@ public class TestResponses {
             "    },\n" +
             "    \"status\": true\n" +
             "}\n";
-    public static final String REC_CHANNELS_JSON = "{\n" +
+    public static final String SUGEST_CHANNELS_JSON = "{\n" +
             "\t    \"data\": {\n" +
             "\t        \"res\": {\n" +
             "\t            \"cover\": \"http://img3.douban.com/img/fmadmin/raw/23073\",\n" +
@@ -196,7 +196,7 @@ public class TestResponses {
             "            \"url\": \"http://mr4.douban.com/201311290052/74096848fdbf0bb8012cffbc4f86e543/view/song/small/p2002393.mp3\"\n" +
             "        }\n"+
             "}";
-
+    public static final String NONE_AUTH ="{\"r\":0,\"warning\":\"user_is_ananymous\",\"is_show_quick_start\":1,\"song\":[]}";
     public static final String UNFAV_A_SONG_FAIL_JSON = FAV_A_SONG_FAIL_JSON;
 
 }

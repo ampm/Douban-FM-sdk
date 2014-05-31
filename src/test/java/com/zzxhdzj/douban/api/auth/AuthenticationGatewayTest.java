@@ -66,23 +66,19 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     //test#03
     @Test
     public void shouldReturnTrueSignedIn() throws Exception {
-        assertThat(douban.isInitialized(), equalTo(false));
+        assertThat(douban.isLogged(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
-        Header[] header = new Header[1];
-//        header[0] = new BasicHeader(HttpHeaders.SET_COOKIE, "__utmz=58778424.1386727495.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); ac=\"1386727493\"; bid=\"q8NdsTdgKGtx\"; ck=\"bPhq\"; dbcl2=\"69077079:YhxxsJoFZ11\"; flag=\"ok\"; fmNlogin=\"y\"; show_pro_init_tip=N");
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_SUCCESS, null);
-        assertThat(douban.isInitialized(), equalTo(true));
-//        this url params may different each time cause we didn't order it.
-//        assertThat(Douban.getCookie(Robolectric.application.getApplicationContext()), equalTo("bid=\"q8NdsTdgKGtx\";ck=\"bPhq\";dbcl2=\"69077079:YhxxsJoFZ11\";"));
+        assertThat(douban.isLogged(), equalTo(true));
     }
 
     @Test
     public void shouldReturnFalseWhenSignedInWithWrongCaptchaCode() throws Exception {
-        assertThat(douban.isInitialized(), equalTo(false));
+        assertThat(douban.isLogged(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
         Header[] header = new Header[0];
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_ERROR, null);
-        assertThat(douban.isInitialized(), equalTo(false));
+        assertThat(douban.isLogged(), equalTo(false));
         assertThat(douban.mApiRespErrorCode.getCode(), equalTo("1"));
         assertThat(douban.mApiRespErrorCode.getMsg(), equalTo("验证码不正确"));
     }

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import com.zzxhdzj.douban.api.auth.AuthenGetCaptchaGateway;
 import com.zzxhdzj.douban.api.auth.AuthenticationGateway;
 import com.zzxhdzj.douban.api.base.ApiInstance;
-import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
 import com.zzxhdzj.douban.api.channels.action.ChannelActionGateway;
 import com.zzxhdzj.douban.api.channels.action.ChannelActionType;
 import com.zzxhdzj.douban.api.channels.fixed.StaticChannelGateway;
@@ -22,11 +21,9 @@ import com.zzxhdzj.douban.modules.song.Song;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.Http;
-import com.zzxhdzj.http.util.Strings;
 import org.afinal.simplecache.ACache;
 import org.apache.http.Header;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 public class Douban extends ApiInstance {
@@ -54,9 +51,9 @@ public class Douban extends ApiInstance {
         Http.initCookieManager(context);
     }
 
-    public boolean isInitialized() throws URISyntaxException {//是否获取到cookie
-        return !Strings.isEmptyOrWhitespace("");
-    }
+//    public boolean isInitialized() throws URISyntaxException {//是否获取到cookie
+//        return !Strings.isEmptyOrWhitespace("");
+//    }
 
 
 
@@ -142,21 +139,21 @@ public class Douban extends ApiInstance {
         songsGateway.querySongsByChannelId(Constants.songType, channelId, bitRate, callback);
     }
 
-    /**
-     * -----Auth required API -----*
-     */
-    private void checkAuth(Callback callback) {
-        try {
-            if (!isInitialized()) {
-                this.mApiRespErrorCode= ApiRespErrorCode.createNonBizError("-1","未登录");
-                callback.onFailure();
-                return;
-            }
-        } catch (URISyntaxException e) {
-            this.mApiRespErrorCode= ApiRespErrorCode.createNonBizError(ApiInternalError.INTERNAL_ERROR);
-            callback.onFailure();
-        }
-    }
+//    /**
+//     * -----Auth required API -----*
+//     */
+//    private void checkAuth(Callback callback) {
+//        try {
+//            if (!isInitialized()) {
+//                this.mApiRespErrorCode= ApiRespErrorCode.createNonBizError("-1","未登录");
+//                callback.onFailure();
+//                return;
+//            }
+//        } catch (URISyntaxException e) {
+//            this.mApiRespErrorCode= ApiRespErrorCode.createNonBizError(ApiInternalError.INTERNAL_ERROR);
+//            callback.onFailure();
+//        }
+//    }
 
     /**
      * 获取登录后推荐频道,同时返回收藏频道和推荐频道，可通过douban.favChannels 和 douban.recChannels 获取
@@ -165,7 +162,6 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void recommendChannelsWhenLogin(String userId, Callback callback) {
-        checkAuth(callback);
         LoginRecommendChannelGateway loginRecommendChannelGateway = new LoginRecommendChannelGateway(this, apiGateway);
         loginRecommendChannelGateway.query(userId, callback);
     }
@@ -177,7 +173,6 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void recommendChannnels(ArrayList<Integer> channelIds, Callback callback) {
-        checkAuth(callback);
         RecommendChannelsGateway recommendChannelsGateway = new RecommendChannelsGateway(this, apiGateway);
         recommendChannelsGateway.query(channelIds, callback);
     }
@@ -189,7 +184,6 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void favAvChannel(int channelId, Callback callback) {
-        checkAuth(callback);
         ChannelActionGateway channelActionGateway = new ChannelActionGateway(this, apiGateway);
         channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, callback);
     }
@@ -201,7 +195,6 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void unFavAChannel(int channelId, Callback callback) {
-        checkAuth(callback);
         ChannelActionGateway channelActionGateway = new ChannelActionGateway(this, apiGateway);
         channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, callback);
     }
@@ -213,7 +206,6 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void songsOfPrivateChannels(int bitRate, Callback callback) {
-        checkAuth(callback);
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
         songsGateway.querySongsByChannelId(Constants.songType, 0, bitRate, callback);
     }
@@ -225,7 +217,6 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void favSongs(int bitRate, Callback callback) {
-        checkAuth(callback);
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
         songsGateway.querySongsByChannelId(Constants.songType, -3, bitRate, callback);
     }
@@ -238,7 +229,6 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void skipSong(int currentChannelId, int songId, Callback callback) {
-        checkAuth(callback);
         SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway);
         songActionGateway.songAction(SongActionType.SKIP, currentChannelId, songId, callback);
     }
@@ -251,7 +241,6 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void favASong(int currentChannelId, int songId, Callback callback) {
-        checkAuth(callback);
         SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway);
         songActionGateway.songAction(SongActionType.FAV, currentChannelId, songId, callback);
     }
@@ -264,7 +253,6 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void unfavASong(int currentChannelId, int songId, Callback callback) {
-        checkAuth(callback);
         SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway);
         songActionGateway.songAction(SongActionType.UNFAV, currentChannelId, songId, callback);
     }
@@ -277,7 +265,6 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void banASong(int currentChannelId, int songId, Callback callback) {
-        checkAuth(callback);
         SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway);
         songActionGateway.songAction(SongActionType.BAN, currentChannelId, songId, callback);
     }

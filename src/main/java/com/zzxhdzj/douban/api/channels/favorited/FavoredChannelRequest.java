@@ -15,9 +15,9 @@ import java.util.Map;
  * Time: 12:35 AM
  * To change this template use File | Settings | File Templates.
  */
-public class FavoritedChannelRequest extends AuthApiRequest {
+public class FavoredChannelRequest extends AuthApiRequest {
 
-    protected FavoritedChannelRequest(Context context) {
+    protected FavoredChannelRequest(Context context) {
         super(context);
         super.setBaseUrl(Constants.FAV_CHANNELS);
     }

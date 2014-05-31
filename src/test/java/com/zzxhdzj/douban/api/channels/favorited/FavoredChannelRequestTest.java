@@ -17,12 +17,12 @@ import static org.junit.Assert.assertThat;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(RobolectricTestRunner.class)
-public class FavoritedChannelRequestTest extends BaseAuthApiRequestTestCase {
-    private FavoritedChannelRequest request;
+public class FavoredChannelRequestTest extends BaseAuthApiRequestTestCase {
+    private FavoredChannelRequest request;
 
     @Before
     public void setUp() throws Exception {
-        request = new FavoritedChannelRequest(context);
+        request = new FavoredChannelRequest(context);
     }
 
     @Test

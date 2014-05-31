@@ -28,7 +28,7 @@ public class RecommendChannelsRequestTest extends BaseAuthApiRequestTestCase {
             channelIds.add(61);
             channelIds.add(9);
             channelIds.add(14);
-            request = new RecommendChannelRequest(channelIds,Constants.REC_CHLS_URL,context);
+            request = new RecommendChannelRequest(channelIds,Constants.RECOMMEND_CHLS_URL,context);
         }
 
         @Test

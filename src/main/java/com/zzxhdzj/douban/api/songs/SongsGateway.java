@@ -2,9 +2,10 @@ package com.zzxhdzj.douban.api.songs;
 
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.api.base.BaseApiGateway;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
+import com.zzxhdzj.douban.api.base.BaseApiGateway;
 import com.zzxhdzj.douban.modules.song.SongResp;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
@@ -48,7 +49,7 @@ public class SongsGateway extends BaseApiGateway {
                 douban.songs = songResp.songs;
                 return true;
             } else {
-                douban.mApiRespErrorCode = com.zzxhdzj.douban.api.base.ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
+                douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
                 return false;
             }
         }

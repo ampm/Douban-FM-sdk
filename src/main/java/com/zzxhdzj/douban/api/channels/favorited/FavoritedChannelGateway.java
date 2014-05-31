@@ -23,10 +23,11 @@ public class FavoritedChannelGateway extends BaseApiGateway {
 
     public FavoritedChannelGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway, RespType.STATUS);
+        this.isAuthRequire = true;
     }
 
     public void fetchFavChannels(Callback callback) {
-        apiGateway.makeRequest(new FavoritedChannelRequest(douban.getContext()),
+        apiGateway.makeRequest(new FavoredChannelRequest(douban.getContext()),
                 new FavChannelApiResponseCallback(callback, this, douban));
     }
 

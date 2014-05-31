@@ -22,7 +22,7 @@ public class DouCallback extends Callback{
     @Override
     public void onFailure() {
         super.onFailure();
-        if(isCookieValid()){
+        if(isCookieStillValid()){
             _onFailure();
         }else {
             onAuthFailure();
@@ -37,7 +37,7 @@ public class DouCallback extends Callback{
 
     }
 
-    private boolean isCookieValid() {
+    private boolean isCookieStillValid() {
         return false;
     }
 }

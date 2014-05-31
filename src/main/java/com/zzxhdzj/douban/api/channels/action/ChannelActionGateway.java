@@ -24,6 +24,7 @@ public class ChannelActionGateway extends BaseApiGateway {
 
     public ChannelActionGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway, RespType.STATUS);
+        this.isAuthRequire = true;
     }
 
     public void favAChannel(ChannelActionType favChannel, int channelId, Callback callback) {

@@ -16,6 +16,7 @@ public class Resp {
     private String msg;
     @SerializedName("err_msg")
     private String errMsg;
+    private String warning;
     public String getMessage(RespType respType){
         if(respType.equals(RespType.R)){
             return errMsg;

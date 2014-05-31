@@ -18,6 +18,7 @@ public class BaseApiGateway {
     protected final ApiGateway apiGateway;
     protected final Douban douban;
     protected RespType respType;
+    protected boolean isAuthRequire;
     public ApiResponse failureResponse;
     public Boolean onCompleteWasCalled;
 

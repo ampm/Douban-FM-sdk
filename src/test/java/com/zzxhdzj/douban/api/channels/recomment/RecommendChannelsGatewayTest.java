@@ -41,7 +41,7 @@ public class RecommendChannelsGatewayTest extends BaseGatewayTestCase {
     @Test
     public void shouldFetchOneRecommendChannel() throws Exception {
         recommendChannelsGateway.query(channelIds, new Callback());
-        apiGateway.simulateTextResponse(200, TestResponses.REC_CHANNELS_JSON, null);
+        apiGateway.simulateTextResponse(200, TestResponses.SUGEST_CHANNELS_JSON, null);
         assertNull(recommendChannelsGateway.failureResponse);
         assertTrue(recommendChannelsGateway.onCompleteWasCalled);
         assertNotNull(douban.recommendChannel);
@@ -60,7 +60,7 @@ public class RecommendChannelsGatewayTest extends BaseGatewayTestCase {
     @Test
     public void shouldCallOnFailureWhenCallerError() throws Exception {
         recommendChannelsGateway.query(channelIds,badCallback);
-        apiGateway.simulateTextResponse(200, TestResponses.REC_CHANNELS_JSON, null);
+        apiGateway.simulateTextResponse(200, TestResponses.SUGEST_CHANNELS_JSON, null);
         assertNotNull(recommendChannelsGateway.failureResponse);
         assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.CALLER_ERROR.getCode()));
 

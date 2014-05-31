@@ -14,12 +14,7 @@ import com.zzxhdzj.douban.modules.UserInfo;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.TextApiResponse;
-import com.zzxhdzj.http.util.HiUtil;
 import org.afinal.simplecache.ACache;
-import org.apache.http.NameValuePair;
-
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -43,23 +38,13 @@ public class AuthenticationGateway<T extends ApiInstance> extends BaseApiGateway
                 new AuthenticationApiResponseCallback(responseCallback, this, douban));
     }
 
-    private void saveUserInfo(UserInfo userInfo) {
+    private void cacheUserInfo(UserInfo userInfo) {
         ACache aCache = ACache.get(douban.getContext());
         aCache.put(Douban.USER_INFO_CACHE, userInfo);
     }
 
     private void markAsLogged() {
         douban.getDoubanSharedPreferences().edit().putBoolean(CacheConstant.LOGGED, true).commit();
-    }
-
-    private String filterUselessCookie(String token) {
-        List<NameValuePair> nameValuePairList = HiUtil.covertCookieToNameValuePairs(token);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (Iterator<NameValuePair> iterator = nameValuePairList.iterator(); iterator.hasNext(); ) {
-            NameValuePair next = iterator.next();
-            stringBuilder.append(next.getName()).append("=").append(next.getValue()).append(";");
-        }
-        return stringBuilder.toString();
     }
 
     private class AuthenticationApiResponseCallback extends CommonTextApiResponseCallback<Douban> {
@@ -79,7 +64,7 @@ public class AuthenticationGateway<T extends ApiInstance> extends BaseApiGateway
         public boolean _handleRespData(TextApiResponse response) {
             if (isRespOk(loginResp)) {
                 markAsLogged();
-                saveUserInfo(loginResp.userInfo);
+                cacheUserInfo(loginResp.userInfo);
                 return true;
             } else {
                 douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(loginResp.getCode(respType), loginResp.getMessage(respType));

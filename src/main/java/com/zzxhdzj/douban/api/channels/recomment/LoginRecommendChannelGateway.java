@@ -22,6 +22,7 @@ public class LoginRecommendChannelGateway extends BaseApiGateway {
 
     public LoginRecommendChannelGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway,RespType.STATUS);
+        this.isAuthRequire = true;
     }
 
     public void query(String userId, Callback callback) {

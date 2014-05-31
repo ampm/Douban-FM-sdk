@@ -9,9 +9,9 @@ package com.zzxhdzj.douban;
  */
 
 public enum ApiInternalError {
-    INTERNAL_ERROR("-4", "内部错误:处理响应失败(eg.解析失败)"),
+    INTERNAL_ERROR("-4", "内部错误:处理失败"),
 
-    CALLER_ERROR("-3", "调用错误:调用方出错"),
+    CALLER_ERROR("-3", "调用错误:调用出错"),
 
     UNKNOWN_ERROR("-5", "未知错误"),
     //请求失败

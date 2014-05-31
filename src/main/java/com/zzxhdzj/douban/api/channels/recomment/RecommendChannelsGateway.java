@@ -27,11 +27,11 @@ public class RecommendChannelsGateway extends BaseApiGateway {
 
     public RecommendChannelsGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway, RespType.STATUS);
-
+        this.isAuthRequire = true;
     }
 
     public void query(ArrayList<Integer> channelIds, Callback callback) {
-        apiGateway.makeRequest(new RecommendChannelRequest(channelIds, Constants.REC_CHLS_URL, douban.getContext()),
+        apiGateway.makeRequest(new RecommendChannelRequest(channelIds, Constants.RECOMMEND_CHLS_URL, douban.getContext()),
                 new RecommendApiResponseCallbacks(callback, this, douban));
     }
 
