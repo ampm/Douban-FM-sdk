@@ -25,11 +25,14 @@ import org.afinal.simplecache.ACache;
 import org.apache.http.Header;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Douban extends ApiInstance {
 
     public static final String USER_INFO_CACHE = "user_info";
+    public static final String SONG_CACHE = "songs";
     public static SharedPreferences sharedPreferences;
+    public static Context app;
     public String captchaImageUrl;
     public String captchaId;
     //    public ApiRespErrorCode apiRespErrorCode;
@@ -38,7 +41,7 @@ public class Douban extends ApiInstance {
     public ArrayList<Channel> recChannels;
     public Header[] headers;
     public Channel recommendChannel;
-    public ArrayList<Song> songs;
+    public LinkedList<Song> songs;
     private final ApiGateway apiGateway;
     private Context context;
 
@@ -49,6 +52,7 @@ public class Douban extends ApiInstance {
     }
     public static void init(Context context){
         Http.initCookieManager(context);
+        app = context;
     }
 
     public static void reset(Context context) {

@@ -2,6 +2,8 @@ package com.zzxhdzj.douban.modules.song;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created with IntelliJ IDEA.
  * User: yangning.roy
@@ -9,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  * Time: 12:55 AM
  * To change this template use File | Settings | File Templates.
  */
-public class Song {
+public class Song implements Serializable{
     public String aid;
     public String album;
     @SerializedName("albumtitle")

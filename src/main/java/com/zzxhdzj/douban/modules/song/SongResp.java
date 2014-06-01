@@ -3,7 +3,7 @@ package com.zzxhdzj.douban.modules.song;
 import com.google.gson.annotations.SerializedName;
 import com.zzxhdzj.douban.modules.Resp;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,5 +14,5 @@ import java.util.ArrayList;
  */
 public class SongResp extends Resp{
     @SerializedName("song")
-    public ArrayList<Song> songs;
+    public LinkedList<Song> songs;
 }
