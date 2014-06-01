@@ -28,7 +28,7 @@ public class SongActionGatewayTest extends BaseGatewayTestCase {
         super.setUp();
         sid = 551805;
         channelId = 0;
-        favSongGateway = new SongActionGateway(douban, apiGateway);
+        favSongGateway = new SongActionGateway(douban, apiGateway,false);
     }
 
     @Test
