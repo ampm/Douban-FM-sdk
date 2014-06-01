@@ -62,12 +62,10 @@ public class ApiRespErrorCode {
     public static ApiRespErrorCode createNonBizError(int code) {
         ApiRespErrorCode error = new ApiRespErrorCode(ApiInternalError.NETWORK_ERROR);
         error.errorType = ErrorType.NON_BIZ;
-        if (code > 300) {//大于300：服务器返回的http请求错误
-            if (code == 404) {
-                error.msg = "找不到请求地址";
-            } else if (code > 500) {
-                error.msg = "服务器内部错误";
-            }
+        if (code/100==4) {
+            error.msg = "请求失败:"+code;
+        } else if (code/100==5) {
+            error.msg = "豆瓣服务器开小差了";
         }
         return error;
     }
