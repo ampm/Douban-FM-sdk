@@ -18,9 +18,9 @@ import com.zzxhdzj.http.TextApiResponse;
  * Time: 12:20 AM
  * To change this template use File | Settings | File Templates.
  */
-public class AuthenGetCaptchaGateway extends BaseApiGateway {
+public class AuthorityGetCaptchaGateway extends BaseApiGateway {
 
-    public AuthenGetCaptchaGateway(Douban douban, ApiGateway apiGateway) {
+    public AuthorityGetCaptchaGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway);
     }
 

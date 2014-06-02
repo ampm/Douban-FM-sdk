@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.api.BitRate;
-import com.zzxhdzj.douban.api.auth.AuthenGetCaptchaGateway;
+import com.zzxhdzj.douban.api.auth.AuthorityGetCaptchaGateway;
 import com.zzxhdzj.douban.api.auth.AuthenticationGateway;
 import com.zzxhdzj.douban.api.base.ApiInstance;
 import com.zzxhdzj.douban.api.channels.action.ChannelActionGateway;
@@ -16,6 +16,7 @@ import com.zzxhdzj.douban.api.channels.recomment.RecommendChannelsGateway;
 import com.zzxhdzj.douban.api.songs.SongsGateway;
 import com.zzxhdzj.douban.api.songs.action.SongActionGateway;
 import com.zzxhdzj.douban.api.songs.action.SongActionType;
+import com.zzxhdzj.douban.db.DoubanDb;
 import com.zzxhdzj.douban.modules.LoginParams;
 import com.zzxhdzj.douban.modules.UserInfo;
 import com.zzxhdzj.douban.modules.channel.Channel;
@@ -52,6 +53,7 @@ public class Douban extends ApiInstance {
     public static void init(Context context){
         Http.initCookieManager(context);
         app = context;
+        DoubanDb.getInstance(app).getDb(true);
     }
 
     /**
@@ -59,9 +61,9 @@ public class Douban extends ApiInstance {
      *s
      * @param callback
      */
-    public void fecthCaptcha(Callback callback) {
-        AuthenGetCaptchaGateway authenGetCaptchaGateway = new AuthenGetCaptchaGateway(this, apiGateway);
-        authenGetCaptchaGateway.newCaptchaId(callback);
+    public void fetchCaptcha(Callback callback) {
+        AuthorityGetCaptchaGateway authorityGetCaptchaGateway = new AuthorityGetCaptchaGateway(this, apiGateway);
+        authorityGetCaptchaGateway.newCaptchaId(callback);
     }
 
     /**

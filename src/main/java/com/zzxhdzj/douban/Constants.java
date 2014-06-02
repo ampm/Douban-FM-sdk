@@ -8,6 +8,7 @@ package com.zzxhdzj.douban;
  * To change this template use File | Settings | File Templates.
  */
 public class Constants {
+    public static final boolean DEBUG = true;
 
     private static final String BASER_URL = "http://douban.fm";
     public static final String LOGIN_URL = BASER_URL + "/j/login";
@@ -28,6 +29,7 @@ public class Constants {
     public static final String SONG_ACTION_URL = BASER_URL + "/j/mine/playlist";
     public static final String CHANNEL_ACTION_URL = BASER_URL + "/j/explore/";
     public static final String FAV_CHANNELS = BASER_URL + "/j/fav_channels";
+
     public static boolean UNIT_TEST = false;
     public static final String USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53";
 

@@ -19,48 +19,48 @@ import static org.junit.Assert.assertThat;
  * Time: 12:18 AM
  * To change this template use File | Settings | File Templates.
  */
-public class AuthenGetCaptchaGatewayTest extends BaseGatewayTestCase {
-    private AuthenGetCaptchaGateway authenGetCaptchaGateway;
+public class AuthorityGetCaptchaGatewayTest extends BaseGatewayTestCase {
+    private AuthorityGetCaptchaGateway authorityGetCaptchaGateway;
 
     @Before
     public void setUp() {
         super.setUp();
-        authenGetCaptchaGateway = new AuthenGetCaptchaGateway(douban, apiGateway);
+        authorityGetCaptchaGateway = new AuthorityGetCaptchaGateway(douban, apiGateway);
     }
 
     //test#01
     @Test
     public void shouldMakeARemoteCallWhenFetchNewCaptchaId() {
-        authenGetCaptchaGateway.newCaptchaId(new Callback());
+        authorityGetCaptchaGateway.newCaptchaId(new Callback());
         String urlString = apiGateway.getLatestRequest().getUrlString();
         assertThat(urlString, equalTo("http://douban.fm/j/new_captcha"));
     }
 
     @Test
     public void shouldReturnNewCaptchaId() throws Exception {
-        authenGetCaptchaGateway.newCaptchaId(new Callback());
+        authorityGetCaptchaGateway.newCaptchaId(new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NEW_CAPTCHA, null);
         assertThat(douban.captchaImageUrl, equalTo(Constants.CAPTCHA_URL + "&id=8Z9w6tODHEukHkAmBz52dWg4:en"));
     }
     @Test
     public void shouldCallOnFailureWhenParseRespError() throws Exception {
-        authenGetCaptchaGateway.newCaptchaId(new Callback());
+        authorityGetCaptchaGateway.newCaptchaId(new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.ERROR_RESP, null);
-        assertNotNull(authenGetCaptchaGateway.failureResponse);
+        assertNotNull(authorityGetCaptchaGateway.failureResponse);
         assertThat(douban.mApiRespErrorCode.getCode(),equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
     }
     @Test
     public void shouldCallOnFailureWhenResponseBodyEmpty() throws Exception {
-        authenGetCaptchaGateway.newCaptchaId(new Callback());
+        authorityGetCaptchaGateway.newCaptchaId(new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
-        assertNotNull(authenGetCaptchaGateway.failureResponse);
+        assertNotNull(authorityGetCaptchaGateway.failureResponse);
         assertThat(douban.mApiRespErrorCode.getCode(),equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
     }
     @Test
     public void shouldCallOnFailureWhenCallerError() throws Exception {
-        authenGetCaptchaGateway.newCaptchaId(badCallback);
+        authorityGetCaptchaGateway.newCaptchaId(badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.NEW_CAPTCHA, null);
-        assertNotNull(authenGetCaptchaGateway.failureResponse);
+        assertNotNull(authorityGetCaptchaGateway.failureResponse);
         assertThat(douban.mApiRespErrorCode.getCode(),equalTo(ApiInternalError.CALLER_ERROR.getCode()));
     }
 

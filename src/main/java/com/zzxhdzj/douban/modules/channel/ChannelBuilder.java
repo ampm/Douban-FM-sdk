@@ -1,14 +1,22 @@
 package com.zzxhdzj.douban.modules.channel;
 
+import com.zzxhdzj.douban.modules.Creator;
+
 /**
  * Created with IntelliJ IDEA.
- * User: yangning.roy
- * Date: 12/9/13
- * Time: 7:21 PM
+ * User: yangning.roy@snda.com
+ * Date: 6/3/14
  * To change this template use File | Settings | File Templates.
  */
 public class ChannelBuilder {
-    Channel channel = new Channel();
+    public String banner;
+    public String cover;
+    public Creator creator;
+    public String[] hotSongs;
+    public int id;
+    public String intro;
+    public String name;
+    public int songNum;
 
     private ChannelBuilder() {
     }
@@ -17,27 +25,56 @@ public class ChannelBuilder {
         return new ChannelBuilder();
     }
 
-    public ChannelBuilder withIntro(String intro) {
-        channel.setIntro(intro);
-        return this;
-    }
-
-    public ChannelBuilder withId(int id) {
-        channel.setId(id);
+    public ChannelBuilder withBanner(String banner) {
+        this.banner = banner;
         return this;
     }
 
     public ChannelBuilder withCover(String cover) {
-        channel.setCover(cover);
+        this.cover = cover;
+        return this;
+    }
+
+    public ChannelBuilder withCreator(Creator creator) {
+        this.creator = creator;
+        return this;
+    }
+
+    public ChannelBuilder withHotSongs(String[] hotSongs) {
+        this.hotSongs = hotSongs;
+        return this;
+    }
+
+    public ChannelBuilder withId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public ChannelBuilder withIntro(String intro) {
+        this.intro = intro;
         return this;
     }
 
     public ChannelBuilder withName(String name) {
-        channel.setName(name);
+        this.name = name;
+        return this;
+    }
+
+    public ChannelBuilder withSongNum(int songNum) {
+        this.songNum = songNum;
         return this;
     }
 
     public Channel build() {
-       return channel;
+        Channel channel = new Channel();
+        channel.setBanner(banner);
+        channel.setCover(cover);
+        channel.setCreator(creator);
+        channel.setHotSongs(hotSongs);
+        channel.setId(id);
+        channel.setIntro(intro);
+        channel.setName(name);
+        channel.setSongNum(songNum);
+        return channel;
     }
 }
