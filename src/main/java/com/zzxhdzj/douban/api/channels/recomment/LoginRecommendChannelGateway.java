@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.channels.recomment;
 
 import com.google.gson.Gson;
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.base.BaseApiGateway;
@@ -50,7 +51,7 @@ public class LoginRecommendChannelGateway extends BaseApiGateway {
                 douban.recChannels = loginChannelsResp.loginChannelsData.result.recommentChannels;
                 return true;
             }else {
-                if(douban.mApiRespErrorCode==null){
+                if(douban.mApiRespErrorCode!=null&&!douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
                     douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(loginChannelsResp.getCode(respType), loginChannelsResp.getMessage(respType));
                 }
                 return false;

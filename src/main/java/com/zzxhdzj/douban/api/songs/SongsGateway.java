@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.songs;
 
 import com.google.gson.Gson;
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.ChannelConstantIds;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BitRate;
@@ -55,7 +56,7 @@ public class SongsGateway extends BaseApiGateway {
                 douban.songs = songResp.songs;
                 return true;
             } else {
-                if(douban.mApiRespErrorCode==null){
+                if(douban.mApiRespErrorCode!=null&&!douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
                     douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
                 }
                 return false;

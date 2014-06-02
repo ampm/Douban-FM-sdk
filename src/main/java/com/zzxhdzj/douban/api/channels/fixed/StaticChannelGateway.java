@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.channels.fixed;
 
 import com.google.gson.Gson;
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.base.BaseApiGateway;
@@ -54,7 +55,7 @@ public class StaticChannelGateway extends BaseApiGateway {
                 douban.channels = channelResp.channlesDatas.channels;
                 return true;
             } else {
-                if(douban.mApiRespErrorCode==null){
+                if(douban.mApiRespErrorCode!=null&&!douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
                     douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(channelResp.getCode(respType), channelResp.getMessage(respType));
                 }
                 return false;

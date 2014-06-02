@@ -2,6 +2,7 @@ package com.zzxhdzj.douban.api.auth;
 
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
+import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.CacheConstant;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
@@ -69,7 +70,7 @@ public class AuthenticationGateway<T extends ApiInstance> extends BaseApiGateway
                 cacheUserInfo(loginResp.userInfo);
                 return true;
             } else {
-                if(douban.mApiRespErrorCode==null){
+                if(douban.mApiRespErrorCode!=null&&!douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
                     douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(loginResp.getCode(respType), loginResp.getMessage(respType));
                 }
                 return false;
