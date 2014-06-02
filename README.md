@@ -34,10 +34,14 @@ Douban FM API
     Cookie remove的线程安全
     
     
+- 2014-06-02
+    
+    增加channel provider，用于存放和查询频道信息
+    
+    todo：抽象代码
     
 #Usage:
-0 [demo]<https://github.com/ampm/DoubanFM-android.git>
-
+0 [demo](https://github.com/ampm/DoubanFM-android.git)会不断完善，直至一个完整的客户端
 1 install
 
     mvn install
