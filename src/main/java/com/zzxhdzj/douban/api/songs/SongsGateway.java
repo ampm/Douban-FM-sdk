@@ -11,7 +11,6 @@ import com.zzxhdzj.douban.modules.song.SongResp;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.TextApiResponse;
-import org.afinal.simplecache.ACache;
 
 /**
  * Created with IntelliJ IDEA.
@@ -53,8 +52,6 @@ public class SongsGateway extends BaseApiGateway {
         public boolean _handleRespData(TextApiResponse response) {
             if (isRespOk(songResp)) {
                 douban.songs = songResp.songs;
-                ACache aCache = ACache.get(douban.getContext());
-                aCache.put(Douban.SONG_CACHE,douban.songs);
                 return true;
             } else {
                 if(douban.mApiRespErrorCode==null){

@@ -2,14 +2,13 @@ package com.zzxhdzj.douban.api.songs.action;
 
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.api.base.BaseApiGateway;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
+import com.zzxhdzj.douban.api.base.BaseApiGateway;
 import com.zzxhdzj.douban.modules.song.SongResp;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.TextApiResponse;
-import org.afinal.simplecache.ACache;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,12 +20,10 @@ import org.afinal.simplecache.ACache;
 public class SongActionGateway extends BaseApiGateway {
 
 
-    private final ACache aCache;
 
     public SongActionGateway(Douban douban, ApiGateway apiGateway,boolean isAuthRequire) {
         super(douban, apiGateway, RespType.R);
         this.isAuthRequire = isAuthRequire;
-        aCache = ACache.get(douban.getContext());
     }
 
     public void songAction(SongActionType songActionType, int currentChannelId, int songId, Callback callback) {
@@ -47,7 +44,6 @@ public class SongActionGateway extends BaseApiGateway {
 
             if (isRespOk(songResp)) {
                 douban.songs = songResp.songs;
-                aCache.put(Douban.SONG_CACHE, douban.songs);
                 callOnSuccess(response);
             } else {
                 if(douban.mApiRespErrorCode==null){
@@ -67,7 +63,6 @@ public class SongActionGateway extends BaseApiGateway {
         public boolean _handleRespData(TextApiResponse response) {
             if (isRespOk(songResp)) {
                 douban.songs = songResp.songs;
-                aCache.put(Douban.SONG_CACHE, douban.songs);
                 return true;
             } else {
                 if(douban.mApiRespErrorCode==null){

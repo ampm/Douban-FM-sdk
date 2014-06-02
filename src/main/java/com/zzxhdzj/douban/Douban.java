@@ -2,6 +2,7 @@ package com.zzxhdzj.douban;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.google.gson.Gson;
 import com.zzxhdzj.douban.api.auth.AuthenGetCaptchaGateway;
 import com.zzxhdzj.douban.api.auth.AuthenticationGateway;
 import com.zzxhdzj.douban.api.base.ApiInstance;
@@ -21,7 +22,6 @@ import com.zzxhdzj.douban.modules.song.Song;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.Http;
-import org.afinal.simplecache.ACache;
 import org.apache.http.Header;
 
 import java.util.ArrayList;
@@ -29,8 +29,6 @@ import java.util.LinkedList;
 
 public class Douban extends ApiInstance {
 
-    public static final String USER_INFO_CACHE = "user_info";
-    public static final String SONG_CACHE = "songs";
     public static SharedPreferences sharedPreferences;
     public static Context app;
     public String captchaImageUrl;
@@ -54,18 +52,6 @@ public class Douban extends ApiInstance {
         Http.initCookieManager(context);
         app = context;
     }
-
-    public static void reset(Context context) {
-        ACache aCache = ACache.get(context);
-        aCache.clear();
-    }
-
-    public static UserInfo getCachedUserInfo(Context context) {
-        ACache aCache = ACache.get(context);
-        return (UserInfo) aCache.getAsObject(CacheConstant.USER_KEY);
-    }
-
-
 
     /**
      * 获取验证码CaptchaId
@@ -276,6 +262,8 @@ public class Douban extends ApiInstance {
     }
 
     public UserInfo getUserInfo() {
-        return (UserInfo) ACache.get(getContext()).getAsObject(USER_INFO_CACHE);
+        Gson gson = new Gson();
+        UserInfo userInfo = gson.fromJson(sharedPreferences.getString(CacheConstant.USER_KEY, null), UserInfo.class);
+        return userInfo;
     }
 }

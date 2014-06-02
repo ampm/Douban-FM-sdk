@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.api.auth;
 
+import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.CacheConstant;
 import com.zzxhdzj.douban.Douban;
@@ -14,7 +15,6 @@ import com.zzxhdzj.douban.modules.UserInfo;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.TextApiResponse;
-import org.afinal.simplecache.ACache;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,8 +39,10 @@ public class AuthenticationGateway<T extends ApiInstance> extends BaseApiGateway
     }
 
     private void cacheUserInfo(UserInfo userInfo) {
-        ACache aCache = ACache.get(douban.getContext());
-        aCache.put(Douban.USER_INFO_CACHE, userInfo);
+        Gson gson = new Gson();
+        SharedPreferences.Editor edit = douban.getDoubanSharedPreferences().edit();
+        edit.putString(CacheConstant.USER_KEY, gson.toJson(userInfo));
+        edit.commit();
     }
 
     private void markAsLogged() {
