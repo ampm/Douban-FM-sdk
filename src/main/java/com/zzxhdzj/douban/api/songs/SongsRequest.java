@@ -3,6 +3,7 @@ package com.zzxhdzj.douban.api.songs;
 import android.content.Context;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.AuthApiRequest;
+import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.base.RandomUtil;
 import com.zzxhdzj.http.TextApiResponse;
 
@@ -21,10 +22,10 @@ public class SongsRequest extends AuthApiRequest {
 //    private final int bitRate;
 //    private final String songType;
 
-    public SongsRequest(int channelId, int bitRate, String songType, Context context) {
+    public SongsRequest(int channelId, BitRate bitRate, String songType, Context context) {
         super(context);
         super.appendParameter("channel", channelId + "")
-                .appendParameter("kbps", bitRate + "")
+                .appendParameter("kbps", bitRate.toString())
                 .appendParameter("type", songType + "")
                 .appendParameter("from", "mainsite")
                 .appendParameter("r", RandomUtil.getRandomString(13))

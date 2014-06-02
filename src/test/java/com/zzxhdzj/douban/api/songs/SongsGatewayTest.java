@@ -3,6 +3,7 @@ package com.zzxhdzj.douban.api.songs;
 import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
+import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.http.Callback;
 import junit.framework.TestCase;
@@ -31,7 +32,7 @@ public class SongsGatewayTest extends BaseGatewayTestCase {
 
     @Test
     public void shouldReturnSongsOfChannel() throws Exception {
-        songsGateway.querySongsByChannelId(Constants.songType, 1, 128, new Callback());
+        songsGateway.querySongsByChannelId(Constants.songType, 1, BitRate.HIGH, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.ROCK_CHANNELS_SONGS_JSON, null);
         assertNotNull(douban.songs);
         assertThat(douban.songs.size(), equalTo(2));
@@ -41,7 +42,7 @@ public class SongsGatewayTest extends BaseGatewayTestCase {
 
     @Test
     public void shouldCallOnFailureWhenParseRespError() throws Exception {
-        songsGateway.querySongsByChannelId(Constants.songType, 1, 128, new Callback());
+        songsGateway.querySongsByChannelId(Constants.songType, 1, BitRate.HIGH, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.NULL_RESP, null);
         TestCase.assertNotNull(songsGateway.failureResponse);
         assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.INTERNAL_ERROR.getCode()));
@@ -49,7 +50,7 @@ public class SongsGatewayTest extends BaseGatewayTestCase {
 
     @Test
     public void shouldCallOnFailureWhenCallerErrorWithABadCallback() throws Exception {
-        songsGateway.querySongsByChannelId(Constants.songType, 1, 128,badCallback);
+        songsGateway.querySongsByChannelId(Constants.songType, 1, BitRate.HIGH,badCallback);
         apiGateway.simulateTextResponse(200, TestResponses.ROCK_CHANNELS_SONGS_JSON, null);
         TestCase.assertNotNull(songsGateway.failureResponse);
         assertThat(douban.mApiRespErrorCode.getCode(), equalTo(ApiInternalError.CALLER_ERROR.getCode()));

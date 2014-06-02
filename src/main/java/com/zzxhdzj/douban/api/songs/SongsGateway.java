@@ -3,6 +3,7 @@ package com.zzxhdzj.douban.api.songs;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.ChannelConstantIds;
 import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
@@ -25,7 +26,7 @@ public class SongsGateway extends BaseApiGateway {
         super(douban, apiGateway,RespType.R);
     }
 
-    public void querySongsByChannelId(String songType, int channelId, int bitRate, Callback callback) {
+    public void querySongsByChannelId(String songType, int channelId, BitRate bitRate, Callback callback) {
         if(channelId== ChannelConstantIds.PRIVATE_CHANNEL
                 ||channelId== ChannelConstantIds.FAV){
             this.isAuthRequire=true;

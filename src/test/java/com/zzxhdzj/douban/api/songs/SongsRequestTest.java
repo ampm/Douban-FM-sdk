@@ -2,6 +2,7 @@ package com.zzxhdzj.douban.api.songs;
 
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.BaseAuthApiRequestTestCase;
+import com.zzxhdzj.douban.api.BitRate;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ public class SongsRequestTest extends BaseAuthApiRequestTestCase {
 
     @Before
     public void setUp() throws Exception {
-        int bitrate = 128;
+        BitRate bitrate = BitRate.HIGH;
         int channelId = 1;
         request = new SongsRequest(channelId, bitrate, Constants.songType,context);
     }

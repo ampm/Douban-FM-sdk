@@ -3,6 +3,7 @@ package com.zzxhdzj.douban;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
+import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.auth.AuthenGetCaptchaGateway;
 import com.zzxhdzj.douban.api.auth.AuthenticationGateway;
 import com.zzxhdzj.douban.api.base.ApiInstance;
@@ -118,7 +119,7 @@ public class Douban extends ApiInstance {
      * @param bitRate
      * @param callback
      */
-    public void songsOfChannel(int channelId, int bitRate, Callback callback) {
+    public void songsOfChannel(int channelId, BitRate bitRate, Callback callback) {
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
         songsGateway.querySongsByChannelId(Constants.songType, channelId, bitRate, callback);
     }
@@ -174,7 +175,7 @@ public class Douban extends ApiInstance {
      * @param bitRate
      * @param callback
      */
-    public void songsOfPrivateChannels(int bitRate, Callback callback) {
+    public void songsOfPrivateChannels(BitRate bitRate, Callback callback) {
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
         songsGateway.querySongsByChannelId(Constants.songType, ChannelConstantIds.PRIVATE_CHANNEL, bitRate, callback);
     }
@@ -185,7 +186,7 @@ public class Douban extends ApiInstance {
      * @param bitRate
      * @param callback
      */
-    public void favSongs(int bitRate, Callback callback) {
+    public void favSongs(BitRate bitRate, Callback callback) {
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
         songsGateway.querySongsByChannelId(Constants.songType, ChannelConstantIds.FAV, bitRate, callback);
     }
