@@ -29,6 +29,6 @@ public class SongsRequestTest extends BaseAuthApiRequestTestCase {
     @Test
     public void shouldHaveRequestUrl() {
         String url = request.getUrlString();
-        assertThat(url, containsString("http://douban.fm/j/mine/playlist?channel=1&kbps=128&type=n"));
+        assertThat(url, containsString("http://douban.fm/j/mine/playlist?channel=1&kbps=192&type=n"));
     }
 }

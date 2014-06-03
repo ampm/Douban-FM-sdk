@@ -5,7 +5,6 @@ import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.mock.TestApiGateway;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
