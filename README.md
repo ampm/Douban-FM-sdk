@@ -41,10 +41,15 @@ Douban FM API
     todo：抽象代码
     
 #Usage:
+
 0 [demo](https://github.com/ampm/DoubanFM-android.git)会不断完善，直至一个完整的客户端
+
 1 install
 
-    mvn install
+    install dependency: https://github.com/ampm/HiHttp.git
+    
+    #install douban-fm-sdk
+    mvn install 
 
 2 import
 
