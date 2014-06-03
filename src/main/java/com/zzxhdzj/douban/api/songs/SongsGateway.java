@@ -56,7 +56,7 @@ public class SongsGateway extends BaseApiGateway {
                 douban.songs = songResp.songs;
                 return true;
             } else {
-                if(douban.mApiRespErrorCode!=null&&!douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
+                if(douban.mApiRespErrorCode == null || !douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
                     douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
                 }
                 return false;

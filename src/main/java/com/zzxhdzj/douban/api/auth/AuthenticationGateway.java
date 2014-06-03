@@ -3,7 +3,7 @@ package com.zzxhdzj.douban.api.auth;
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.ApiInternalError;
-import com.zzxhdzj.douban.CacheConstant;
+import com.zzxhdzj.douban.PrefsConstant;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
@@ -42,12 +42,12 @@ public class AuthenticationGateway<T extends ApiInstance> extends BaseApiGateway
     private void cacheUserInfo(UserInfo userInfo) {
         Gson gson = new Gson();
         SharedPreferences.Editor edit = douban.getDoubanSharedPreferences().edit();
-        edit.putString(CacheConstant.USER_KEY, gson.toJson(userInfo));
+        edit.putString(PrefsConstant.USER_KEY, gson.toJson(userInfo));
         edit.commit();
     }
 
     private void markAsLogged() {
-        douban.getDoubanSharedPreferences().edit().putBoolean(CacheConstant.LOGGED, true).commit();
+        douban.getDoubanSharedPreferences().edit().putBoolean(PrefsConstant.LOGGED, true).commit();
     }
 
     private class AuthenticationApiResponseCallback extends CommonTextApiResponseCallback<Douban> {
@@ -70,7 +70,7 @@ public class AuthenticationGateway<T extends ApiInstance> extends BaseApiGateway
                 cacheUserInfo(loginResp.userInfo);
                 return true;
             } else {
-                if(douban.mApiRespErrorCode!=null&&!douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
+                if(douban.mApiRespErrorCode == null || !douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
                     douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(loginResp.getCode(respType), loginResp.getMessage(respType));
                 }
                 return false;

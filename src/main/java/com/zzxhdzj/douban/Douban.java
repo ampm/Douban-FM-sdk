@@ -261,12 +261,12 @@ public class Douban extends ApiInstance {
     }
 
     public boolean isLogged() {
-        return context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).getBoolean(CacheConstant.LOGGED, false);
+        return context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).getBoolean(PrefsConstant.LOGGED, false);
     }
 
     public UserInfo getUserInfo() {
         Gson gson = new Gson();
-        UserInfo userInfo = gson.fromJson(sharedPreferences.getString(CacheConstant.USER_KEY, null), UserInfo.class);
+        UserInfo userInfo = gson.fromJson(sharedPreferences.getString(PrefsConstant.USER_KEY, null), UserInfo.class);
         return userInfo;
     }
 }

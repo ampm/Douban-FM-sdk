@@ -61,7 +61,7 @@ public class RecommendChannelsGateway extends BaseApiGateway {
                 douban.recommendChannel = channel;
                 return true;
             } else {
-                if(douban.mApiRespErrorCode!=null&&!douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
+                if(douban.mApiRespErrorCode == null || !douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
                     douban.mApiRespErrorCode = com.zzxhdzj.douban.api.base.ApiRespErrorCode.createBizError(recommendChannelsResp.getCode(respType), recommendChannelsResp.getMessage(respType));
                 }
                 return false;

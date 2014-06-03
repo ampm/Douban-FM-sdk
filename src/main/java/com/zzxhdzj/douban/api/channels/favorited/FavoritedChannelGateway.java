@@ -53,7 +53,7 @@ public class FavoritedChannelGateway extends BaseApiGateway {
                 douban.channels = channelResp.channlesDatas.channels;
                 return true;
             } else {
-                if(douban.mApiRespErrorCode!=null&&!douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
+                if(douban.mApiRespErrorCode == null || !douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
                     douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(channelResp.getCode(respType), channelResp.getMessage(respType));
                 }
                 return false;

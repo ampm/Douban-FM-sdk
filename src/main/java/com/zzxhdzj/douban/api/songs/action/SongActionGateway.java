@@ -47,7 +47,7 @@ public class SongActionGateway extends BaseApiGateway {
                 douban.songs = songResp.songs;
                 callOnSuccess(response);
             } else {
-                if(douban.mApiRespErrorCode!=null&&!douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
+                if(douban.mApiRespErrorCode == null || !douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
                     douban.mApiRespErrorCode = com.zzxhdzj.douban.api.base.ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
                 }
                 onBizFailure(response);
@@ -66,7 +66,7 @@ public class SongActionGateway extends BaseApiGateway {
                 douban.songs = songResp.songs;
                 return true;
             } else {
-                if(douban.mApiRespErrorCode!=null&&!douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
+                if(douban.mApiRespErrorCode == null || !douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
                     douban.mApiRespErrorCode = com.zzxhdzj.douban.api.base.ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
                 }
                 return false;

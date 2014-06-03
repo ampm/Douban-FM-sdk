@@ -25,13 +25,13 @@ public class AuthorityGetCaptchaGateway extends BaseApiGateway {
     }
 
     public void newCaptchaId(Callback callback) {
-        apiGateway.makeRequest(new AuthGetCaptchaRequest(douban.getContext()), new AuthenGetCaptchaCallback(callback, this, douban));
+        apiGateway.makeRequest(new AuthGetCaptchaRequest(douban.getContext()), new AuthorityGetCaptchaCallback(callback, this, douban));
     }
 
 
-    private class AuthenGetCaptchaCallback extends CommonTextApiResponseCallback<Douban> {
+    private class AuthorityGetCaptchaCallback extends CommonTextApiResponseCallback<Douban> {
 
-        public AuthenGetCaptchaCallback(Callback bizCallback, BaseApiGateway gateway, Douban apiInstance) {
+        public AuthorityGetCaptchaCallback(Callback bizCallback, BaseApiGateway gateway, Douban apiInstance) {
             super(bizCallback, gateway, apiInstance);
         }
 
