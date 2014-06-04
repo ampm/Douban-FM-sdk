@@ -8,4 +8,4 @@ before_install:
   - echo "y"|android update sdk --filter tools,platform-tools,build-tools-19.0.3,android-19,addon-google_apis-google-19,extra-android-support,extra-google-admob_ads_sdk,extra-google-analytics_sdk,extra-google-gcm,extra-google-play_apk_expansion,extra-google-play_billing,extra-google-play_licensing --no-ui --force --no-https -a
 
 script:
-  - mvn clean install -X
+  - mvn clean install -X -Plinux
