@@ -1,4 +1,4 @@
-Douban FM API
+Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?branch=master)](https://travis-ci.org/ampm/Douban-FM-sdk)
 ---
 #Logs
 
