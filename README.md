@@ -40,6 +40,13 @@ Douban FM API
     
     todo：抽象代码
     
+- 2014-06-04
+   
+   合并HiHttp 和 Client demo module，加入travis-CI
+   
+   ref：http://stackoverflow.com/questions/14370763/travis-ci-for-android/14392603#14392603
+   更新：http://docs.travis-ci.com/user/languages/android/
+   
 #Usage:
 
 0 [demo](https://github.com/ampm/DoubanFM-android.git)会不断完善，直至一个完整的客户端
