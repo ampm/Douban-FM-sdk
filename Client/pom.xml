@@ -72,7 +72,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-compiler-plugin</artifactId>
-                        <version>2.5.1</version>
+                        <version>3.1</version>
                         <configuration>
                             <source>${jdk.version}</source>
                             <target>${jdk.version}</target>
@@ -176,6 +176,18 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>linux</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <rt.jar.path>${java.home}/jre/lib/rt.jar</rt.jar.path>
+                <jsse.jar.path>${java.home}/jre/lib/jsse.jar</jsse.jar.path>
+            </properties>
         </profile>
     </profiles>
 </project>
