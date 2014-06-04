@@ -44,12 +44,13 @@ Douban FM API
 
 0 [demo](https://github.com/ampm/DoubanFM-android.git)会不断完善，直至一个完整的客户端
 
-1 install
-
-    install dependency: https://github.com/ampm/HiHttp.git
+1 install & deploy
     
-    #install douban-fm-sdk
-    mvn install 
+    mvn install
+    
+    mvn android:deploy
+    
+    
 
 2 import
 
