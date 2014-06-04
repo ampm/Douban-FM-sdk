@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="song_info_width">240dp</dimen>
+    <dimen name="song_cover_margin_top">10dp</dimen>
+    <dimen name="song_info_text_top">20dp</dimen>
+</resources>

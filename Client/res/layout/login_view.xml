@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent" android:layout_height="match_parent"
+              android:layout_gravity="center"
+              android:gravity="center"
+              android:layout_marginLeft="@dimen/login_margin_left"
+              android:layout_marginRight="@dimen/login_margin_right"
+              android:background="@drawable/calendar_cover"
+              android:orientation="vertical"
+              android:paddingLeft="10dp"
+              android:paddingRight="10dp"
+        >
+
+    <TextView android:id="@+id/login_username_tv"
+              android:layout_width="@dimen/login_label_width" android:layout_height="wrap_content"
+              android:gravity="center"
+              android:textSize="16sp"
+              android:text="@string/login_username_lv"
+              android:layout_marginTop="18dp"
+              android:textColor="#fff"
+              android:background="@drawable/label_bg"
+            />
+    <EditText android:id="@+id/login_username_et"
+              android:layout_width="match_parent" android:layout_height="wrap_content"
+              android:background="@null"
+              android:gravity="center"
+              android:singleLine="true"
+            />
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@drawable/dash_line"
+          android:hardwareAccelerated="false"
+            />
+    <TextView android:id="@+id/login_password_tv"
+              android:layout_width="@dimen/login_label_width" android:layout_height="wrap_content"
+              android:text="@string/text_login_password"
+              android:textColor="#fff"
+              android:layout_marginTop="18dp"
+              android:gravity="center"
+              android:background="@drawable/label_bg"
+            />
+    <EditText android:id="@+id/login_password_et" android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:singleLine="true"
+              android:background="@null"
+              android:gravity="center"
+              android:inputType="textPassword"/>
+    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@drawable/dash_line"
+          android:hardwareAccelerated="false"
+            />
+    <TextView android:id="@+id/login_captcha_tv"
+              android:layout_width="@dimen/login_label_width" android:layout_height="wrap_content"
+              android:text="@string/text_login_captcha"
+              android:textColor="#fff"
+              android:layout_marginTop="18dp"
+              android:gravity="center"
+              android:background="@drawable/label_bg"
+            />
+    <EditText android:id="@+id/login_captcha_et" android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@null"
+              android:gravity="center"
+              android:singleLine="true"
+            />
+    <View android:id="@+id/captcha_dash_line" android:layout_width="match_parent" android:layout_height="1dp"
+          android:background="@drawable/dash_line"
+          android:hardwareAccelerated="false"
+            />
+
+    <RelativeLayout android:layout_width="333dp" android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="5dp">
+        <ImageView android:layout_width="200dp" android:layout_height="30dp"
+                   android:layout_centerInParent="true"
+                   android:scaleType="fitXY"
+                   android:id="@+id/captcha_image_view"
+                />
+        <ProgressBar
+                android:layout_width="40dp" android:layout_height="40dp"
+                style="@android:style/Widget.Holo.ProgressBar"
+                android:layout_centerInParent="true"
+                android:id="@+id/loading"
+                android:visibility="invisible"/>
+    </RelativeLayout>
+    <Button android:layout_width="160dp" android:layout_height="wrap_content"
+            android:id="@+id/login_submit_btn"
+            android:text="@string/bt_login_text"
+            android:gravity="center"
+            android:background="@drawable/button_bg_old"/>
+    <TextView android:layout_width="172dp" android:layout_height="24dp"
+              android:layout_marginBottom="20dp"
+              android:textColor="#FFE7CA"
+              android:id="@+id/login_skip"
+              android:text="@string/login_skip"
+              android:layout_marginTop="10dp"
+              android:gravity="center"
+            />
+
+</LinearLayout>

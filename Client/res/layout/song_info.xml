@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+        >
+
+        <ImageView android:layout_width="@dimen/song_info_width" android:layout_height="@dimen/song_info_width"
+                   android:id="@+id/cd_cover"
+                   android:layout_marginTop="@dimen/song_cover_margin_top"
+                   android:layout_centerHorizontal="true"
+                   android:src="@drawable/cover_expand"
+                   android:scaleType="fitCenter"
+                />
+        <ImageView android:layout_width="@dimen/song_info_width" android:layout_height="@dimen/song_info_width"
+                   android:layout_marginTop="@dimen/song_cover_margin_top"
+                   android:layout_centerHorizontal="true"
+                   android:src="@drawable/cover_mask"
+                   android:scaleType="fitCenter"/>
+
+    <TableLayout android:layout_width="@dimen/song_info_width"
+                 android:layout_gravity="center_horizontal"
+                 android:layout_below="@id/cd_cover"
+                 android:layout_centerHorizontal="true"
+                 android:layout_height="match_parent"
+                 android:layout_marginTop="@dimen/song_info_text_top"
+                 android:stretchColumns="*"
+                 android:orientation="horizontal">
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:gravity="left"
+                  android:id="@+id/row_song_name"
+                  android:orientation="vertical">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      style="@style/song_info_title"
+                      android:text="@string/song_name"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      style="@style/song_info_value"
+                      android:id="@+id/song_name_tv"
+                    />
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:gravity="left"
+                  android:id="@+id/row_album"
+                  android:orientation="vertical">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      style="@style/song_info_title"
+                      android:text="@string/song_album"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      style="@style/song_info_value"
+                      android:id="@+id/song_album_tv"
+                    />
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:gravity="left"
+                  android:id="@+id/row_artist"
+                  android:orientation="vertical">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      style="@style/song_info_title"
+                      android:text="@string/song_artist"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      style="@style/song_info_value"
+                      android:id="@+id/song_artist_tv"
+                    />
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:gravity="left"
+                  android:id="@+id/row_year"
+                  android:orientation="vertical">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      style="@style/song_info_title"
+                      android:text="@string/song_year"/>
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      style="@style/song_info_value"
+                      android:id="@+id/song_year_tv"
+                    />
+        </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:gravity="left"
+                  android:id="@+id/row_company"
+                  android:orientation="vertical">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      style="@style/song_info_title"
+                      android:text="@string/song_company"/>
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/song_info_value"
+                    android:id="@+id/song_company_tv"
+                    />
+        </TableRow>
+    </TableLayout>
+</RelativeLayout>
+

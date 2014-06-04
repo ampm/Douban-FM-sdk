@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="light_green_bg">#ffa4d9ca</color>
+    <color name="semi_transparent_bg">#66575757</color>
+    <color name="focus_yellow">#ff99ff66</color>
+    <color name="calendar_color1">#7f020072</color>
+</resources>

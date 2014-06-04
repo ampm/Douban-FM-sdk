@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="loading">Loading...</string>
+    <string name="password_hint">password</string>
+    <string name="button_login">Sign in</string>
+    <string name="captcha">captcha</string>
+    <string name="app_name">douban.FM</string>
+    <string name="bt_login_text">Login</string>
+    <string name="login_skip">Skip</string>
+    <string name="text_login_password">Password</string>
+    <string name="text_login_captcha">Captcha</string>
+    <string name="mhz_name_text">%sMHZ</string>
+    <string name="listened_count">累计收听%s首</string>
+    <string name="favored_count">加红心%s首</string>
+    <string name="song_lyrics">大梦一场的董二千先生\n
+        推开窗户 举起望远镜\n
+        眼底映出 一阵浓烟\n
+        前已无通路 后不见归途\n
+\n
+        敌视现实 虚构远方\n
+        东张西望 一无所长\n
+        四体不勤 五谷不分\n
+        文不能测字 武不能防身</string>
+    <string name="song_company">Company</string>
+    <string name="song_year">Year</string>
+    <string name="song_artist">Artist</string>
+    <string name="song_album">Album</string>
+    <string name="song_name">Song</string>
+    <string name="login_username_lv">Username</string>
+</resources>
