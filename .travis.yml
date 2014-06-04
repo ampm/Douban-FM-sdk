@@ -1,4 +1,15 @@
 language: android
-
+android:
+  components:
+    - build-tools-19.0.3
+    - android-19
+    - sysimg-19
+    - extra-android-support
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository
+  licenses:
+    - android-sdk-license-bcbbd656
+    - '.*intel.+'
 script:
   - mvn clean install -e -X -Plinux
