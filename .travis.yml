@@ -13,3 +13,6 @@ android:
     - '.*intel.+'
 script:
   - mvn clean install -e -X -Plinux
+notifications:
+  email:
+    - hijack3703@gmail.com
