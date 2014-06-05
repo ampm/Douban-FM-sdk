@@ -47,7 +47,10 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
    ref：http://stackoverflow.com/questions/14370763/travis-ci-for-android/14392603#14392603
    
    官方android支持更新：http://docs.travis-ci.com/user/languages/android/
-   
+
+- 2014-06-06
+    
+    delegate抽取
   
 #Usage:
 
