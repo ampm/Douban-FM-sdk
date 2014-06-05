@@ -1,7 +1,9 @@
 package com.zzxhdzj.app.play;
 
 import android.media.MediaPlayer;
+import android.widget.Toast;
 import com.zzxhdzj.app.DouCallback;
+import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.modules.song.Song;
 
 import java.io.IOException;
@@ -20,7 +22,7 @@ public class PlayDelegate {
     private boolean isPLAYING;
     private PlayFragment playFragment;
     private MediaPlayer mp;
-
+    private Douban douban;
     public PlayDelegate(PlayFragment playFragment) {
         this.playFragment = playFragment;
     }
@@ -30,13 +32,13 @@ public class PlayDelegate {
             @Override
             public void run() {
                 if (cachedSongsList == null || cachedSongsList.size() == 0) {
-                    refreshSongs();
+                    feedMeNewSongsPlease();
                     return;
                 }
                 if (isPLAYING) return;
                 Song song = cachedSongsList.remove();
                 if (cachedSongsList.size() < WARNING_SIZE) {
-                    refreshSongs();
+                    feedMeNewSongsPlease();
                 }
                 playFragment.mSongItem.bindView(song);
                 mp = new MediaPlayer();
@@ -65,27 +67,47 @@ public class PlayDelegate {
 
     }
     public void playNext(){
-        try{
-            stopPlaying();
-        }catch (Exception e){
-        }
+        stopPlaying();
         play();
     }
     public void stopPlaying() {
-        mp.release();
-        mp = null;
+        try {
+            mp.release();
+            mp = null;
+        }catch (Exception e){
+
+        }
+
         isPLAYING = false;
     }
-    private void refreshSongs() {
-        songQueueListener.songListNearlyEmpty(new DouCallback(playFragment.douban){
+    private void feedMeNewSongsPlease() {
+        songQueueListener.songListNearlyEmpty(new DouCallback(douban){
+            @Override
+            public void onStart() {
+                super.onStart();
+            }
+
             @Override
             public void onSuccess() {
-                super.onSuccess();
-                cachedSongsList = playFragment.getDouban().songs;
+                cachedSongsList = douban.songs;
                 play();
             }
 
+            @Override
+            public void onFailure() {
+                super.onFailure();
+                Toast.makeText(Douban.app, douban.mApiRespErrorCode.getMsg(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onComplete() {
+                super.onComplete();
+            }
         });
 
+    }
+
+    public void setDouban(Douban douban) {
+        this.douban = douban;
     }
 }

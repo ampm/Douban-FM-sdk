@@ -1,9 +1,5 @@
 package com.zzxhdzj.app;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,16 +13,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.zzxhdzj.app.login.LoginFragment;
 import com.zzxhdzj.app.play.PlayFragment;
-import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.R;
-import com.zzxhdzj.douban.api.BitRate;
-import com.zzxhdzj.douban.api.channels.local.ChannelHelper;
-import com.zzxhdzj.douban.db.DbTables;
-import com.zzxhdzj.douban.modules.channel.Channel;
-import com.zzxhdzj.douban.modules.channel.ChannelBuilder;
-import com.zzxhdzj.http.Callback;
-
-import java.util.ArrayList;
+import com.zzxhdzj.douban.modules.UserInfo;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,8 +22,7 @@ import java.util.ArrayList;
  * Date: 3/29/14
  * To change this template use File | Settings | File Templates.
  */
-public class DoubanFm extends FragmentActivity implements LoginFragment.LoginCallback,PlayFragment.SongQueueListener {
-    private static final int QUERY_CHANNEL = 1;
+public class DoubanFm extends FragmentActivity {
     @InjectView(R.id.mhz_name)
     TextView mMhzName;
     @InjectView(R.id.listened_count)
@@ -48,87 +35,42 @@ public class DoubanFm extends FragmentActivity implements LoginFragment.LoginCal
     LinearLayout mLeftControl;
     @InjectView(R.id.left_skip_button)
     ImageView mLeftSkipButton;
-    private Douban douban;
-    private ArrayList<Channel> channelArrayList;
-
+    private DoubanFmDelegate doubanFmDelegate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.inject(this);
-        douban = new Douban(this);
-       new ChannelHelper(this).queryChannels(new LoaderManager.LoaderCallbacks<Cursor>() {
-           @Override
-           public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
-               if (loaderId == QUERY_CHANNEL) {
-                   return new CursorLoader(DoubanFm.this, DbTables.ChannelTable.CONTENT_URI,
-                           Channel.RECEIPT_PROJECTION, null, null, null);
-               }
-               return null;
-           }
-
-           @Override
-           public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-               if(loader.getId()==QUERY_CHANNEL){
-                   dumpCursorToChannels(data);
-               }
-           }
-
-           @Override
-           public void onLoaderReset(Loader<Cursor> loader) {
-
-           }
-
-           private void dumpCursorToChannels(Cursor data) {
-               channelArrayList = new ArrayList<Channel>();
-               while (data.moveToNext()){
-                   channelArrayList.add(ChannelBuilder.aChannel().withId(data.getInt(Channel.CHANNEL_ID_INDEX))
-                           .withName(data.getString(Channel.NAME_INDEX))
-                           .build());
-               }
-           }
-
-       });
-        if (douban.isLogged()) {
-           if(douban.songs==null){
-               queryFavSongs();
-           }
-           showAuthItems();
-           showPlayFragment();
-        }else {
-            showLoginFragment();
-        }
+        doubanFmDelegate = new DoubanFmDelegate(this);
+        doubanFmDelegate.queryBasicChannelInfo();
+        doubanFmDelegate.prepareSongs();
     }
 
-    private void showLoginFragment() {
+    public void showLoginFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         LoginFragment loginFragment = new LoginFragment();
-        loginFragment.setDouban(douban);
+        loginFragment.setDouban(doubanFmDelegate.getDouban());
         ft.replace(R.id.dou_content, loginFragment);
         ft.commit();
     }
 
-    private void showPlayFragment() {
+    protected void showPlayFragment(PlayFragment.SongQueueListener listener) {
         Toast.makeText(this,"play....",Toast.LENGTH_SHORT).show();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        PlayFragment loginFragment = new PlayFragment();
-        loginFragment.setSongQueueListener(this);
-        loginFragment.setDouban(douban);
-        ft.replace(R.id.dou_content, loginFragment,PlayFragment.TAG);
+        PlayFragment playFragment = new PlayFragment();
+        playFragment.setSongQueueListener(listener);
+        playFragment.setDouban(doubanFmDelegate.getDouban());
+        ft.replace(R.id.dou_content, playFragment,PlayFragment.TAG);
         ft.commit();
     }
 
-    @Override
-    public void onLogin() {
-        showPlayFragment();
-        showAuthItems();
-    }
 
-    private void showAuthItems() {
+
+    public void showLoggedUserInfo(UserInfo userInfo) {
         mMhzName.setText(String.format(getString(R.string.mhz_name_text),"私人"));
-        mFavoredCount.setText(String.format(getString(R.string.favored_count),douban.getUserInfo().playRecord.liked));
-        mListenedCount.setText(String.format(getString(R.string.listened_count), douban.getUserInfo().playRecord.played));
+        mFavoredCount.setText(String.format(getString(R.string.favored_count),userInfo.playRecord.liked));
+        mListenedCount.setText(String.format(getString(R.string.listened_count), userInfo.playRecord.played));
         mPersonalInfo.setVisibility(View.VISIBLE);
         mLeftControl.setVisibility(View.VISIBLE);
         mLeftSkipButton.setOnClickListener(new View.OnClickListener() {
@@ -144,44 +86,11 @@ public class DoubanFm extends FragmentActivity implements LoginFragment.LoginCal
         });
     }
 
-    private void queryFavSongs() {
-        douban.songsOfPrivateChannels(BitRate.HIGH, new DouCallback(douban) {
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
 
-            @Override
-            public void onSuccess() {
-                super.onSuccess();
-
-                if (isPlayFragmentAdded()) {
-                    showPlayFragment();
-                }
-            }
-
-            @Override
-            public void onFailure() {
-                super.onFailure();
-                Toast.makeText(DoubanFm.this, douban.mApiRespErrorCode.getMsg(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onComplete() {
-                super.onComplete();
-            }
-
-        });
-    }
 
     private boolean isPlayFragmentAdded() {
         Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(PlayFragment.TAG);
         return fragmentByTag!=null&&!fragmentByTag.isAdded();
-    }
-
-    @Override
-    public void songListNearlyEmpty(Callback callback) {
-        douban.songsOfPrivateChannels(BitRate.HIGH, callback);
     }
 
 

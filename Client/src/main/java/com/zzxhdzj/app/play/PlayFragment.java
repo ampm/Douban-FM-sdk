@@ -71,13 +71,10 @@ public class PlayFragment extends Fragment {
     public PlayDelegate getPlayDelegate() {
         return playDelegate;
     }
-    Douban douban;
+
 
     public void setDouban(Douban douban) {
-        this.douban = douban;
+        playDelegate.setDouban(douban);
     }
 
-    public Douban getDouban() {
-        return douban;
-    }
 }
