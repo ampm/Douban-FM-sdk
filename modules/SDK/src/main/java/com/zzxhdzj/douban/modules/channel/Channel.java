@@ -1,7 +1,8 @@
 package com.zzxhdzj.douban.modules.channel;
 
 import com.google.gson.annotations.SerializedName;
-import com.zzxhdzj.douban.db.DbTables;
+import com.zzxhdzj.douban.db.tables.ChannelTable;
+import com.zzxhdzj.douban.db.tables.DbTable;
 import com.zzxhdzj.douban.modules.Creator;
 
 /**
@@ -13,16 +14,16 @@ import com.zzxhdzj.douban.modules.Creator;
  */
 public class Channel {
     public static final String[] RECEIPT_PROJECTION = new String[]{
-            DbTables._ID,
-            DbTables.ChannelTable.Columns.CHANNEL_ID,
-            DbTables.ChannelTable.Columns.SONG_NUM,
-            DbTables.ChannelTable.Columns.NAME,
-            DbTables.ChannelTable.Columns.BANNER,
-            DbTables.ChannelTable.Columns.INTRO,
-            DbTables.ChannelTable.Columns.HOT_SONGS,
-            DbTables.ChannelTable.Columns.COVER,
-            DbTables.ChannelTable.Columns.TYPE,
-            DbTables.ChannelTable.Columns.CATEGORY
+            DbTable._ID,
+            ChannelTable.Columns.CHANNEL_ID,
+            ChannelTable.Columns.SONG_NUM,
+            ChannelTable.Columns.NAME,
+            ChannelTable.Columns.BANNER,
+            ChannelTable.Columns.INTRO,
+            ChannelTable.Columns.HOT_SONGS,
+            ChannelTable.Columns.COVER,
+            ChannelTable.Columns.GENRE,
+            ChannelTable.Columns.CATEGORY_ID
     };
     public static final int ID_INDEX = 0;
     public static final int CHANNEL_ID_INDEX = 1;

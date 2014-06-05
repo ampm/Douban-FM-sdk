@@ -12,8 +12,9 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
 import com.zzxhdzj.douban.Constants;
-import com.zzxhdzj.douban.db.DbTables;
 import com.zzxhdzj.douban.db.DoubanDb;
+import com.zzxhdzj.douban.db.tables.ChannelTable;
+import com.zzxhdzj.douban.db.tables.DbTable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,7 +28,7 @@ public class DoubanProvider extends ContentProvider {
 
     static {
         URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
-        URI_MATCHER.addURI(DbTables.AUTHORITY, DbTables.ChannelTable.TABLE_NAME, CHANNELS);
+        URI_MATCHER.addURI(DbTable.AUTHORITY, ChannelTable.TABLE_NAME, CHANNELS);
     }
 
     private SQLiteOpenHelper dbHelper;
@@ -43,7 +44,7 @@ public class DoubanProvider extends ContentProvider {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
         switch (URI_MATCHER.match(uri)) {
             case CHANNELS:
-                qb.setTables(DbTables.ChannelTable.TABLE_NAME);
+                qb.setTables(ChannelTable.TABLE_NAME);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI:" + uri);
@@ -68,7 +69,7 @@ public class DoubanProvider extends ContentProvider {
         }
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         if(URI_MATCHER.match(uri) == CHANNELS) {
-            long rowId = db.insert(DbTables.ChannelTable.TABLE_NAME, null, values);
+            long rowId = db.insert(ChannelTable.TABLE_NAME, null, values);
             return ContentUris.withAppendedId(uri, rowId);
         }
         throw new IllegalArgumentException("Unknown URI:" + uri);
@@ -79,7 +80,7 @@ public class DoubanProvider extends ContentProvider {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int count;
         if (URI_MATCHER.match(uri) == CHANNELS) {
-            count = db.delete(DbTables.ChannelTable.TABLE_NAME, null, selectionArgs);
+            count = db.delete(ChannelTable.TABLE_NAME, null, selectionArgs);
         } else {
             throw new IllegalArgumentException("Unknown URI:" + uri);
         }
@@ -94,7 +95,7 @@ public class DoubanProvider extends ContentProvider {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int count;
         if (URI_MATCHER.match(uri) == CHANNELS) {
-            count = db.update(DbTables.ChannelTable.TABLE_NAME, values, selection,selectionArgs);
+            count = db.update(ChannelTable.TABLE_NAME, values, selection,selectionArgs);
         } else {
             throw new IllegalArgumentException("Unknown URI:" + uri);
         }

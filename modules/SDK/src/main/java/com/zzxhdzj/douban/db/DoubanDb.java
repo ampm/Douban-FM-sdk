@@ -5,6 +5,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import com.zzxhdzj.douban.db.tables.ChannelTable;
 
 /**
  * Created with IntelliJ IDEA.
@@ -70,14 +71,14 @@ public class DoubanDb {
     }
 
     private static void createAllTables(SQLiteDatabase db) {
-        db.execSQL(DbTables.ChannelTable.getCreateSQL());
+        db.execSQL(ChannelTable.getCreateSQL());
     }
     private static void initializeDatas(SQLiteDatabase db) {
-        db.execSQL(DbTables.ChannelTable.getInitializeDataSQL());
+        db.execSQL(ChannelTable.getInitializeDataSQL());
     }
 
     private static void dropAllTables(SQLiteDatabase db) {
-        db.execSQL(DbTables.ChannelTable.getDropSQL());
+        db.execSQL(ChannelTable.getDropSQL());
     }
 
     private static void resetAllTables(SQLiteDatabase db, int oldVersion,
@@ -91,7 +92,7 @@ public class DoubanDb {
     }
 
     private static void createAllIndexes(SQLiteDatabase db) {
-        db.execSQL(DbTables.ChannelTable.getCreateIndexSQL());
+        db.execSQL(ChannelTable.getCreateIndexSQL());
     }
 
 
