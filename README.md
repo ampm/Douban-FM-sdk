@@ -45,8 +45,10 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
    合并HiHttp 和 Client demo module，加入travis-CI
    
    ref：http://stackoverflow.com/questions/14370763/travis-ci-for-android/14392603#14392603
-   更新：http://docs.travis-ci.com/user/languages/android/
    
+   官方android支持更新：http://docs.travis-ci.com/user/languages/android/
+   
+  
 #Usage:
 
 0 [demo](https://github.com/ampm/DoubanFM-android.git)会不断完善，直至一个完整的客户端
@@ -56,40 +58,17 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
     mvn install
     
     mvn android:deploy
-    
-    
-
-2 import
-
-pre dependency:
-
-    <dependency>
-        <groupId>com.zzxhdzj.http</groupId>
-        <artifactId>HiHttp</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
-
-3 SDK dependency:
-
-    <dependency>
-        <groupId>com.zzxhdzj.douban</groupId>
-        <artifactId>DoubanFM-sdk</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </dependency>
-
-4 Thanks to Third party lib:
-
-    ASimpleCache: https://github.com/yangfuhai/ASimpleCache
-
-5 Test
+ 
+2 Test
 
         mvn site
         mvn surefire-report:report
-6 coverage by Intellij
+        
+3 coverage by Intellij
 
 ![Test-Coverage-Report](Test-Coverage-Report.png)
 
-6 TODO:
+4 TODO:
 
     1 换频率报告
     2 切换频率
