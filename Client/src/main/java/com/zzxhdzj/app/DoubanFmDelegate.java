@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * Date: 6/5/14
  * To change this template use File | Settings | File Templates.
  */
-public class DoubanFmDelegate implements LoginFragment.LoginCallback, PlayFragment.SongQueueListener {
+public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragment.SongQueueListener {
     private DoubanFm doubanFm;
     private Douban douban;
     private static final int QUERY_CHANNEL = 1;
@@ -36,6 +36,7 @@ public class DoubanFmDelegate implements LoginFragment.LoginCallback, PlayFragme
     public void prepareSongs() {
         if (douban.isLogged()) {
             doubanFm.showPlayFragment(this);
+            doubanFm.showLoggedItems(douban.getUserInfo());
         } else {
             doubanFm.showLoginFragment();
         }
@@ -83,7 +84,7 @@ public class DoubanFmDelegate implements LoginFragment.LoginCallback, PlayFragme
     @Override
     public void onLogin() {
         doubanFm.showPlayFragment(this);
-        doubanFm.showLoggedUserInfo(douban.getUserInfo());
+        doubanFm.showLoggedItems(douban.getUserInfo());
     }
 
 

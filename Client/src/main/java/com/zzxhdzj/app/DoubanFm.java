@@ -50,7 +50,7 @@ public class DoubanFm extends FragmentActivity {
     public void showLoginFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         LoginFragment loginFragment = new LoginFragment();
-        loginFragment.setDouban(doubanFmDelegate.getDouban());
+        loginFragment.setmLoginListener(doubanFmDelegate);
         ft.replace(R.id.dou_content, loginFragment);
         ft.commit();
     }
@@ -67,7 +67,7 @@ public class DoubanFm extends FragmentActivity {
 
 
 
-    public void showLoggedUserInfo(UserInfo userInfo) {
+    public void showLoggedItems(UserInfo userInfo) {
         mMhzName.setText(String.format(getString(R.string.mhz_name_text),"私人"));
         mFavoredCount.setText(String.format(getString(R.string.favored_count),userInfo.playRecord.liked));
         mListenedCount.setText(String.format(getString(R.string.listened_count), userInfo.playRecord.played));
@@ -85,14 +85,5 @@ public class DoubanFm extends FragmentActivity {
             }
         });
     }
-
-
-
-    private boolean isPlayFragmentAdded() {
-        Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(PlayFragment.TAG);
-        return fragmentByTag!=null&&!fragmentByTag.isAdded();
-    }
-
-
 
 }

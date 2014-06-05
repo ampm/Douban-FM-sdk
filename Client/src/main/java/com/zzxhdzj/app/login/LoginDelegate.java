@@ -10,11 +10,9 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-import com.zzxhdzj.app.login.view.LoginView;
 import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
-import com.zzxhdzj.douban.modules.LoginParamsBuilder;
 import com.zzxhdzj.http.Callback;
 
 /**
@@ -85,22 +83,5 @@ public class LoginDelegate {
         });
     }
 
-    public void initializeLoginBtn(final Douban douban, final LoginView loginCard, final Callback loginCallback) {
 
-        loginCard.getmLoginSubmitBtn().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                douban.login(
-                        LoginParamsBuilder.aLoginParams()
-                                .withCaptchaId(douban.captchaId)
-                                .withSource("radio")
-                                .withRemember("on")
-                                .withLoginMail(loginCard.getmLoginUsernameEt().getText().toString())
-                                .withPassword(loginCard.getmLoginPasswordEt().getText().toString())
-                                .withCaptcha(loginCard.getmLoginCaptchaEt().getText().toString())
-                                .build()
-                        , loginCallback);
-            }
-        });
-    }
 }

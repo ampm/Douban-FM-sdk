@@ -11,6 +11,7 @@ import butterknife.InjectView;
 import com.zzxhdzj.app.login.view.LoginView;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.R;
+import com.zzxhdzj.douban.modules.LoginParamsBuilder;
 import com.zzxhdzj.http.Callback;
 
 /**
@@ -20,17 +21,18 @@ import com.zzxhdzj.http.Callback;
  * To change this template use File | Settings | File Templates.
  */
 public class LoginFragment extends Fragment {
-    LoginDelegate loginDelegate;
+    private LoginDelegate mLoginDelegate;
     @InjectView(R.id.login_card)
     LoginView mLoginCard;
-    private Douban douban;
-    private Callback loginCallback;
+    private Douban mDouban;
+    private Callback mLoginCallback;
+    private LoginListener mLoginListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        loginCallback = new Callback() {
+        mDouban = new Douban(getActivity());
+        mLoginCallback = new Callback() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -39,15 +41,15 @@ public class LoginFragment extends Fragment {
             @Override
             public void onSuccess() {
                 super.onSuccess();
-                if(getActivity()!=null&&getActivity() instanceof LoginCallback){
-                    ((LoginCallback) getActivity()).onLogin();
+                if(mLoginListener !=null){
+                    mLoginListener.onLogin();
                 }
             }
 
             @Override
             public void onFailure() {
                 super.onFailure();
-                Toast.makeText(getActivity(), douban.mApiRespErrorCode.getMsg(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), mDouban.mApiRespErrorCode.getMsg(), Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -57,22 +59,40 @@ public class LoginFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.login, container,false);
         ButterKnife.inject(this,view);
-        loginDelegate = new LoginDelegate(getActivity());
-        loginDelegate.showCaptcha(douban, mLoginCard.getmCaptchaImageView(), mLoginCard.getmLoading());
-        loginDelegate.initializeLoginBtn(douban, mLoginCard, loginCallback);
+        mLoginDelegate = new LoginDelegate(getActivity());
+        mLoginDelegate.showCaptcha(mDouban, mLoginCard.getmCaptchaImageView(), mLoginCard.getmLoading());
+        initializeLoginBtn(mDouban, mLoginCard, mLoginCallback);
         mLoginCard.getmCaptchaImageView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loginDelegate.showCaptcha(douban, mLoginCard.getmCaptchaImageView(), mLoginCard.getmLoading());
+                mLoginDelegate.showCaptcha(mDouban, mLoginCard.getmCaptchaImageView(), mLoginCard.getmLoading());
             }
         });
         return view;
     }
-
-    public void setDouban(Douban douban) {
-        this.douban = douban;
+    public void initializeLoginBtn(final Douban douban, final LoginView loginCard, final Callback loginCallback) {
+        loginCard.getmLoginSubmitBtn().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                douban.login(
+                        LoginParamsBuilder.aLoginParams()
+                                .withCaptchaId(douban.captchaId)
+                                .withSource("radio")
+                                .withRemember("on")
+                                .withLoginMail(loginCard.getmLoginUsernameEt().getText().toString())
+                                .withPassword(loginCard.getmLoginPasswordEt().getText().toString())
+                                .withCaptcha(loginCard.getmLoginCaptchaEt().getText().toString())
+                                .build()
+                        , loginCallback);
+            }
+        });
     }
-    public interface LoginCallback{
+
+    public void setmLoginListener(LoginListener mLoginListener) {
+        this.mLoginListener = mLoginListener;
+    }
+
+    public interface LoginListener {
         public void onLogin();
     }
 }
