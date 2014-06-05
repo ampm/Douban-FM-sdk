@@ -298,7 +298,8 @@ Resp：Html解析
     ];
 
 ###已知固定频道
-channel=0 私人兆赫  type=s
+
+channel=0 私人兆赫  type=e()
 
 ####Region&Lang
 
@@ -324,6 +325,8 @@ channel=0 私人兆赫  type=s
     channel=16 公共兆赫【流派】：R&BMHZ
     channel=15 公共兆赫【流派】：说唱MHZ
     channel=10 公共兆赫【流派】：电影原声MHZ
+
+
 
 ####Special
 
@@ -364,7 +367,7 @@ API：
             <li data-genre_id="329">拉丁</li>
             <li data-genre_id="333">世界音乐</li>
             <li data-genre_id="324">布鲁斯</li>
-            <li data-genre_id="336">放克/灵歌/R&amp;B</li>
+                      <li data-genre_id="336">放克/灵歌/R&amp;B</li>
     </ul>        
 
 Resp：
