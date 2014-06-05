@@ -16,7 +16,7 @@ import com.zzxhdzj.http.Callback;
 
 /**
  * Created with IntelliJ IDEA.
- * User: yangning.roy@snda.com
+ * User: yangning.roy
  * Date: 6/1/14
  * To change this template use File | Settings | File Templates.
  */
@@ -60,18 +60,18 @@ public class LoginFragment extends Fragment {
         View view = inflater.inflate(R.layout.login, container,false);
         ButterKnife.inject(this,view);
         mLoginDelegate = new LoginDelegate(getActivity());
-        mLoginDelegate.showCaptcha(mDouban, mLoginCard.getmCaptchaImageView(), mLoginCard.getmLoading());
+        mLoginDelegate.showCaptcha(mDouban, mLoginCard.getCaptchaImageView(), mLoginCard.getLoading());
         initializeLoginBtn(mDouban, mLoginCard, mLoginCallback);
-        mLoginCard.getmCaptchaImageView().setOnClickListener(new View.OnClickListener() {
+        mLoginCard.getCaptchaImageView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLoginDelegate.showCaptcha(mDouban, mLoginCard.getmCaptchaImageView(), mLoginCard.getmLoading());
+                mLoginDelegate.showCaptcha(mDouban, mLoginCard.getCaptchaImageView(), mLoginCard.getLoading());
             }
         });
         return view;
     }
     public void initializeLoginBtn(final Douban douban, final LoginView loginCard, final Callback loginCallback) {
-        loginCard.getmLoginSubmitBtn().setOnClickListener(new View.OnClickListener() {
+        loginCard.getLoginSubmitBtn().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 douban.login(
@@ -79,9 +79,9 @@ public class LoginFragment extends Fragment {
                                 .withCaptchaId(douban.captchaId)
                                 .withSource("radio")
                                 .withRemember("on")
-                                .withLoginMail(loginCard.getmLoginUsernameEt().getText().toString())
-                                .withPassword(loginCard.getmLoginPasswordEt().getText().toString())
-                                .withCaptcha(loginCard.getmLoginCaptchaEt().getText().toString())
+                                .withLoginMail(loginCard.getLoginUsernameEt().getText().toString())
+                                .withPassword(loginCard.getLoginPasswordEt().getText().toString())
+                                .withCaptcha(loginCard.getLoginCaptchaEt().getText().toString())
                                 .build()
                         , loginCallback);
             }

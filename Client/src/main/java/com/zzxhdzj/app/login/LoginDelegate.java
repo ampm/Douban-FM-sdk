@@ -17,7 +17,7 @@ import com.zzxhdzj.http.Callback;
 
 /**
  * Created with IntelliJ IDEA.
- * User: yangning.roy@snda.com
+ * User: yangning.roy
  * Date: 6/1/14
  * To change this template use File | Settings | File Templates.
  */

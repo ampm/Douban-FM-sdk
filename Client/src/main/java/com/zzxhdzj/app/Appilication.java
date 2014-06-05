@@ -4,12 +4,11 @@ import android.app.Application;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.zzxhdzj.douban.db.DoubanDb;
 import com.zzxhdzj.douban.Douban;
 
 /**
  * Created with IntelliJ IDEA.
- * User: yangning.roy@snda.com
+ * User: yangning.roy
  * Date: 3/29/14
  * To change this template use File | Settings | File Templates.
  */

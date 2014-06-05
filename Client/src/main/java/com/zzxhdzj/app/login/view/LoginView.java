@@ -10,7 +10,7 @@ import com.zzxhdzj.douban.R;
 
 /**
  * Created with IntelliJ IDEA.
- * User: yangning.roy@snda.com
+ * User: yangning.roy
  * Date: 6/1/14
  * To change this template use File | Settings | File Templates.
  */
@@ -38,31 +38,31 @@ public class LoginView extends LinearLayout {
     }
 
 
-    public EditText getmLoginUsernameEt() {
+    public EditText getLoginUsernameEt() {
         return mLoginUsernameEt;
     }
 
-    public EditText getmLoginPasswordEt() {
+    public EditText getLoginPasswordEt() {
         return mLoginPasswordEt;
     }
 
-    public EditText getmLoginCaptchaEt() {
+    public EditText getLoginCaptchaEt() {
         return mLoginCaptchaEt;
     }
 
-    public ImageView getmCaptchaImageView() {
+    public ImageView getCaptchaImageView() {
         return mCaptchaImageView;
     }
 
-    public ProgressBar getmLoading() {
+    public ProgressBar getLoading() {
         return mLoading;
     }
 
-    public TextView getmLoginSkip() {
+    public TextView getLoginSkip() {
         return mLoginSkip;
     }
 
-    public Button getmLoginSubmitBtn() {
+    public Button getLoginSubmitBtn() {
         return mLoginSubmitBtn;
     }
 }

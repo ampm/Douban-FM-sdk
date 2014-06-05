@@ -12,14 +12,13 @@ import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.channels.local.ChannelHelper;
 import com.zzxhdzj.douban.db.tables.ChannelTable;
 import com.zzxhdzj.douban.modules.channel.Channel;
-import com.zzxhdzj.douban.modules.channel.ChannelBuilder;
 import com.zzxhdzj.http.Callback;
-
-import java.util.ArrayList;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
 
 /**
  * Created with IntelliJ IDEA.
- * User: yangning.roy@snda.com
+ * User: yangning.roy
  * Date: 6/5/14
  * To change this template use File | Settings | File Templates.
  */
@@ -27,7 +26,8 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
     private DoubanFm doubanFm;
     private Douban douban;
     private static final int QUERY_CHANNEL = 1;
-    private ArrayList<Channel> channelArrayList;
+    private static final String KEY_LAST_CHLS_QUERY_TIME = "KEY_LAST_CHLS_QUERY_TIME";
+
     public DoubanFmDelegate(DoubanFm doubanFm) {
         this.doubanFm = doubanFm;
         this.douban = new Douban(doubanFm);
@@ -47,38 +47,45 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
     }
 
     public void queryBasicChannelInfo() {
-        new ChannelHelper(doubanFm).queryChannels(new LoaderManager.LoaderCallbacks<Cursor>() {
-            @Override
-            public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
-                if (loaderId == QUERY_CHANNEL) {
-                    return new CursorLoader(doubanFm, ChannelTable.CONTENT_URI,
-                            Channel.RECEIPT_PROJECTION, null, null, null);
+        long lastChlsUpdateTime = Douban.sharedPreferences.getLong(KEY_LAST_CHLS_QUERY_TIME, 0);
+        if (isRefeshChannelsOverdue(new DateTime().withMillis(lastChlsUpdateTime))) {
+            new ChannelHelper(doubanFm).queryChannels(new LoaderManager.LoaderCallbacks<Cursor>() {
+                @Override
+                public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
+                    if (loaderId == QUERY_CHANNEL) {
+                        return new CursorLoader(doubanFm, ChannelTable.CONTENT_URI,
+                                Channel.RECEIPT_PROJECTION, null, null, null);
+                    }
+                    return null;
                 }
-                return null;
-            }
 
-            @Override
-            public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-                if (loader.getId() == QUERY_CHANNEL) {
-                    dumpCursorToChannels(data);
+                @Override
+                public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+                    if (loader.getId() == QUERY_CHANNEL) {
+                        fetchChannelsInfo(data);
+                    }
                 }
-            }
 
-            @Override
-            public void onLoaderReset(Loader<Cursor> loader) {
+                @Override
+                public void onLoaderReset(Loader<Cursor> loader) {
 
-            }
-
-            private void dumpCursorToChannels(Cursor data) {
-                channelArrayList = new ArrayList<Channel>();
-                while (data.moveToNext()) {
-                    channelArrayList.add(ChannelBuilder.aChannel().withId(data.getInt(Channel.CHANNEL_ID_INDEX))
-                            .withName(data.getString(Channel.NAME_INDEX))
-                            .build());
                 }
-            }
 
-        });
+
+            });
+        }
+    }
+
+    private void fetchChannelsInfo(Cursor data) {
+        while (data.moveToNext()) {
+            int channelId = data.getInt(Channel.CHANNEL_ID_INDEX);
+            douban.queryChannelInfo();
+        }
+    }
+
+    public boolean isRefeshChannelsOverdue(DateTime lastRequestTime) {
+        Period rentalPeriod = new Period().withDays(1);
+        return lastRequestTime.plus(rentalPeriod).isBeforeNow();
     }
 
     @Override

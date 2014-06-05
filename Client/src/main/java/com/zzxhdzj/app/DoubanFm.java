@@ -18,7 +18,7 @@ import com.zzxhdzj.douban.modules.UserInfo;
 
 /**
  * Created with IntelliJ IDEA.
- * User: yangning.roy@snda.com
+ * User: yangning.roy
  * Date: 3/29/14
  * To change this template use File | Settings | File Templates.
  */
