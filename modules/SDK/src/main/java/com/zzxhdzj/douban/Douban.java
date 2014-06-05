@@ -201,7 +201,6 @@ public class Douban extends ApiInstance {
         SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway,false);
         songActionGateway.songAction(SongActionType.SKIP, currentChannelId, songId, callback);
     }
-
     /**
      * 添加红心，同时返回下组歌曲，可通过douban.songs获取
      *
@@ -262,5 +261,9 @@ public class Douban extends ApiInstance {
         Gson gson = new Gson();
         UserInfo userInfo = gson.fromJson(sharedPreferences.getString(PrefsConstant.USER_KEY, null), UserInfo.class);
         return userInfo;
+    }
+
+    public void queryChannelInfo() {
+
     }
 }
