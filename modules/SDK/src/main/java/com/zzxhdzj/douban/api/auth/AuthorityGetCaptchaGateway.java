@@ -21,7 +21,7 @@ import com.zzxhdzj.http.TextApiResponse;
 public class AuthorityGetCaptchaGateway extends BaseApiGateway {
 
     public AuthorityGetCaptchaGateway(Douban douban, ApiGateway apiGateway) {
-        super(douban, apiGateway);
+        super(douban, apiGateway,null);
     }
 
     public void newCaptchaId(Callback callback) {

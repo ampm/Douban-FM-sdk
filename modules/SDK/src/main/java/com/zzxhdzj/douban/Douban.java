@@ -9,10 +9,7 @@ import com.zzxhdzj.douban.api.auth.AuthorityGetCaptchaGateway;
 import com.zzxhdzj.douban.api.base.ApiInstance;
 import com.zzxhdzj.douban.api.channels.action.ChannelActionGateway;
 import com.zzxhdzj.douban.api.channels.action.ChannelActionType;
-import com.zzxhdzj.douban.api.channels.fixed.StaticChannelGateway;
-import com.zzxhdzj.douban.api.channels.genre.GenreChannelGateway;
-import com.zzxhdzj.douban.api.channels.recomment.LoginRecommendChannelGateway;
-import com.zzxhdzj.douban.api.channels.recomment.RecommendChannelsGateway;
+import com.zzxhdzj.douban.api.channels.query.ChannelQueryGateway;
 import com.zzxhdzj.douban.api.songs.SongsGateway;
 import com.zzxhdzj.douban.api.songs.action.SongActionGateway;
 import com.zzxhdzj.douban.api.songs.action.SongActionType;
@@ -85,7 +82,7 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void queryHotChannels(int start, int limit, Callback callback) {
-        StaticChannelGateway staticChannelGateway = new StaticChannelGateway(this, apiGateway);
+        ChannelQueryGateway staticChannelGateway = new ChannelQueryGateway(this, apiGateway);
         staticChannelGateway.fetchHotChannels(start, limit, callback);
     }
 
@@ -97,7 +94,7 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void queryFastChannles(int start, int limit, Callback callback) {
-        StaticChannelGateway staticChannelGateway = new StaticChannelGateway(this, apiGateway);
+        ChannelQueryGateway staticChannelGateway = new ChannelQueryGateway(this, apiGateway);
         staticChannelGateway.fetchTrendingChannels(start, limit, callback);
     }
 
@@ -110,7 +107,7 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void queryChannlesByGenre(int genreId, int start, int limit, Callback callback) {
-        GenreChannelGateway genreChannelGateway = new GenreChannelGateway(this, apiGateway);
+        ChannelQueryGateway genreChannelGateway = new ChannelQueryGateway(this, apiGateway);
         genreChannelGateway.fetchChannelsByGenreId(genreId, start, limit, callback);
     }
 
@@ -134,8 +131,8 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void recommendChannelsWhenLogin(String userId, Callback callback) {
-        LoginRecommendChannelGateway loginRecommendChannelGateway = new LoginRecommendChannelGateway(this, apiGateway);
-        loginRecommendChannelGateway.query(userId, callback);
+        ChannelQueryGateway loginRecommendChannelGateway = new ChannelQueryGateway(this, apiGateway);
+        loginRecommendChannelGateway.getLoginRecommendChannels(userId, callback);
     }
 
     /**
@@ -145,8 +142,8 @@ public class Douban extends ApiInstance {
      * @param callback
      */
     public void recommendChannnels(ArrayList<Integer> channelIds, Callback callback) {
-        RecommendChannelsGateway recommendChannelsGateway = new RecommendChannelsGateway(this, apiGateway);
-        recommendChannelsGateway.query(channelIds, callback);
+        ChannelQueryGateway recommendChannelsGateway = new ChannelQueryGateway(this, apiGateway);
+        recommendChannelsGateway.getRecommendChannels(channelIds, callback);
     }
 
     /**
@@ -246,9 +243,6 @@ public class Douban extends ApiInstance {
         return context;
     }
 
-    public SharedPreferences getDoubanSharedPreferences() {
-        return sharedPreferences;
-    }
 
     public void clear() {
         if (!Constants.UNIT_TEST) {

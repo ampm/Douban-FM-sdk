@@ -9,7 +9,7 @@ import com.zzxhdzj.douban.db.tables.ChannelTable;
 
 /**
  * Created with IntelliJ IDEA.
- * User: yangning.roy@snda.com
+ * User: yangning.roy
  * Date: 6/2/14
  * To change this template use File | Settings | File Templates.
  */

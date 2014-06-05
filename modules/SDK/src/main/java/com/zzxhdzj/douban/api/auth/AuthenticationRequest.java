@@ -33,8 +33,7 @@ public class AuthenticationRequest extends AuthApiRequest {
 
     @Override
     public HttpEntity getPostEntity() throws Exception {
-        UrlEncodedFormEntity urlEncodedFormEntity = new UrlEncodedFormEntity(HiUtil.convertMapToNameValuePairs(loginParams.toParamsMap()), HTTP.UTF_8);
-        return urlEncodedFormEntity;
+        return new UrlEncodedFormEntity(HiUtil.convertMapToNameValuePairs(loginParams.toParamsMap()), HTTP.UTF_8);
     }
 
     @Override

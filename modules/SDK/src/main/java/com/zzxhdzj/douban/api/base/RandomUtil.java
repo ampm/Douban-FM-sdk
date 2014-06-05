@@ -4,7 +4,7 @@ import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
- * User: yangning.roy@snda.com
+ * User: yangning.roy
  * Date: 3/31/14
  * To change this template use File | Settings | File Templates.
  */

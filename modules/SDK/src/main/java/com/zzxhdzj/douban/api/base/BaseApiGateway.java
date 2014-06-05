@@ -30,10 +30,6 @@ public class BaseApiGateway {
         this.apiGateway = apiGateway;
         this.respType = respType;
     }
-    public BaseApiGateway(Douban douban, ApiGateway apiGateway) {
-        this.douban = douban;
-        this.apiGateway = apiGateway;
-    }
 
     protected boolean isRespOk(Resp resp) {
         boolean isOk = false;
@@ -47,7 +43,7 @@ public class BaseApiGateway {
         }
         if(!TextUtils.isEmpty(resp.warning)&&(resp.warning.contains("user_is_ananymous")||resp.warning.contains("user_is_anonymous"))){
             //anonymous:豆瓣官方拼写错误，防止他将来纠正过来,user_is_anonymous 也判断一下
-            douban.getDoubanSharedPreferences().edit().putBoolean(PrefsConstant.LOGGED, false).commit();
+            Douban.sharedPreferences.edit().putBoolean(PrefsConstant.LOGGED, false).commit();
             if(isAuthRequire){
                 isOk = false;
                 douban.mApiRespErrorCode = ApiRespErrorCode.createNonBizError(ApiInternalError.AUTH_ERROR);

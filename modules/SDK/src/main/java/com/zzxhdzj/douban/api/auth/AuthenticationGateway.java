@@ -3,11 +3,10 @@ package com.zzxhdzj.douban.api.auth;
 import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.ApiInternalError;
-import com.zzxhdzj.douban.PrefsConstant;
 import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.PrefsConstant;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
-import com.zzxhdzj.douban.api.base.ApiInstance;
 import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
 import com.zzxhdzj.douban.api.base.BaseApiGateway;
 import com.zzxhdzj.douban.modules.LoginParams;
@@ -24,7 +23,7 @@ import com.zzxhdzj.http.TextApiResponse;
  * Time: 5:30 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AuthenticationGateway<T extends ApiInstance> extends BaseApiGateway {
+public class AuthenticationGateway extends BaseApiGateway {
 
 
     public AuthenticationGateway(Douban douban, ApiGateway apiGateway) {
@@ -41,13 +40,13 @@ public class AuthenticationGateway<T extends ApiInstance> extends BaseApiGateway
 
     private void cacheUserInfo(UserInfo userInfo) {
         Gson gson = new Gson();
-        SharedPreferences.Editor edit = douban.getDoubanSharedPreferences().edit();
+        SharedPreferences.Editor edit = Douban.sharedPreferences.edit();
         edit.putString(PrefsConstant.USER_KEY, gson.toJson(userInfo));
         edit.commit();
     }
 
     private void markAsLogged() {
-        douban.getDoubanSharedPreferences().edit().putBoolean(PrefsConstant.LOGGED, true).commit();
+        Douban.sharedPreferences.edit().putBoolean(PrefsConstant.LOGGED, true).commit();
     }
 
     private class AuthenticationApiResponseCallback extends CommonTextApiResponseCallback<Douban> {
