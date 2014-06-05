@@ -1,6 +1,9 @@
 Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?branch=master)](https://travis-ci.org/ampm/Douban-FM-sdk)
 ---
 #Logs
+    
+    todo：
+    完善api+重新组织pom结构
 
 - 2013-12-11 1.0-SNAPSHOT
 - 2014-03-29 1.0-RC
