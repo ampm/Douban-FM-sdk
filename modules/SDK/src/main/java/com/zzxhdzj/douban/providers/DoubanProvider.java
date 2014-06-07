@@ -102,6 +102,11 @@ public class DoubanProvider extends ContentProvider {
         return count;
     }
 
+    @Override
+    public int bulkInsert(Uri uri, ContentValues[] values) {
+        return super.bulkInsert(uri, values);
+    }
+
     private static class CursorDetector extends CursorWrapper {
         private static final String TAG = "CursorDetector";
         private boolean mIsClosed = false;

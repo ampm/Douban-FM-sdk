@@ -17,7 +17,7 @@ public class Constants {
     public static final String INIT_URL = "http://www.douban.fm";
 
     public static final String HOT_CHANNELS = BASER_URL + "/j/explore/hot_channels";
-    public static final String CHANNEL_DETAILS = BASER_URL + "/j/explore/channel_detail?channel_id=";
+    public static final String CHANNEL_DETAILS = BASER_URL + "/j/explore/channel_detail";
     public static final String SEARCH_URL = BASER_URL + "/j/explore/search";
     public static final String TRENDING_CHANNELS = BASER_URL + "/j/explore/up_trending_channels";
     public static final String GENRE_CHANNEL_URL = BASER_URL + "/j/explore/genre";

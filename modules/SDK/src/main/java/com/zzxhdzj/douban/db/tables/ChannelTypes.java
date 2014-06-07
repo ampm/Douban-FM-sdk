@@ -14,9 +14,9 @@ public enum ChannelTypes {
     Special(4, "特别推荐", "Special", true),
     Brand(5, "品牌", "Brand", true),
     Artist(6, "艺术家", "Artist", true),
-    Trending(7, "上升最快", "Trending", true),
-    Hits(8, "热门兆赫", "Hits", true),
-    Try(9, "试试这些", "Try", true),;
+    Trending(7, "上升最快", "Trending", false),
+    Hits(8, "热门兆赫", "Hits", false),
+    Try(9, "试试这些", "Try", false),;
     private final int index;
     private final String zhName;
     private final String enName;
@@ -43,5 +43,18 @@ public enum ChannelTypes {
 
     public boolean isStatic() {
         return isStatic;
+    }
+
+    public static String queryIndexString(boolean isStatic){
+        StringBuilder builder = new StringBuilder();
+        for (ChannelTypes value:ChannelTypes.values()){
+            if(value.isStatic==isStatic){
+                builder.append(value.getIndex()).append(",");
+            }
+        }
+        if(builder.length()>0){
+            builder.deleteCharAt(builder.length()-1);
+        }
+        return builder.toString();
     }
 }

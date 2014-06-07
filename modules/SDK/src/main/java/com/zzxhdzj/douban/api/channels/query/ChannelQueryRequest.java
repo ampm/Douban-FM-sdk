@@ -46,6 +46,10 @@ public class ChannelQueryRequest extends AuthApiRequest {
                 .setBaseUrl(recChlsUrl);
     }
 
+    public static ApiRequest<TextApiResponse> getASingleQueryRequest(String channelId, Context context, String url) {
+        return new ChannelQueryRequest(context).setBaseUrl(url).appendParameter("channel_id",channelId);
+    }
+
     @Override
     public TextApiResponse createResponse(int statusCode, Map<String, List<String>> headers) {
         return new TextApiResponse(statusCode,headers);
@@ -60,4 +64,6 @@ public class ChannelQueryRequest extends AuthApiRequest {
         }
         return stringBuilder.toString();
     }
+
+
 }

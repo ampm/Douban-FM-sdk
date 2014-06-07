@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.modules.channel;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.zzxhdzj.douban.db.tables.ChannelTable;
 import com.zzxhdzj.douban.db.tables.DbTable;
@@ -13,6 +14,9 @@ import com.zzxhdzj.douban.modules.Creator;
  * To change this template use File | Settings | File Templates.
  */
 public class Channel {
+    protected Channel() {
+    }
+
     public static final String[] RECEIPT_PROJECTION = new String[]{
             DbTable._ID,
             ChannelTable.Columns.CHANNEL_ID,
@@ -46,7 +50,8 @@ public class Channel {
     @SerializedName("song_num")
     public int songNum;
 
-
+    @Expose
+    public int category;
 
     public void setBanner(String banner) {
         this.banner = banner;
@@ -78,5 +83,9 @@ public class Channel {
 
     public void setSongNum(int songNum) {
         this.songNum = songNum;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
     }
 }

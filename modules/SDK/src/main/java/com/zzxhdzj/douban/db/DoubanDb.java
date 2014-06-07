@@ -55,8 +55,8 @@ public class DoubanDb {
         return mOpenHelper;
     }
 
-    public SQLiteDatabase getDb(boolean writeable) {
-        if (writeable) {
+    public SQLiteDatabase getDb(boolean writable) {
+        if (writable) {
             return mOpenHelper.getWritableDatabase();
         } else {
             return mOpenHelper.getReadableDatabase();

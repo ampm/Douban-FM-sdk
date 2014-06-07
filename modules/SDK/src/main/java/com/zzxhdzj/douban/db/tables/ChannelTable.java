@@ -54,9 +54,7 @@ public class ChannelTable extends DbTable {
 
                     "(22,52,null,\"乐混翻唱\",null,null,null,null,null,"+ ChannelTypes.Brand.getIndex()+"),"+
                     "(23,58,null,\"陆虎揽胜运动\",null,null,null,null,null,"+ ChannelTypes.Brand.getIndex()+"),"+
-
-                    "(24,26,null,\"豆瓣音乐人\",null,null,null,null,null,"+ ChannelTypes.Artist.getIndex()+"),"+
-                    "(25,\"dj\",null,\"DJ兆赫\",null,null,null,null,null,"+ ChannelTypes.Artist.getIndex()+");";
+                    "(24,26,null,\"豆瓣音乐人\",null,null,null,null,null,"+ ChannelTypes.Artist.getIndex()+");";
 
             return initializeData;
         }
@@ -75,7 +73,7 @@ public class ChannelTable extends DbTable {
         }
         public static String getCreateSQL() {
             String createString = TABLE_NAME +
-                    "("+_ID+" INT PRIMARY KEY," +
+                    "("+_ID+" INTEGER PRIMARY KEY AUTOINCREMENT," +
                     Columns.CHANNEL_ID	+" TEXT," +
                     Columns.SONG_NUM +" INT," +
                     Columns.NAME	+" TEXT," +

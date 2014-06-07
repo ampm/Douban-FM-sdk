@@ -4,7 +4,7 @@ import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.api.base.ApiInstance;
 import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
 import com.zzxhdzj.douban.api.base.BaseApiGateway;
-import com.zzxhdzj.http.ApiResponse;
+import com.zzxhdzj.douban.modules.Resp;
 import com.zzxhdzj.http.ApiResponseCallbacks;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.TextApiResponse;
@@ -58,7 +58,7 @@ public abstract class CommonTextApiResponseCallback<T extends ApiInstance> imple
     public abstract boolean _handleRespData(TextApiResponse response);
 
     @Override
-    public void onRequestFailure(ApiResponse response) {
+    public void onRequestFailure(TextApiResponse response) {
         ApiInternalError error = ApiInternalError.getByCode(response.getHttpResponseCode() + "");
         if(error!=null){
             //TODO:处理超时
@@ -71,14 +71,14 @@ public abstract class CommonTextApiResponseCallback<T extends ApiInstance> imple
     }
 
     @Override
-    public void onProcessFailure(ApiResponse response) {
+    public void onProcessFailure(TextApiResponse response) {
         apiInstance.mApiRespErrorCode = ApiRespErrorCode.createNonBizError(ApiInternalError.INTERNAL_ERROR);
         gateway.failureResponse = response;
         bizCallback.onFailure();
     }
 
     @Override
-    public void onCallbackFailure(ApiResponse response) {
+    public void onCallbackFailure(TextApiResponse response) {
         apiInstance.mApiRespErrorCode = ApiRespErrorCode.createNonBizError(ApiInternalError.CALLER_ERROR);
         gateway.failureResponse = response;
         bizCallback.onFailure();
@@ -95,7 +95,7 @@ public abstract class CommonTextApiResponseCallback<T extends ApiInstance> imple
     }
 
     @Override
-    public void onBizFailure(ApiResponse response) {
+    public void onBizFailure(TextApiResponse response) {
         if(apiInstance.mApiRespErrorCode==null){
             apiInstance.mApiRespErrorCode = ApiRespErrorCode.createBizError(code, message);
         }
@@ -108,5 +108,11 @@ public abstract class CommonTextApiResponseCallback<T extends ApiInstance> imple
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    protected void detectAuthError(Resp resp) {
+        if (apiInstance.mApiRespErrorCode == null || !apiInstance.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())) {
+            apiInstance.mApiRespErrorCode = ApiRespErrorCode.createBizError(resp.getCode(gateway.respType), resp.getMessage(gateway.respType));
+        }
     }
 }

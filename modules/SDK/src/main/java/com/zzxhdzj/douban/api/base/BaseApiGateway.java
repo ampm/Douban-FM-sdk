@@ -20,7 +20,7 @@ import com.zzxhdzj.http.ApiResponse;
 public class BaseApiGateway {
     protected final ApiGateway apiGateway;
     protected final Douban douban;
-    protected RespType respType;
+    public RespType respType;
     protected boolean isAuthRequire;
     public ApiResponse failureResponse;
     public Boolean onCompleteWasCalled;

@@ -21,7 +21,6 @@ import com.zzxhdzj.douban.modules.song.Song;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
 import com.zzxhdzj.http.Http;
-import org.apache.http.Header;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,15 +31,14 @@ public class Douban extends ApiInstance {
     public static Context app;
     public String captchaImageUrl;
     public String captchaId;
-    //    public ApiRespErrorCode apiRespErrorCode;
     public ArrayList<Channel> channels;
     public ArrayList<Channel> favChannels;
     public ArrayList<Channel> recChannels;
-    public Header[] headers;
     public Channel recommendChannel;
     public LinkedList<Song> songs;
     private final ApiGateway apiGateway;
     private Context context;
+    public Object singleObject;
 
     public Douban(Context context) {
         this.context = context;
@@ -93,7 +91,7 @@ public class Douban extends ApiInstance {
      * @param limit
      * @param callback
      */
-    public void queryFastChannles(int start, int limit, Callback callback) {
+    public void queryTrendingChannles(int start, int limit, Callback callback) {
         ChannelQueryGateway staticChannelGateway = new ChannelQueryGateway(this, apiGateway);
         staticChannelGateway.fetchTrendingChannels(start, limit, callback);
     }
@@ -263,7 +261,8 @@ public class Douban extends ApiInstance {
         return userInfo;
     }
 
-    public void queryChannelInfo() {
-
+    public void queryChannelInfo(String channelId, Callback callback) {
+        ChannelQueryGateway channelQueryGateway = new ChannelQueryGateway(this,apiGateway);
+        channelQueryGateway.queryChannelInfo(channelId,callback);
     }
 }

@@ -1,13 +1,12 @@
 package com.zzxhdzj.douban.api.channels.query;
 
 import com.google.gson.Gson;
-import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
-import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
 import com.zzxhdzj.douban.api.base.BaseApiGateway;
+import com.zzxhdzj.douban.db.tables.ChannelTypes;
 import com.zzxhdzj.douban.modules.channel.*;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
@@ -24,30 +23,40 @@ import java.util.ArrayList;
  */
 public class ChannelQueryGateway extends BaseApiGateway {
 
+
     public ChannelQueryGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway, RespType.STATUS);
         this.isAuthRequire = true;
     }
 
+    public void queryChannelInfo(String channelId, Callback callback) {
+        apiGateway.makeRequest(ChannelQueryRequest.getASingleQueryRequest(channelId, douban.getContext(), Constants.CHANNEL_DETAILS),
+                new SingleChannelApiResponseCallback(callback, this, douban));
+    }
+
     public void fetchFavChannels(Callback callback) {
         apiGateway.makeRequest(ChannelQueryRequest.getFavQueryRequest(douban.getContext(), Constants.FAV_CHANNELS),
-                new ChannelApiResponseCallback(callback, this, douban));
+                new ChannelsApiResponseCallback(callback, this, douban,null));
     }
 
     public void fetchHotChannels(int start, int limit, Callback callback) {
-        apiGateway.makeRequest(ChannelQueryRequest.getHotAndTrendingQueryRequest(start, limit, Constants.HOT_CHANNELS, douban.getContext()), new ChannelApiResponseCallback(callback, this, douban));
+        apiGateway.makeRequest(ChannelQueryRequest.getHotAndTrendingQueryRequest(start, limit, Constants.HOT_CHANNELS, douban.getContext()),
+                new ChannelsApiResponseCallback(callback, this, douban,ChannelTypes.Hits));
     }
 
     public void fetchTrendingChannels(int start, int limit, Callback callback) {
-        apiGateway.makeRequest(ChannelQueryRequest.getHotAndTrendingQueryRequest(start, limit, Constants.TRENDING_CHANNELS, douban.getContext()), new ChannelApiResponseCallback(callback, this, douban));
+        apiGateway.makeRequest(ChannelQueryRequest.getHotAndTrendingQueryRequest(start, limit, Constants.TRENDING_CHANNELS, douban.getContext()),
+                new ChannelsApiResponseCallback(callback, this, douban,ChannelTypes.Trending));
     }
 
     public void fetchChannelsByGenreId(int genreId, int start, int limit, Callback callback) {
-        apiGateway.makeRequest(ChannelQueryRequest.getQueryByGenreRequest(start, limit, genreId, Constants.GENRE_CHANNEL_URL, douban.getContext()), new ChannelApiResponseCallback(callback, this, douban));
+        apiGateway.makeRequest(ChannelQueryRequest.getQueryByGenreRequest(start, limit, genreId, Constants.GENRE_CHANNEL_URL, douban.getContext()),
+                new ChannelsApiResponseCallback(callback, this, douban,null));
     }
 
     public void getLoginRecommendChannels(String userId, Callback callback) {
-        apiGateway.makeRequest(ChannelQueryRequest.getLoginRecommendChannelRequest(userId, Constants.LOGIN_CHLS_URL, douban.getContext()), new LoginChannelsApiResponseCallbacks(callback, this, douban));
+        apiGateway.makeRequest(ChannelQueryRequest.getLoginRecommendChannelRequest(userId, Constants.LOGIN_CHLS_URL, douban.getContext()),
+                new LoginChannelsApiResponseCallbacks(callback, this, douban));
     }
 
     public void getRecommendChannels(ArrayList<Integer> channelIds, Callback callback) {
@@ -55,12 +64,14 @@ public class ChannelQueryGateway extends BaseApiGateway {
                 new RecommendApiResponseCallbacks(callback, this, douban));
     }
 
-    private class ChannelApiResponseCallback extends CommonTextApiResponseCallback<Douban> {
+    private class ChannelsApiResponseCallback extends CommonTextApiResponseCallback<Douban> {
 
+        private final ChannelTypes category;
         private ChannelResp channelResp;
 
-        public ChannelApiResponseCallback(Callback bizCallback, BaseApiGateway gateway, Douban apiInstance) {
+        public ChannelsApiResponseCallback(Callback bizCallback, BaseApiGateway gateway, Douban apiInstance,ChannelTypes category) {
             super(bizCallback, gateway, apiInstance);
+            this.category = category;
         }
 
 
@@ -73,12 +84,18 @@ public class ChannelQueryGateway extends BaseApiGateway {
         @Override
         public boolean _handleRespData(TextApiResponse response) {
             if (isRespOk(channelResp)) {
-                douban.channels = channelResp.channlesDatas.channels;
+                if(category!=null){
+                    douban.channels = new ArrayList<Channel>();
+                    for (Channel channel:channelResp.channleData.channels){
+                        channel.setCategory(category.getIndex());
+                        douban.channels.add(channel);
+                    }
+                }else {
+                    douban.channels = channelResp.channleData.channels;
+                }
                 return true;
             } else {
-                if (douban.mApiRespErrorCode == null || !douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())) {
-                    douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(channelResp.getCode(respType), channelResp.getMessage(respType));
-                }
+                detectAuthError(channelResp);
                 return false;
             }
         }
@@ -107,13 +124,14 @@ public class ChannelQueryGateway extends BaseApiGateway {
                         .withId(recommendChannelsResp.recommendChannelData.result.id)
                         .withName(recommendChannelsResp.recommendChannelData.result.name)
                         .withCover(recommendChannelsResp.recommendChannelData.result.cover)
-                        .withIntro(recommendChannelsResp.recommendChannelData.result.intro).build();
+                        .withIntro(recommendChannelsResp.recommendChannelData.result.intro)
+                        .withCategory(ChannelTypes.Try.getIndex())
+                        .build();
                 douban.recommendChannel = channel;
+
                 return true;
             } else {
-                if (douban.mApiRespErrorCode == null || !douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())) {
-                    douban.mApiRespErrorCode = com.zzxhdzj.douban.api.base.ApiRespErrorCode.createBizError(recommendChannelsResp.getCode(respType), recommendChannelsResp.getMessage(respType));
-                }
+                detectAuthError(recommendChannelsResp);
                 return false;
             }
         }
@@ -140,12 +158,36 @@ public class ChannelQueryGateway extends BaseApiGateway {
                 douban.recChannels = loginChannelsResp.loginChannelsData.result.recommentChannels;
                 return true;
             } else {
-                if (douban.mApiRespErrorCode == null || !douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())) {
-                    douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(loginChannelsResp.getCode(respType), loginChannelsResp.getMessage(respType));
-                }
+                detectAuthError(loginChannelsResp);
                 return false;
             }
         }
     }
 
+    private class SingleChannelApiResponseCallback extends CommonTextApiResponseCallback<Douban> {
+        private ChannelDetailResp channelDetailResp;
+
+        public SingleChannelApiResponseCallback(Callback bizCallback, ChannelQueryGateway gateway, Douban apiInstance) {
+            super(bizCallback, gateway, apiInstance);
+        }
+
+        @Override
+        public void _extractRespData(TextApiResponse response) {
+            Gson gson = new Gson();
+            channelDetailResp = gson.fromJson(response.getResp(), ChannelDetailResp.class);
+        }
+
+        @Override
+        public boolean _handleRespData(TextApiResponse response) {
+            if (isRespOk(channelDetailResp)) {
+                douban.singleObject = channelDetailResp.channelDetailData.channel;
+                return true;
+            } else {
+                detectAuthError(channelDetailResp);
+                return false;
+            }
+        }
+
+
+    }
 }

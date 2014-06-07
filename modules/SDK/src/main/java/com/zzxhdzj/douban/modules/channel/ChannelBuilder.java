@@ -17,6 +17,7 @@ public class ChannelBuilder {
     public String intro;
     public String name;
     public int songNum;
+    private int category;
 
     private ChannelBuilder() {
     }
@@ -65,6 +66,11 @@ public class ChannelBuilder {
         return this;
     }
 
+    public ChannelBuilder withCategory(int category) {
+        this.category = category;
+        return this;
+    }
+
     public Channel build() {
         Channel channel = new Channel();
         channel.setBanner(banner);
@@ -75,6 +81,8 @@ public class ChannelBuilder {
         channel.setIntro(intro);
         channel.setName(name);
         channel.setSongNum(songNum);
+        channel.setCategory(category);
         return channel;
     }
+
 }
