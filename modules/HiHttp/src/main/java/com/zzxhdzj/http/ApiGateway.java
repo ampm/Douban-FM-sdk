@@ -75,7 +75,7 @@ public class ApiGateway <T extends ApiResponse>{
                         throw new RuntimeException("Unsupported Http Method!");
                     }
                 } catch (Exception e) {
-                    Log.d("ApiGateway", "request failed\n");
+                    Log.e("ApiGateway","request failed\n"+e.getStackTrace().toString());
                     return apiRequest.createResponse(WrappedHttpError.REQUEST_ERROR.getCode(), null);
                 }
 

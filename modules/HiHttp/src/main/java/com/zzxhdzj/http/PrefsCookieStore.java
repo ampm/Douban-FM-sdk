@@ -88,10 +88,11 @@ public class PrefsCookieStore implements CookieStore {
         HashSet<String> candidateCookieSet = new HashSet<String>();
 
         Set<String> existCookies = spePreferences.getStringSet(urlWithoutPath, candidateCookieSet);
-
-        for (String cookieString : existCookies) {
-            if (cookieString.split("=")[0].equals(cookie.getName())) {
-                existCookies.remove(cookieString);//remove old cookie
+        Iterator iterator = existCookies.iterator();
+        while (iterator.hasNext()) {
+            String next = (String) iterator.next();
+            if (next.split("=")[0].equals(cookie.getName())) {
+                iterator.remove();
             }
         }
 
@@ -110,10 +111,10 @@ public class PrefsCookieStore implements CookieStore {
     public List<HttpCookie> get(URI uri) {
         URI uriWithoutPath = getUriWithoutPath(uri);
         List<HttpCookie> lstCookies = cookies.get(uriWithoutPath);
-        if (lstCookies == null)
-        {
+        if (lstCookies == null) {
             cookies.putIfAbsent(uriWithoutPath, new ArrayList<HttpCookie>());
         }
+
         return cookies.get(uriWithoutPath);
     }
 
@@ -124,7 +125,6 @@ public class PrefsCookieStore implements CookieStore {
                 .append(DOUBLE_SLASH)
                 .append(uri.getAuthority()).toString();
     }
-
 
 
     @Override
@@ -141,7 +141,7 @@ public class PrefsCookieStore implements CookieStore {
     public List<URI> getURIs() {
         Set<URI> keys = cookies.keySet();
         ArrayList<URI> uriArrayList = new ArrayList<URI>();
-        for (URI key:keys){
+        for (URI key : keys) {
             uriArrayList.add(key);
         }
         return uriArrayList;
