@@ -1,6 +1,5 @@
 package com.zzxhdzj.http.mock;
 
-import com.zzxhdzj.http.ApiResponse;
 import com.zzxhdzj.http.ApiResponseCallbacks;
 import com.zzxhdzj.http.JsonApiResponse;
 
@@ -16,7 +15,7 @@ import java.io.IOException;
 public class TestApiResponseCallbacks implements ApiResponseCallbacks<JsonApiResponse> {
 
     public JsonApiResponse successResponse;
-    public ApiResponse failureResponse;
+    public JsonApiResponse failureResponse;
     public Boolean onCompleteWasCalled;
     public Boolean onBizCallBackFailedWasCalled;
     public Boolean onProcessFailureWasCalled;
@@ -27,18 +26,18 @@ public class TestApiResponseCallbacks implements ApiResponseCallbacks<JsonApiRes
     }
 
     @Override
-    public void onRequestFailure(ApiResponse response) {
+    public void onRequestFailure(JsonApiResponse response) {
         this.failureResponse = response;
     }
 
     @Override
-    public void onProcessFailure(ApiResponse response) {
+    public void onProcessFailure(JsonApiResponse response) {
         onProcessFailureWasCalled = true;
         this.failureResponse = response;
     }
 
     @Override
-    public void onCallbackFailure(ApiResponse response) {
+    public void onCallbackFailure(JsonApiResponse response) {
         onCallBackFailureWasCalled = true;
         this.failureResponse = response;
     }
@@ -53,7 +52,7 @@ public class TestApiResponseCallbacks implements ApiResponseCallbacks<JsonApiRes
     }
 
     @Override
-    public void onBizFailure(ApiResponse response) {
+    public void onBizFailure(JsonApiResponse response) {
         this.failureResponse = response;
         onBizCallBackFailedWasCalled = true;
     }

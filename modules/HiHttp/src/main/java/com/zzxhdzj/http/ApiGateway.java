@@ -17,17 +17,18 @@ import java.io.InputStream;
  * Time: 6:40 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ApiGateway {
+public class ApiGateway <T extends ApiResponse>{
 
     private final Http http = new Http();
 
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    public <T extends ApiResponse> void makeRequest(ApiRequest<T> apiRequest, final ApiResponseCallbacks<T> responseCallbacks) {
+    public void makeRequest(ApiRequest<T> apiRequest, final ApiResponseCallbacks<T> responseCallbacks) {
         responseCallbacks.onStart();
+        //不会做
         new RemoteCallTask(responseCallbacks).execute(apiRequest);
     }
 
-    protected void dispatch(ApiResponse apiResponse, ApiResponseCallbacks responseCallbacks) {
+    protected void dispatch(T apiResponse, ApiResponseCallbacks<T> responseCallbacks) {
         if (apiResponse.isSuccess()) {
             try {
                 responseCallbacks.onSuccess(apiResponse);
@@ -51,18 +52,18 @@ public class ApiGateway {
     }
 
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
-    private class RemoteCallTask extends AsyncTask<ApiRequest, Void, ApiResponse> {
-        private final ApiResponseCallbacks responseCallbacks;
+    private class RemoteCallTask extends AsyncTask<ApiRequest<T>, Void, T> {
+        private final ApiResponseCallbacks<T> responseCallbacks;
 
-        public RemoteCallTask(ApiResponseCallbacks responseCallbacks) {
+        public RemoteCallTask(ApiResponseCallbacks<T> responseCallbacks) {
             this.responseCallbacks = responseCallbacks;
         }
 
         @Override
-        protected ApiResponse doInBackground(ApiRequest... apiRequests) {
-            ApiRequest apiRequest = apiRequests[0];
+        protected T doInBackground(ApiRequest<T>... apiRequests) {
+            ApiRequest<T> apiRequest = apiRequests[0];
             InputStream responseBody = null;
-            Http.Response response = null;
+            Http.Response response;
             try {
                 try {
                     Log.d("ApiGateway", "req info [url=" + apiRequest.getUrlString() + " ]");
@@ -75,12 +76,12 @@ public class ApiGateway {
                     }
                 } catch (Exception e) {
                     Log.d("ApiGateway", "request failed\n");
-                    return apiRequest.createResponse(WrappedHttpError.REQUEST_ERROR.getCode(), (response == null) ? null : response.getHeaderFields());
+                    return apiRequest.createResponse(WrappedHttpError.REQUEST_ERROR.getCode(), null);
                 }
 
                 try {
                     responseBody = response.getResponseBody();
-                    ApiResponse apiResponse = apiRequest.createResponse(response.getStatusCode(), response.getHeaderFields());
+                    T apiResponse = apiRequest.createResponse(response.getStatusCode(), response.getHeaderFields());
                     Log.d("ApiGateway", "resp info [response code = " + apiResponse.getHttpResponseCode() + "]\n");
                     apiResponse.consumeResponse(responseBody);
                     return apiResponse;
@@ -95,7 +96,7 @@ public class ApiGateway {
         }
 
         @Override
-        protected void onPostExecute(ApiResponse apiResponse) {
+        protected void onPostExecute(T apiResponse) {
             dispatch(apiResponse, responseCallbacks);
         }
     }

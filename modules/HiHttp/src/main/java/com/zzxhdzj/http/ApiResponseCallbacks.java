@@ -22,14 +22,14 @@ public interface ApiResponseCallbacks<T extends ApiResponse> {
      *
      * @param response
      */
-    public void onRequestFailure(ApiResponse response);
+    public void onRequestFailure(T response);
 
 
-    public void onProcessFailure(ApiResponse response);
+    public void onProcessFailure(T response);
     /**
      * callback过程发生异常，一般为调用方出错
      */
-    public void onCallbackFailure(ApiResponse response);
+    public void onCallbackFailure(T response);
     public void onComplete();
 
     public void onStart();
@@ -38,5 +38,5 @@ public interface ApiResponseCallbacks<T extends ApiResponse> {
      * 业务出错，不符合接口预期：自行约定错误码
      * @param response
      */
-    public void onBizFailure(ApiResponse response);
+    public void onBizFailure(T response);
 }
