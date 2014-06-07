@@ -1,20 +1,17 @@
 package com.zzxhdzj.app;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
 import android.database.Cursor;
-import android.os.Bundle;
 import com.zzxhdzj.app.login.LoginFragment;
 import com.zzxhdzj.app.play.PlayFragment;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.channels.local.ChannelHelper;
-import com.zzxhdzj.douban.db.tables.ChannelTable;
 import com.zzxhdzj.douban.modules.channel.Channel;
 import com.zzxhdzj.http.Callback;
 import org.joda.time.DateTime;
 import org.joda.time.Period;
+
+import java.util.ArrayList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,10 +24,12 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
     private Douban douban;
     private static final int QUERY_CHANNEL = 1;
     private static final String KEY_LAST_CHLS_QUERY_TIME = "KEY_LAST_CHLS_QUERY_TIME";
+    private ChannelHelper channelHelper;
 
     public DoubanFmDelegate(DoubanFm doubanFm) {
         this.doubanFm = doubanFm;
         this.douban = new Douban(doubanFm);
+        channelHelper = new ChannelHelper(doubanFm);
     }
 
     public void prepareSongs() {
@@ -46,44 +45,108 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
         return douban;
     }
 
-    public void queryBasicChannelInfo() {
+    public void updateStaticChannelInfo() {
         long lastChlsUpdateTime = Douban.sharedPreferences.getLong(KEY_LAST_CHLS_QUERY_TIME, 0);
-        if (isRefeshChannelsOverdue(new DateTime().withMillis(lastChlsUpdateTime))) {
-            new ChannelHelper(doubanFm).queryChannels(new LoaderManager.LoaderCallbacks<Cursor>() {
+        if (isRefreshChannelsOverdue(new DateTime().withMillis(lastChlsUpdateTime))) {
+            channelHelper.queryStaticChannels(new ChannelHelper.ChannelHelperListener() {
                 @Override
-                public Loader<Cursor> onCreateLoader(int loaderId, Bundle args) {
-                    if (loaderId == QUERY_CHANNEL) {
-                        return new CursorLoader(doubanFm, ChannelTable.CONTENT_URI,
-                                Channel.RECEIPT_PROJECTION, null, null, null);
-                    }
-                    return null;
+                public void onResult(Cursor data) {
+                    Douban.sharedPreferences.edit().putLong(KEY_LAST_CHLS_QUERY_TIME,new DateTime().getMillis());
+                    //更新固定频率id
+                    fetchChannelsInfo(data);
                 }
-
-                @Override
-                public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-                    if (loader.getId() == QUERY_CHANNEL) {
-                        fetchChannelsInfo(data);
-                    }
-                }
-
-                @Override
-                public void onLoaderReset(Loader<Cursor> loader) {
-
-                }
-
-
             });
         }
     }
 
+    public void updateDynamicChannels(){
+        //根据我听的比较多的频道推荐频道:mock
+        final ArrayList<Integer> channelIds = new ArrayList<Integer>();
+        //FIXME:从数据库查点击次数最多的
+        channelIds.add(1);
+        channelIds.add(3);
+        channelIds.add(5);
+
+        final ArrayList<Channel> tempChannels = new ArrayList<Channel>();
+
+        //step3
+        final Callback recommendCallback = new Callback() {
+            @Override
+            public void onSuccess() {
+                synchronized (tempChannels){
+                    tempChannels.add(douban.recommendChannel);
+                }
+            }
+
+            @Override
+            public void onComplete() {
+                super.onComplete();
+                persistDynamicChannels(tempChannels);
+            }
+        };
+
+        //step2
+        //前7名
+        final Callback trendingCallback = new Callback() {
+            @Override
+            public void onSuccess() {
+                super.onSuccess();
+                synchronized (tempChannels){
+                    tempChannels.addAll(douban.channels);
+                }
+            }
+
+            @Override
+            public void onComplete() {
+                super.onComplete();
+                douban.recommendChannnels(channelIds, recommendCallback);
+            }
+        };
+
+        //step1
+        Callback hotCallback = new Callback() {
+            @Override
+            public void onSuccess() {
+                super.onSuccess();
+                synchronized (tempChannels){
+                    tempChannels.addAll(douban.channels);
+                }
+            }
+
+            @Override
+            public void onComplete() {
+                super.onComplete();
+                douban.queryTrendingChannles(1, 9, trendingCallback);
+            }
+        };
+
+        douban.queryHotChannels(1, 9, hotCallback);
+    }
+    void persistDynamicChannels(final ArrayList<Channel> tempChannels){
+        channelHelper.queryDynamicChannels(new ChannelHelper.ChannelHelperListener() {
+            @Override
+            public void onResult(final Cursor data) {
+                 channelHelper.createOrUpdateNoneStaticChannels(data,tempChannels);
+            }
+        });
+    }
+
     private void fetchChannelsInfo(Cursor data) {
+        //更新数据库中的固定频道信息
         while (data.moveToNext()) {
-            int channelId = data.getInt(Channel.CHANNEL_ID_INDEX);
-            douban.queryChannelInfo();
+            String channelId = data.getString(Channel.CHANNEL_ID_INDEX);
+            //去网上查询然后更新到数据库
+            douban.queryChannelInfo(channelId, new Callback(){
+                @Override
+                public void onSuccess() {
+                    super.onSuccess();
+                    channelHelper.update((Channel) douban.singleObject);
+                }
+            });
         }
     }
 
-    public boolean isRefeshChannelsOverdue(DateTime lastRequestTime) {
+    public boolean isRefreshChannelsOverdue(DateTime lastRequestTime) {
         Period rentalPeriod = new Period().withDays(1);
         return lastRequestTime.plus(rentalPeriod).isBeforeNow();
     }

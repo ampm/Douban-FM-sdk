@@ -43,7 +43,8 @@ public class DoubanFm extends FragmentActivity {
         setContentView(R.layout.main);
         ButterKnife.inject(this);
         doubanFmDelegate = new DoubanFmDelegate(this);
-        doubanFmDelegate.queryBasicChannelInfo();
+        doubanFmDelegate.updateStaticChannelInfo();
+        doubanFmDelegate.updateDynamicChannels();
         doubanFmDelegate.prepareSongs();
     }
 
