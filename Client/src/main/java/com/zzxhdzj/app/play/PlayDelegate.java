@@ -26,7 +26,7 @@ public class PlayDelegate {
     private static final int WARNING_SIZE = 5;
     private LinkedList<Song> cachedSongsList;
     public PlayFragment.SongQueueListener songQueueListener;
-    private boolean isPLAYING;
+    private static boolean isPLAYING;
     private PlayFragment playFragment;
     private MediaPlayer mp;
     private Douban douban;
@@ -44,12 +44,13 @@ public class PlayDelegate {
         }
     };
     public void play() {
+        if(isPLAYING)return;
         isPLAYING = true;
         new Thread() {
             @Override
             public void run() {
                 if (cachedSongsList == null || cachedSongsList.size() == 0) {
-                    feedMeNewSongsOrReport(ReportType.NEXT_QUEUE, currentPlayingSong != null ? currentPlayingSong.sid : "",
+                    fetchNewSongsOrReportPlayInfo(ReportType.NEXT_QUEUE, currentPlayingSong != null ? currentPlayingSong.sid : "",
                             startInClassScope != null ? new Interval(startInClassScope, new DateTime()).toDuration().toPeriod().getSeconds() : 0
                             , ChannelConstantIds.PRIVATE_CHANNEL, BitRate.HIGH);
                     isPLAYING = false;
@@ -57,7 +58,7 @@ public class PlayDelegate {
                 }
                 currentPlayingSong = cachedSongsList.remove();
                 if (cachedSongsList.size() < WARNING_SIZE) {
-                    feedMeNewSongsOrReport(ReportType.NEXT_QUEUE, currentPlayingSong != null ? currentPlayingSong.sid : "",
+                    fetchNewSongsOrReportPlayInfo(ReportType.NEXT_QUEUE, currentPlayingSong != null ? currentPlayingSong.sid : "",
                             startInClassScope != null ? new Interval(startInClassScope, new DateTime()).toDuration().toPeriod().getSeconds() : 0
                             , ChannelConstantIds.PRIVATE_CHANNEL, BitRate.HIGH);
                 }
@@ -93,7 +94,7 @@ public class PlayDelegate {
     }
 
     private void sendReport(ReportType reportType,String songId,int playTime,int channelId,BitRate bitRate) {
-        feedMeNewSongsOrReport(reportType, songId,
+        fetchNewSongsOrReportPlayInfo(reportType, songId,
                 playTime
                 , channelId, bitRate);
     }
@@ -111,10 +112,10 @@ public class PlayDelegate {
         }catch (Exception e){
 
         }
-
         isPLAYING = false;
     }
-    private void feedMeNewSongsOrReport(ReportType reportType, String songId, int playTime, int currentChannel, BitRate bitRate) {
+
+    private void fetchNewSongsOrReportPlayInfo(ReportType reportType, String songId, int playTime, int currentChannel, BitRate bitRate) {
         songQueueListener.songListNearlyEmptyOrNeedReport(reportType,songId,playTime,currentChannel,bitRate
                 ,new DouCallback(douban) {
             @Override
