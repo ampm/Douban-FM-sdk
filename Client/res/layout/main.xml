@@ -18,17 +18,21 @@
                       android:gravity="center"
                       android:layout_alignParentLeft="true"
                 >
-            <ImageView android:layout_width="48dp"
-                       android:layout_height="48dp"
-                       android:src="@drawable/ic_widget3_ban"
-                       android:padding="5dp"
+            <ImageView
+                    android:id="@+id/left_ban_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/bg_player_ban"
+                    android:padding="5dp"
                     />
-            <ImageView android:layout_width="48dp"
-                       android:layout_height="48dp"
-                       android:layout_marginTop="10dp"
-                       android:layout_marginBottom="10dp"
-                       android:padding="5dp"
-                       android:src="@drawable/ic_widget3_fav"
+            <ImageView
+                    android:id="@+id/left_fav_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="5dp"
+                    android:src="@drawable/bg_player_liked"
                     />
             <ImageView android:layout_width="48dp"
                        android:layout_height="48dp"

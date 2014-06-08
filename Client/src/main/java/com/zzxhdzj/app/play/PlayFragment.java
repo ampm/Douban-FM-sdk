@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.zzxhdzj.app.play.view.SongInfoView;
+import com.zzxhdzj.douban.ChannelConstantIds;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.R;
 import com.zzxhdzj.douban.ReportType;
@@ -24,11 +25,11 @@ public class PlayFragment extends Fragment {
     public static final String TAG = "com.zzxhdzj.app.play.PlayFragment";
     @InjectView(R.id.song_item)
     SongInfoView mSongItem;
-    private PlayDelegate playDelegate;
+    private PlayControlDelegate playControlDelegate;
 
     public PlayFragment() {
         super();
-        this.playDelegate = new PlayDelegate(this);
+        this.playControlDelegate = new PlayControlDelegate(this);
     }
 
     @Override
@@ -47,15 +48,21 @@ public class PlayFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        playDelegate.play();
+        playControlDelegate.play(ChannelConstantIds.PRIVATE_CHANNEL);
     }
 
 
     public void setSongQueueListener(SongQueueListener songQueueListener) {
-        this.playDelegate.songQueueListener = songQueueListener;
+        this.playControlDelegate.songQueueListener = songQueueListener;
     }
 
-    public interface SongQueueListener{
+    PlayControlDelegate.SongActionListener songActionListener;
+
+    public void setSongActionListener(PlayControlDelegate.SongActionListener songActionListener) {
+        this.songActionListener = songActionListener;
+    }
+
+    public interface SongQueueListener {
         void songListNearlyEmptyOrNeedReport(ReportType reportType, String songId, int playTime, int currentChannel, BitRate bitRate, Callback callback);
     }
 
@@ -67,16 +74,16 @@ public class PlayFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        playDelegate.stopPlaying();
+        playControlDelegate.stopPlaying();
     }
 
-    public PlayDelegate getPlayDelegate() {
-        return playDelegate;
+    public PlayControlDelegate getPlayControlDelegate() {
+        return playControlDelegate;
     }
 
 
     public void setDouban(Douban douban) {
-        playDelegate.setDouban(douban);
+        playControlDelegate.setDouban(douban);
     }
 
 }

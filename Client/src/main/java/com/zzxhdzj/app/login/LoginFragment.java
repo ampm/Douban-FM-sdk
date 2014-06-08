@@ -88,7 +88,7 @@ public class LoginFragment extends Fragment {
         });
     }
 
-    public void setmLoginListener(LoginListener mLoginListener) {
+    public void setLoginListener(LoginListener mLoginListener) {
         this.mLoginListener = mLoginListener;
     }
 

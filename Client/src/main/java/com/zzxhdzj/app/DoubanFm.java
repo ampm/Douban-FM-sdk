@@ -14,6 +14,7 @@ import butterknife.InjectView;
 import com.zzxhdzj.app.login.LoginFragment;
 import com.zzxhdzj.app.play.PlayFragment;
 import com.zzxhdzj.douban.R;
+import com.zzxhdzj.douban.ReportType;
 import com.zzxhdzj.douban.modules.UserInfo;
 
 /**
@@ -35,6 +36,10 @@ public class DoubanFm extends FragmentActivity {
     LinearLayout mLeftControl;
     @InjectView(R.id.left_skip_button)
     ImageView mLeftSkipButton;
+    @InjectView(R.id.left_ban_button)
+    ImageView mLeftBanButton;
+    @InjectView(R.id.left_fav_button)
+    ImageView mLeftFavButton;
     private DoubanFmDelegate doubanFmDelegate;
 
     @Override
@@ -45,13 +50,13 @@ public class DoubanFm extends FragmentActivity {
         doubanFmDelegate = new DoubanFmDelegate(this);
         doubanFmDelegate.updateStaticChannelInfo();
         doubanFmDelegate.updateDynamicChannels();
-        doubanFmDelegate.prepareSongs();
+        doubanFmDelegate.prepare();
     }
 
     public void showLoginFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         LoginFragment loginFragment = new LoginFragment();
-        loginFragment.setmLoginListener(doubanFmDelegate);
+        loginFragment.setLoginListener(doubanFmDelegate);
         ft.replace(R.id.dou_content, loginFragment);
         ft.commit();
     }
@@ -62,6 +67,7 @@ public class DoubanFm extends FragmentActivity {
         PlayFragment playFragment = new PlayFragment();
         playFragment.setSongQueueListener(listener);
         playFragment.setDouban(doubanFmDelegate.getDouban());
+        playFragment.setSongActionListener(doubanFmDelegate);
         ft.replace(R.id.dou_content, playFragment,PlayFragment.TAG);
         ft.commit();
     }
@@ -80,11 +86,33 @@ public class DoubanFm extends FragmentActivity {
                 Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(PlayFragment.TAG);
                 if(fragmentByTag!=null){
                     PlayFragment playFragment = (PlayFragment) fragmentByTag;
-                    playFragment.getPlayDelegate().skipAndPlayNext();
+                    playFragment.getPlayControlDelegate().skipOrBanOrFavASong(ReportType.SKIP);
                 }
 
             }
         });
+        mLeftBanButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(PlayFragment.TAG);
+                if(fragmentByTag!=null){
+                    PlayFragment playFragment = (PlayFragment) fragmentByTag;
+                    playFragment.getPlayControlDelegate().skipOrBanOrFavASong(ReportType.BAN);
+                }
+            }
+        });
+        mLeftFavButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(PlayFragment.TAG);
+                if(fragmentByTag!=null){
+                    PlayFragment playFragment = (PlayFragment) fragmentByTag;
+                    playFragment.getPlayControlDelegate().skipOrBanOrFavASong(ReportType.FAV);
+                    mLeftBanButton.setPressed(true);
+                }
+            }
+        });
     }
+
 
 }

@@ -2,9 +2,10 @@ package com.zzxhdzj.app;
 
 import android.database.Cursor;
 import com.zzxhdzj.app.login.LoginFragment;
+import com.zzxhdzj.app.play.PlayControlDelegate;
 import com.zzxhdzj.app.play.PlayFragment;
-import com.zzxhdzj.douban.ReportType;
 import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.ReportType;
 import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.channels.local.ChannelHelper;
 import com.zzxhdzj.douban.modules.channel.Channel;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
  * Date: 6/5/14
  * To change this template use File | Settings | File Templates.
  */
-public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragment.SongQueueListener {
+public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragment.SongQueueListener, PlayControlDelegate.SongActionListener {
     private DoubanFm doubanFm;
     private Douban douban;
     private static final int QUERY_CHANNEL = 1;
@@ -33,7 +34,7 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
         channelHelper = new ChannelHelper(doubanFm);
     }
 
-    public void prepareSongs() {
+    public void prepare() {
         if (douban.isLogged()) {
             doubanFm.showPlayFragment(this);
             doubanFm.showLoggedItems(douban.getUserInfo());
@@ -51,16 +52,16 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
         if (isRefreshChannelsOverdue(new DateTime().withMillis(lastChlsUpdateTime))) {
             channelHelper.queryStaticChannels(new ChannelHelper.ChannelHelperListener() {
                 @Override
-                public void onResult(Cursor data) {
-                    Douban.sharedPreferences.edit().putLong(KEY_LAST_CHLS_QUERY_TIME,new DateTime().getMillis());
+                public void onResult(Cursor cursor) {
+                    Douban.sharedPreferences.edit().putLong(KEY_LAST_CHLS_QUERY_TIME, new DateTime().getMillis());
                     //更新固定频率id
-                    fetchChannelsInfo(data);
+                    fetchChannelsInfo(cursor);
                 }
             });
         }
     }
 
-    public void updateDynamicChannels(){
+    public void updateDynamicChannels() {
         //根据我听的比较多的频道推荐频道:mock
         final ArrayList<Integer> channelIds = new ArrayList<Integer>();
         //FIXME:从数据库查点击次数最多的
@@ -74,7 +75,7 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
         final Callback recommendCallback = new Callback() {
             @Override
             public void onSuccess() {
-                synchronized (tempChannels){
+                synchronized (tempChannels) {
                     tempChannels.add(douban.recommendChannel);
                 }
             }
@@ -92,7 +93,7 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
             @Override
             public void onSuccess() {
                 super.onSuccess();
-                synchronized (tempChannels){
+                synchronized (tempChannels) {
                     tempChannels.addAll(douban.channels);
                 }
             }
@@ -109,7 +110,7 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
             @Override
             public void onSuccess() {
                 super.onSuccess();
-                synchronized (tempChannels){
+                synchronized (tempChannels) {
                     tempChannels.addAll(douban.channels);
                 }
             }
@@ -123,28 +124,39 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
 
         douban.queryHotChannels(1, 9, hotCallback);
     }
-    void persistDynamicChannels(final ArrayList<Channel> tempChannels){
+
+    void persistDynamicChannels(final ArrayList<Channel> tempChannels) {
         channelHelper.queryDynamicChannels(new ChannelHelper.ChannelHelperListener() {
             @Override
-            public void onResult(final Cursor data) {
-                 channelHelper.createOrUpdateNoneStaticChannels(data,tempChannels);
+            public void onResult(final Cursor cursor) {
+                channelHelper.createOrUpdateDynamicChannels(cursor, tempChannels);
             }
         });
     }
 
-    private void fetchChannelsInfo(Cursor data) {
+    private void fetchChannelsInfo(final Cursor cursor) {
         //更新数据库中的固定频道信息
-        while (data.moveToNext()) {
-            String channelId = data.getString(Channel.CHANNEL_ID_INDEX);
-            //去网上查询然后更新到数据库
-            douban.queryChannelInfo(channelId, new Callback(){
-                @Override
-                public void onSuccess() {
-                    super.onSuccess();
-                    channelHelper.update((Channel) douban.singleObject);
-                }
-            });
+        try {
+            cursor.moveToFirst();
+            while (cursor.moveToNext()) {
+                String channelId = cursor.getString(Channel.CHANNEL_ID_INDEX);
+                final int _id = cursor.getInt(Channel.ID_INDEX);
+                //去网上查询然后更新到数据库
+                douban.queryChannelInfo(channelId, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        super.onSuccess();
+                        Channel singleObject = (Channel) douban.singleObject;
+                        singleObject._id = _id;
+                        channelHelper.update(singleObject);
+                    }
+                });
+            }
+        }catch (Exception e){
+        }finally {
+            cursor.close();
         }
+
     }
 
     public boolean isRefreshChannelsOverdue(DateTime lastRequestTime) {
@@ -161,7 +173,15 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
 
     @Override
     public void songListNearlyEmptyOrNeedReport(ReportType reportType, String songId, int playTime, int currentChannel, BitRate bitRate, Callback callback) {
-        douban.songsOfPrivateChannels(reportType,songId,playTime,BitRate.HIGH, callback);
+        douban.songsOfChannel(reportType, songId, playTime, BitRate.HIGH, callback);
     }
 
+    @Override
+    public void banFailed() {
+    }
+
+    @Override
+    public void favFailed() {
+        doubanFm.mLeftFavButton.setPressed(false);
+    }
 }
