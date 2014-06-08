@@ -13,7 +13,7 @@
     </modules>
     <properties>
         <platform.version>4.1.1.4</platform.version>
-        <robolectric.version>2.2</robolectric.version>
+        <robolectric.version>2.3</robolectric.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <android.plugin.version>3.6.0</android.plugin.version>
         <okhttp.version>2.0.0-SNAPSHOT</okhttp.version>
@@ -57,7 +57,7 @@
             <dependency>
                 <groupId>com.google.android</groupId>
                 <artifactId>support-v4</artifactId>
-                <version>r7</version>
+                <version>19.0.1</version>
             </dependency>
             <!-- Androlog is a logging and reporting library for Android -->
             <dependency>

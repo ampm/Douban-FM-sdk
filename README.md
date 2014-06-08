@@ -3,7 +3,10 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
 #Logs
     
     todo：
-    完善api+重新组织pom结构
+    
+    完善api
+    
+    重新组织pom结构
 
 - 2013-12-11 1.0-SNAPSHOT
 - 2014-03-29 1.0-RC
@@ -54,6 +57,22 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
 - 2014-06-06
     
     delegate抽取
+    
+- 2014-06-07
+
+ 完善api
+    
+    type=e(end)自然结束，返回成功
+    http://douban.fm/j/mine/playlist?type=e&sid=1920481&channel=1005153&pt=198.8&pb=128&from=mainsite&r=a4b412e2f8
+    
+    type=s skip（不返回新组曲）
+    
+    http://douban.fm/j/mine/playlist?type=s&sid=642561&pt=136.2&channel=1005153&pb=64&from=mainsite&kbps=128&r=470747587d
+    
+    type=n(next，更新歌曲）
+    
+    http://douban.fm/j/mine/playlist?type=n&sid=1920481&pt=4.4&channel=1005153&pb=128&from=mainsite&kbps=192&r=dead262593
+
   
 #Usage:
 
