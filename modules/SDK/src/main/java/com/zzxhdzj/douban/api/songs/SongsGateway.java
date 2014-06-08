@@ -1,13 +1,12 @@
 package com.zzxhdzj.douban.api.songs;
 
 import com.google.gson.Gson;
-import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.ChannelConstantIds;
 import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.ReportType;
 import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
-import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
 import com.zzxhdzj.douban.api.base.BaseApiGateway;
 import com.zzxhdzj.douban.modules.song.SongResp;
 import com.zzxhdzj.http.ApiGateway;
@@ -27,12 +26,12 @@ public class SongsGateway extends BaseApiGateway {
         super(douban, apiGateway,RespType.R);
     }
 
-    public void querySongsByChannelId(String songType, int channelId, BitRate bitRate, Callback callback) {
+    public void querySongsByChannelId(ReportType songType, String currentSongId, int playTime, int channelId, BitRate bitRate, Callback callback) {
         if(channelId== ChannelConstantIds.PRIVATE_CHANNEL
                 ||channelId== ChannelConstantIds.FAV){
             this.isAuthRequire=true;
         }
-        apiGateway.makeRequest(new SongsRequest(channelId, bitRate, songType, douban.getContext()), new SongApiResponseCallback(callback, this, douban));
+        apiGateway.makeRequest(new SongsRequest(channelId, bitRate, songType,currentSongId, playTime,douban.getContext()), new SongApiResponseCallback(callback, this, douban));
     }
 
     private class SongApiResponseCallback extends CommonTextApiResponseCallback {
@@ -56,9 +55,7 @@ public class SongsGateway extends BaseApiGateway {
                 douban.songs = songResp.songs;
                 return true;
             } else {
-                if(douban.mApiRespErrorCode == null || !douban.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
-                    douban.mApiRespErrorCode = ApiRespErrorCode.createBizError(songResp.getCode(respType), songResp.getMessage(respType));
-                }
+                detectAuthError(songResp);
                 return false;
             }
         }

@@ -1,10 +1,17 @@
 package com.zzxhdzj.app.play;
 
 import android.media.MediaPlayer;
+import android.os.Handler;
+import android.os.Message;
 import android.widget.Toast;
 import com.zzxhdzj.app.DouCallback;
+import com.zzxhdzj.douban.ChannelConstantIds;
 import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.ReportType;
+import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.modules.song.Song;
+import org.joda.time.DateTime;
+import org.joda.time.Interval;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -23,37 +30,55 @@ public class PlayDelegate {
     private PlayFragment playFragment;
     private MediaPlayer mp;
     private Douban douban;
+    private Song currentPlayingSong;
+    private DateTime startInClassScope;
+
     public PlayDelegate(PlayFragment playFragment) {
         this.playFragment = playFragment;
     }
-
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            playFragment.mSongItem.bindView(currentPlayingSong);
+        }
+    };
     public void play() {
-        playFragment.getView().post(new Runnable() {
+        isPLAYING = true;
+        new Thread() {
             @Override
             public void run() {
                 if (cachedSongsList == null || cachedSongsList.size() == 0) {
-                    feedMeNewSongsPlease();
+                    feedMeNewSongsOrReport(ReportType.NEXT_QUEUE, currentPlayingSong != null ? currentPlayingSong.sid : "",
+                            startInClassScope != null ? new Interval(startInClassScope, new DateTime()).toDuration().toPeriod().getSeconds() : 0
+                            , ChannelConstantIds.PRIVATE_CHANNEL, BitRate.HIGH);
+                    isPLAYING = false;
                     return;
                 }
-                if (isPLAYING) return;
-                Song song = cachedSongsList.remove();
+                currentPlayingSong = cachedSongsList.remove();
                 if (cachedSongsList.size() < WARNING_SIZE) {
-                    feedMeNewSongsPlease();
+                    feedMeNewSongsOrReport(ReportType.NEXT_QUEUE, currentPlayingSong != null ? currentPlayingSong.sid : "",
+                            startInClassScope != null ? new Interval(startInClassScope, new DateTime()).toDuration().toPeriod().getSeconds() : 0
+                            , ChannelConstantIds.PRIVATE_CHANNEL, BitRate.HIGH);
                 }
-                playFragment.mSongItem.bindView(song);
+                handler.sendEmptyMessage(1);
                 mp = new MediaPlayer();
+                final DateTime start = new DateTime();
+                startInClassScope = start;
                 mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
+                        //send end report
+                        int seconds = new Interval(start, new DateTime()).toDuration().toPeriod().getSeconds();
+                        sendReport(ReportType.END, currentPlayingSong.sid, seconds, ChannelConstantIds.PRIVATE_CHANNEL, BitRate.HIGH);
                         mp.release();
-                        play();
                         isPLAYING = false;
+                        play();
                     }
                 });
 
                 try {
-                    isPLAYING = true;
-                    mp.setDataSource(song.url);
+                    mp.setDataSource(currentPlayingSong.url);
                     try {
                         mp.prepare();
                     } catch (IOException e) {
@@ -63,12 +88,21 @@ public class PlayDelegate {
                 } catch (IOException e) {
                 }
             }
-        });
+        }.start();
 
     }
-    public void playNext(){
+
+    private void sendReport(ReportType reportType,String songId,int playTime,int channelId,BitRate bitRate) {
+        feedMeNewSongsOrReport(reportType, songId,
+                playTime
+                , channelId, bitRate);
+    }
+
+    public void skipAndPlayNext(){
+        //send skip report
+        int seconds = new Interval(startInClassScope, new DateTime()).toDuration().toPeriod().getSeconds();
         stopPlaying();
-        play();
+        sendReport(ReportType.SKIP, currentPlayingSong.sid, seconds, ChannelConstantIds.PRIVATE_CHANNEL, BitRate.HIGH);
     }
     public void stopPlaying() {
         try {
@@ -80,8 +114,9 @@ public class PlayDelegate {
 
         isPLAYING = false;
     }
-    private void feedMeNewSongsPlease() {
-        songQueueListener.songListNearlyEmpty(new DouCallback(douban){
+    private void feedMeNewSongsOrReport(ReportType reportType, String songId, int playTime, int currentChannel, BitRate bitRate) {
+        songQueueListener.songListNearlyEmptyOrNeedReport(reportType,songId,playTime,currentChannel,bitRate
+                ,new DouCallback(douban) {
             @Override
             public void onStart() {
                 super.onStart();
@@ -90,7 +125,7 @@ public class PlayDelegate {
             @Override
             public void onSuccess() {
                 cachedSongsList = douban.songs;
-                play();
+                if(!isPLAYING)play();
             }
 
             @Override

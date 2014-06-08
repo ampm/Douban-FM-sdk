@@ -80,7 +80,7 @@ public class DoubanFm extends FragmentActivity {
                 Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(PlayFragment.TAG);
                 if(fragmentByTag!=null){
                     PlayFragment playFragment = (PlayFragment) fragmentByTag;
-                    playFragment.getPlayDelegate().playNext();
+                    playFragment.getPlayDelegate().skipAndPlayNext();
                 }
 
             }

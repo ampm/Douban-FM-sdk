@@ -3,6 +3,7 @@ package com.zzxhdzj.app;
 import android.database.Cursor;
 import com.zzxhdzj.app.login.LoginFragment;
 import com.zzxhdzj.app.play.PlayFragment;
+import com.zzxhdzj.douban.ReportType;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.channels.local.ChannelHelper;
@@ -159,8 +160,8 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
 
 
     @Override
-    public void songListNearlyEmpty(Callback callback) {
-        douban.songsOfPrivateChannels(BitRate.HIGH, callback);
+    public void songListNearlyEmptyOrNeedReport(ReportType reportType, String songId, int playTime, int currentChannel, BitRate bitRate, Callback callback) {
+        douban.songsOfPrivateChannels(reportType,songId,playTime,BitRate.HIGH, callback);
     }
 
 }

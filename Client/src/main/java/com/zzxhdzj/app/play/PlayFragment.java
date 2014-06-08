@@ -10,6 +10,8 @@ import butterknife.InjectView;
 import com.zzxhdzj.app.play.view.SongInfoView;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.R;
+import com.zzxhdzj.douban.ReportType;
+import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.http.Callback;
 
 /**
@@ -54,7 +56,7 @@ public class PlayFragment extends Fragment {
     }
 
     public interface SongQueueListener{
-        void songListNearlyEmpty(Callback callback);
+        void songListNearlyEmptyOrNeedReport(ReportType reportType, String songId, int playTime, int currentChannel, BitRate bitRate, Callback callback);
     }
 
     @Override

@@ -111,14 +111,16 @@ public class Douban extends ApiInstance {
 
     /**
      * 获取指定频道歌曲，通过douban.songs获取
-     *
      * @param channelId
      * @param bitRate
      * @param callback
+     * @param songType
+     * @param currentSongId
+     * @param playTime
      */
-    public void songsOfChannel(int channelId, BitRate bitRate, Callback callback) {
+    public void songsOfChannel(int channelId, BitRate bitRate, ReportType songType, String currentSongId, int playTime, Callback callback) {
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
-        songsGateway.querySongsByChannelId(Constants.songType, channelId, bitRate, callback);
+        songsGateway.querySongsByChannelId(songType,currentSongId,playTime,channelId,bitRate, callback);
     }
 
 
@@ -169,23 +171,28 @@ public class Douban extends ApiInstance {
     /**
      * 私人频道，可通过douban.channels获取
      *
+     * @param reportType
+     * @param currentSongId
+     * @param playTime
      * @param bitRate
      * @param callback
      */
-    public void songsOfPrivateChannels(BitRate bitRate, Callback callback) {
+    public void songsOfPrivateChannels(ReportType reportType, String currentSongId, int playTime, BitRate bitRate, Callback callback) {
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
-        songsGateway.querySongsByChannelId(Constants.songType, ChannelConstantIds.PRIVATE_CHANNEL, bitRate, callback);
+        songsGateway.querySongsByChannelId(reportType,currentSongId,playTime, ChannelConstantIds.PRIVATE_CHANNEL, bitRate, callback);
     }
 
     /**
      * 红心歌曲(对应红心频道)，可通过douban.songs获取
-     *
-     * @param bitRate
+     * @param reportType
      * @param callback
+     * @param bitRate
+     * @param currentSongId
+     * @param playTime
      */
-    public void favSongs(BitRate bitRate, Callback callback) {
+    public void favSongs(ReportType reportType, BitRate bitRate, String currentSongId, int playTime,Callback callback) {
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
-        songsGateway.querySongsByChannelId(Constants.songType, ChannelConstantIds.FAV, bitRate, callback);
+        songsGateway.querySongsByChannelId(reportType,currentSongId,playTime,ChannelConstantIds.FAV, bitRate, callback);
     }
 
     /**

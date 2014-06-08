@@ -1,5 +1,6 @@
 package com.zzxhdzj.douban.modules;
 
+import android.text.TextUtils;
 import com.google.gson.annotations.SerializedName;
 import com.zzxhdzj.douban.api.RespType;
 
@@ -17,10 +18,18 @@ public class Resp {
     @SerializedName("err_msg")
     private String errMsg;
     public String warning;
+    public String err;
     public String getMessage(RespType respType){
+        String returnMsg;
         if(respType.equals(RespType.R)){
-            return errMsg;
-        }else  return msg;
+            returnMsg = this.errMsg;
+        }else {
+            returnMsg = this.msg;
+        }
+        if(TextUtils.isEmpty(returnMsg)){
+            returnMsg = this.err;
+        }
+        return returnMsg;
     }
     public String getCode(RespType respType){
         if(respType.equals(RespType.R)){
@@ -28,9 +37,4 @@ public class Resp {
         }else return status?"1":"0";
     }
 
-    public void setMsg(RespType respType,String msg) {
-        if(respType.equals(RespType.R)){
-            this.errMsg = msg;
-        }else  this.msg = msg;
-    }
 }
