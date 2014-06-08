@@ -62,7 +62,6 @@ public class ChannelHelper {
 
         @Override
         public void onLoaderReset(Loader<Cursor> loader) {
-
         }
     };
 
@@ -89,30 +88,31 @@ public class ChannelHelper {
         if (channel.category > 0) {
             value.put(ChannelTable.Columns.CATEGORY_ID, channel.category);
         }
-        String where = ChannelTable.Columns.CHANNEL_ID + "=" + channel.id;
+        String where = ChannelTable.Columns._ID + "=" + channel._id;
         context.getContentResolver().update(ChannelTable.CONTENT_URI, value, where, null);
     }
 
     /**
      * update而不reset的目的在于保留历史channel点击次数
      *
-     * @param oldChannels
+     * @param cursor
      * @param newChannels
      */
-    public void createOrUpdateNoneStaticChannels(Cursor oldChannels, ArrayList<Channel> newChannels) {
+    public void createOrUpdateDynamicChannels(Cursor cursor, ArrayList<Channel> newChannels) {
         ArrayList<Channel> filteredToUpdate = new ArrayList<Channel>();
-        ArrayList<Channel> filteredToInsert = new ArrayList<Channel>();
-        while (oldChannels.moveToNext()) {
-            int channelId = oldChannels.getInt(Channel.CHANNEL_ID_INDEX);
+        ArrayList<Channel> filteredToInsert = newChannels;
+        while (cursor.moveToNext()) {
+            int channelId = cursor.getInt(Channel.CHANNEL_ID_INDEX);
             for (Channel ch : newChannels) {
                 if (channelId == ch.id) {
+                    ch._id = cursor.getInt(Channel.ID_INDEX);
                     filteredToUpdate.add(ch);
-                } else {
-                    filteredToInsert.add(ch);
+                    filteredToInsert.remove(ch);
+                    break;
                 }
             }
         }
-        if(filteredToUpdate.size()==0)filteredToInsert = newChannels;
+        cursor.close();
         for (Channel channel : filteredToInsert) {
             ContentValues value = new ContentValues();
             value.put(ChannelTable.Columns.CHANNEL_ID, channel.id);

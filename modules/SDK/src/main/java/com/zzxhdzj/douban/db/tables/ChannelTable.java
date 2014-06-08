@@ -16,7 +16,7 @@ public class ChannelTable extends DbTable {
 
         public static String getInitializeDataSQL() {
             String initializeData = "insert into "+ TABLE_NAME +"("+
-                    _ID+ ","+
+                    Columns. _ID+ ","+
                     Columns.CHANNEL_ID+ ","+
                     Columns.SONG_NUM+ ","+
                     Columns.NAME+ ","+
@@ -70,6 +70,7 @@ public class ChannelTable extends DbTable {
             public static final String COVER = "cover";
             public static final String CATEGORY_ID = "category";
             public static final String GENRE = "genre";
+            public static final String _ID = DbTable._ID;
         }
         public static String getCreateSQL() {
             String createString = TABLE_NAME +

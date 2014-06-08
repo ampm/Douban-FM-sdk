@@ -3,7 +3,6 @@ package com.zzxhdzj.douban.modules.channel;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.zzxhdzj.douban.db.tables.ChannelTable;
-import com.zzxhdzj.douban.db.tables.DbTable;
 import com.zzxhdzj.douban.modules.Creator;
 
 /**
@@ -14,11 +13,14 @@ import com.zzxhdzj.douban.modules.Creator;
  * To change this template use File | Settings | File Templates.
  */
 public class Channel {
+    @Expose
+    public int _id;
+
     protected Channel() {
     }
 
     public static final String[] RECEIPT_PROJECTION = new String[]{
-            DbTable._ID,
+            ChannelTable.Columns._ID,
             ChannelTable.Columns.CHANNEL_ID,
             ChannelTable.Columns.SONG_NUM,
             ChannelTable.Columns.NAME,

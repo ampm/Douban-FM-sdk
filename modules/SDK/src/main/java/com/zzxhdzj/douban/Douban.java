@@ -11,8 +11,6 @@ import com.zzxhdzj.douban.api.channels.action.ChannelActionGateway;
 import com.zzxhdzj.douban.api.channels.action.ChannelActionType;
 import com.zzxhdzj.douban.api.channels.query.ChannelQueryGateway;
 import com.zzxhdzj.douban.api.songs.SongsGateway;
-import com.zzxhdzj.douban.api.songs.action.SongActionGateway;
-import com.zzxhdzj.douban.api.songs.action.SongActionType;
 import com.zzxhdzj.douban.db.DoubanDb;
 import com.zzxhdzj.douban.modules.LoginParams;
 import com.zzxhdzj.douban.modules.UserInfo;
@@ -109,19 +107,6 @@ public class Douban extends ApiInstance {
         genreChannelGateway.fetchChannelsByGenreId(genreId, start, limit, callback);
     }
 
-    /**
-     * 获取指定频道歌曲，通过douban.songs获取
-     * @param channelId
-     * @param bitRate
-     * @param callback
-     * @param songType
-     * @param currentSongId
-     * @param playTime
-     */
-    public void songsOfChannel(int channelId, BitRate bitRate, ReportType songType, String currentSongId, int playTime, Callback callback) {
-        SongsGateway songsGateway = new SongsGateway(this, apiGateway);
-        songsGateway.querySongsByChannelId(songType,currentSongId,playTime,channelId,bitRate, callback);
-    }
 
 
     /**
@@ -168,79 +153,13 @@ public class Douban extends ApiInstance {
         channelActionGateway.favAChannel(ChannelActionType.FAV_CHANNEL, channelId, callback);
     }
 
-    /**
-     * 私人频道，可通过douban.channels获取
-     *
-     * @param reportType
-     * @param currentSongId
-     * @param playTime
-     * @param bitRate
-     * @param callback
-     */
-    public void songsOfPrivateChannels(ReportType reportType, String currentSongId, int playTime, BitRate bitRate, Callback callback) {
+
+    public void songsOfChannel(ReportType reportType, String currentSongId, int playTime, BitRate bitRate, Callback callback) {
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
         songsGateway.querySongsByChannelId(reportType,currentSongId,playTime, ChannelConstantIds.PRIVATE_CHANNEL, bitRate, callback);
     }
 
-    /**
-     * 红心歌曲(对应红心频道)，可通过douban.songs获取
-     * @param reportType
-     * @param callback
-     * @param bitRate
-     * @param currentSongId
-     * @param playTime
-     */
-    public void favSongs(ReportType reportType, BitRate bitRate, String currentSongId, int playTime,Callback callback) {
-        SongsGateway songsGateway = new SongsGateway(this, apiGateway);
-        songsGateway.querySongsByChannelId(reportType,currentSongId,playTime,ChannelConstantIds.FAV, bitRate, callback);
-    }
 
-    /**
-     * 跳过当前播放，返回新的一组歌曲，可通过douban.songs获取
-     *
-     * @param currentChannelId
-     * @param songId
-     * @param callback
-     */
-    public void skipSong(int currentChannelId, int songId, Callback callback) {
-        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway,false);
-        songActionGateway.songAction(SongActionType.SKIP, currentChannelId, songId, callback);
-    }
-    /**
-     * 添加红心，同时返回下组歌曲，可通过douban.songs获取
-     *
-     * @param currentChannelId
-     * @param songId
-     * @param callback
-     */
-    public void favASong(int currentChannelId, int songId, Callback callback) {
-        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway,true);
-        songActionGateway.songAction(SongActionType.FAV, currentChannelId, songId, callback);
-    }
-
-    /**
-     * 取消红心，同时返回下组歌曲，可通过douban.songs获取
-     *
-     * @param currentChannelId
-     * @param songId
-     * @param callback
-     */
-    public void unfavASong(int currentChannelId, int songId, Callback callback) {
-        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway,true);
-        songActionGateway.songAction(SongActionType.UNFAV, currentChannelId, songId, callback);
-    }
-
-    /**
-     * 不再播放此曲，同时返回下组歌曲，可通过douban.songs获取
-     *
-     * @param currentChannelId
-     * @param songId
-     * @param callback
-     */
-    public void banASong(int currentChannelId, int songId, Callback callback) {
-        SongActionGateway songActionGateway = new SongActionGateway(this, apiGateway,true);
-        songActionGateway.songAction(SongActionType.BAN, currentChannelId, songId, callback);
-    }
 
 
     public Context getContext() {

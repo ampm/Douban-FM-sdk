@@ -7,11 +7,23 @@ package com.zzxhdzj.douban;
  * To change this template use File | Settings | File Templates.
  */
 public enum ReportType {
-    NEXT_QUEUE("n"),SKIP("s"),END("e");
+    NEXT_QUEUE("n",false),SKIP("s",true),END("e",false),
+    BAN("b",true),FAV("r",false),UN_FAV("u",false),NULL("n",false);
     private String code;
+    private boolean cutCurrentPlaying;
 
-    ReportType(String code) {
+    /**
+     *
+     * @param code 操作类型
+     * @param cutCurrentPlaying 是否对当前播放喊卡
+     */
+    ReportType(String code,boolean cutCurrentPlaying) {
         this.code = code;
+        this.cutCurrentPlaying = cutCurrentPlaying;
+    }
+
+    public boolean isCutCurrentPlaying() {
+        return cutCurrentPlaying;
     }
 
     @Override
