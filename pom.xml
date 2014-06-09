@@ -58,10 +58,13 @@
                 <version>2.2.4</version>
             </dependency>
             <dependency>
-                <groupId>com.google.android</groupId>
+                <groupId>com.android.support</groupId>
                 <artifactId>support-v4</artifactId>
                 <version>19.0.1</version>
+                <scope>compile</scope>
+                <optional>true</optional>
             </dependency>
+
             <!-- Androlog is a logging and reporting library for Android -->
             <dependency>
                 <groupId>de.akquinet.android.androlog</groupId>
@@ -86,6 +89,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <build>
         <pluginManagement>
             <plugins>
