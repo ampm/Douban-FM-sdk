@@ -1,7 +1,5 @@
 package com.zzxhdzj.http;
 
-import com.squareup.okhttp.mockwebserver.MockWebServer;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -17,12 +15,6 @@ import static org.junit.Assert.assertThat;
  * To change this template use File | Settings | File Templates.
  */
 public class ApiResponseTest {
-    private MockWebServer server;
-
-    @Before
-    public void setUp(){
-        server = new MockWebServer();
-    }
 
     @Test
     public void isSuccess_shouldReturnTrueIfResponseCodeIsInThe200Range(){

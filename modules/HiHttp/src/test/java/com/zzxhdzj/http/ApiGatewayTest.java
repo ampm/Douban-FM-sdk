@@ -47,8 +47,6 @@ public class ApiGatewayTest {
     public void setUp() throws Exception {
         apiGateway = new ApiGateway();
         responseCallbacks = new TestApiResponseCallbacks();
-        // Create a MockWebServer. These are lean enough that you can create a new
-        // instance for every unit test.
         server = new MockWebServer();
     }
 
@@ -165,6 +163,7 @@ public class ApiGatewayTest {
         JsonIntentTestPostRequest() {
             super.setBaseUrl(server.getUrl("/").toString());
         }
+
 
 
         @Override

@@ -19,16 +19,14 @@ import java.io.InputStream;
  */
 public class ApiGateway <T extends ApiResponse>{
 
-    private static final int CUP_CORE_NUM = 1;
-    private static final int DEFAULT_MAX_CONNECTIONS = 5*CUP_CORE_NUM;
     private final Http http = new Http();
 
 
     @TargetApi(Build.VERSION_CODES.CUPCAKE)
     public void makeRequest(ApiRequest<T> apiRequest, final ApiResponseCallbacks<T> responseCallbacks) {
         responseCallbacks.onStart();
-        //不会做
         new RemoteCallTask(responseCallbacks).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,apiRequest);
+//        new RemoteCallTask(responseCallbacks).execute(apiRequest);
     }
 
     protected void dispatch(T apiResponse, ApiResponseCallbacks<T> responseCallbacks) {
