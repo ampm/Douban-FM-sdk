@@ -2,13 +2,14 @@ package com.zzxhdzj.douban.api.base;
 
 import android.text.TextUtils;
 import com.zzxhdzj.douban.ApiInternalError;
-import com.zzxhdzj.douban.PrefsConstant;
 import com.zzxhdzj.douban.Douban;
+import com.zzxhdzj.douban.PrefsConstant;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.modules.Resp;
 import com.zzxhdzj.douban.modules.RespStatusCode;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.ApiResponse;
+import com.zzxhdzj.http.TextApiResponse;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,7 +19,7 @@ import com.zzxhdzj.http.ApiResponse;
  * To change this template use File | Settings | File Templates.
  */
 public class BaseApiGateway {
-    protected final ApiGateway apiGateway;
+    protected final ApiGateway<TextApiResponse> apiGateway;
     protected final Douban douban;
     public RespType respType;
     protected boolean isAuthRequire;

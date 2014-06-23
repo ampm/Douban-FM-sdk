@@ -40,8 +40,10 @@ public class ChannelQueryGateway extends BaseApiGateway {
     }
 
     public void fetchHotChannels(int start, int limit, Callback callback) {
-        apiGateway.makeRequest(ChannelQueryRequest.getHotAndTrendingQueryRequest(start, limit, Constants.HOT_CHANNELS, douban.getContext()),
-                new ChannelsApiResponseCallback(callback, this, douban,ChannelTypes.Hits));
+        apiGateway.makeRequest(ChannelQueryRequest
+				.getHotAndTrendingQueryRequest(start, limit, Constants.HOT_CHANNELS,
+						douban.getContext()),
+				new ChannelsApiResponseCallback(callback, this, douban, ChannelTypes.Hits));
     }
 
     public void fetchTrendingChannels(int start, int limit, Callback callback) {

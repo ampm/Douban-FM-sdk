@@ -24,7 +24,6 @@ import java.util.ArrayList;
 public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragment.SongQueueListener, PlayControlDelegate.SongActionListener {
     private DoubanFm doubanFm;
     private Douban douban;
-    private static final int QUERY_CHANNEL = 1;
     private static final String KEY_LAST_CHLS_QUERY_TIME = "KEY_LAST_CHLS_QUERY_TIME";
     private ChannelHelper channelHelper;
 

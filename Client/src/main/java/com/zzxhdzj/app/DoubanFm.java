@@ -47,10 +47,6 @@ public class DoubanFm extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         ButterKnife.inject(this);
-        doubanFmDelegate = new DoubanFmDelegate(this);
-        doubanFmDelegate.updateStaticChannelInfo();
-        doubanFmDelegate.updateDynamicChannels();
-        doubanFmDelegate.prepare();
     }
 
     public void showLoginFragment() {
@@ -114,5 +110,16 @@ public class DoubanFm extends FragmentActivity {
         });
     }
 
-
+	@Override protected void onStart() {
+		super.onStart();
+		doubanFmDelegate = new DoubanFmDelegate(this);
+		doubanFmDelegate.prepare();
+		mMhzName.post(new Thread(){
+			@Override public void run() {
+				super.run();
+				doubanFmDelegate.updateStaticChannelInfo();
+				doubanFmDelegate.updateDynamicChannels();
+			}
+		});
+	}
 }
