@@ -55,9 +55,9 @@
                 <version>2.2.4</version>
             </dependency>
             <dependency>
-                <groupId>com.android.support</groupId>
+                <groupId>com.google.android</groupId>
                 <artifactId>support-v4</artifactId>
-                <version>19.0.1</version>
+                <version>r7</version>
             </dependency>
             <!-- Androlog is a logging and reporting library for Android -->
             <dependency>
