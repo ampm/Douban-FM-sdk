@@ -16,7 +16,7 @@
         <robolectric.version>2.2</robolectric.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <android.plugin.version>3.6.0</android.plugin.version>
-        <okhttp.version>2.0.0-SNAPSHOT</okhttp.version>
+        <okhttp.version>2.0.0</okhttp.version>
     </properties>
     <dependencyManagement>
         <dependencies>
