@@ -12,7 +12,8 @@ import com.zzxhdzj.douban.Douban;
  * Date: 3/29/14
  * To change this template use File | Settings | File Templates.
  */
-public class Appilication extends Application {
+public class DoubanApplication extends Application {
+	public static boolean isPlaying = false;
     @Override
     public void onCreate() {
         super.onCreate();

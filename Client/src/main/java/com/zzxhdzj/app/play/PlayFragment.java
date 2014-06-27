@@ -7,12 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.zzxhdzj.app.DoubanApplication;
 import com.zzxhdzj.app.play.view.SongInfoView;
 import com.zzxhdzj.douban.ChannelConstantIds;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.R;
 import com.zzxhdzj.douban.ReportType;
 import com.zzxhdzj.douban.api.BitRate;
+import com.zzxhdzj.douban.modules.song.Song;
 import com.zzxhdzj.http.Callback;
 
 /**
@@ -21,7 +23,7 @@ import com.zzxhdzj.http.Callback;
  * Date: 6/1/14
  * To change this template use File | Settings | File Templates.
  */
-public class PlayFragment extends Fragment {
+public class PlayFragment extends Fragment implements PlayControlDelegate.ISongChangeListener{
     public static final String TAG = "com.zzxhdzj.app.play.PlayFragment";
     @InjectView(R.id.song_item)
     SongInfoView mSongItem;
@@ -30,6 +32,7 @@ public class PlayFragment extends Fragment {
     public PlayFragment() {
         super();
         this.playControlDelegate = new PlayControlDelegate(this);
+		this.playControlDelegate.setSongChangeListener(this);
     }
 
     @Override
@@ -48,7 +51,11 @@ public class PlayFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        playControlDelegate.play(ChannelConstantIds.PRIVATE_CHANNEL);
+		if(!DoubanApplication.isPlaying){
+			playControlDelegate.play(ChannelConstantIds.PRIVATE_CHANNEL);
+		}else {
+			mSongItem.bindView(PlayControlDelegate.currentPlayingSong);
+		}
     }
 
 
@@ -56,26 +63,20 @@ public class PlayFragment extends Fragment {
         this.playControlDelegate.songQueueListener = songQueueListener;
     }
 
-    PlayControlDelegate.SongActionListener songActionListener;
+    PlayControlDelegate.ISongActionListener songActionListener;
 
-    public void setSongActionListener(PlayControlDelegate.SongActionListener songActionListener) {
+    public void setSongActionListener(PlayControlDelegate.ISongActionListener songActionListener) {
         this.songActionListener = songActionListener;
     }
 
-    public interface SongQueueListener {
+	@Override public void onPlayStart(Song currentPlayingSong) {
+		mSongItem.bindView(currentPlayingSong);
+	}
+
+	public interface SongQueueListener {
         void songListNearlyEmptyOrNeedReport(ReportType reportType, String songId, int playTime, int currentChannel, BitRate bitRate, Callback callback);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        playControlDelegate.stopPlaying();
-    }
 
     public PlayControlDelegate getPlayControlDelegate() {
         return playControlDelegate;
@@ -85,5 +86,4 @@ public class PlayFragment extends Fragment {
     public void setDouban(Douban douban) {
         playControlDelegate.setDouban(douban);
     }
-
 }

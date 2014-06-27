@@ -6,7 +6,7 @@
             android:targetSdkVersion="17"/>
 
     <application android:icon="@drawable/icon" android:label="@string/app_name"
-                 android:name="com.zzxhdzj.app.Appilication">
+                 android:name="com.zzxhdzj.app.DoubanApplication">
         <activity android:name="com.zzxhdzj.app.DoubanFm"
                   android:launchMode="singleTop"
                   android:theme="@android:style/Theme.Black.NoTitleBar"

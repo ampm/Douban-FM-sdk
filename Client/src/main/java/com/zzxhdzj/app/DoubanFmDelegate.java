@@ -21,7 +21,8 @@ import java.util.ArrayList;
  * Date: 6/5/14
  * To change this template use File | Settings | File Templates.
  */
-public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragment.SongQueueListener, PlayControlDelegate.SongActionListener {
+public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragment.SongQueueListener,
+		PlayControlDelegate.ISongActionListener {
     private DoubanFm doubanFm;
     private Douban douban;
     private static final String KEY_LAST_CHLS_QUERY_TIME = "KEY_LAST_CHLS_QUERY_TIME";

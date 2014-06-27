@@ -111,7 +111,7 @@ public abstract class CommonTextApiResponseCallback<T extends ApiInstance> imple
     }
 
     protected void detectAuthError(Resp resp) {
-        if (apiInstance.mApiRespErrorCode == null || !apiInstance.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())) {
+        if (apiInstance.mApiRespErrorCode == null || !resp.getCode(gateway.respType).equals(ApiInternalError.AUTH_ERROR.getCode())) {
             apiInstance.mApiRespErrorCode = ApiRespErrorCode.createBizError(resp.getCode(gateway.respType), resp.getMessage(gateway.respType));
         }
     }

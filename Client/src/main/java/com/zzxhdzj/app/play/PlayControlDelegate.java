@@ -1,14 +1,14 @@
 package com.zzxhdzj.app.play;
 
 import android.media.MediaPlayer;
-import android.os.Handler;
-import android.os.Message;
 import android.widget.Toast;
 import com.zzxhdzj.app.DouCallback;
+import com.zzxhdzj.app.DoubanApplication;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.ReportType;
 import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.modules.song.Song;
+import com.zzxhdzj.http.asynctask.PoolAsyncTask;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 
@@ -23,75 +23,71 @@ import java.util.LinkedList;
  */
 public class PlayControlDelegate {
     private static final int WARNING_SIZE = 2;
-    private LinkedList<Song> cachedSongsList;
+    private static LinkedList<Song> cachedSongsList;
     public PlayFragment.SongQueueListener songQueueListener;
-    private static boolean isPLAYING;
     private PlayFragment playFragment;
     private MediaPlayer mp;
     private Douban douban;
-    private DateTime startInClassScope;
-    private Song currentPlayingSong;
-    private int currentPlayingChannelId;
+    private static DateTime startInClassScope;
+    public static Song currentPlayingSong;
+    private static int currentPlayingChannelId;
 
     public PlayControlDelegate(PlayFragment playFragment) {
         this.playFragment = playFragment;
     }
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            playFragment.mSongItem.bindView(currentPlayingSong);
-        }
-    };
+
     public void play(final int channelId) {
         currentPlayingChannelId = channelId;
-        if(isPLAYING)return;
-        isPLAYING = true;
-        new Thread() {
-            @Override
-            public void run() {
-                if (cachedSongsList == null || cachedSongsList.size() == 0) {
-                    fetchNewSongsOrReportPlayInfo(ReportType.NULL,
-                            startInClassScope != null ? new Interval(startInClassScope, new DateTime()).toDuration().toPeriod().getSeconds() : 0
-                            , BitRate.HIGH);
-                    isPLAYING = false;
-                    return;
-                }
-                currentPlayingSong = cachedSongsList.remove();
-                if (cachedSongsList.size() < WARNING_SIZE) {
-                    fetchNewSongsOrReportPlayInfo(ReportType.NEXT_QUEUE,
-                            startInClassScope != null ? new Interval(startInClassScope, new DateTime()).toDuration().toPeriod().getSeconds() : 0
-                            , BitRate.HIGH);
-                }
-                handler.sendEmptyMessage(1);
+        if(DoubanApplication.isPlaying)return;
+		DoubanApplication.isPlaying = true;
+		new PoolAsyncTask<Void,Void,Void>() {
+			@Override protected Void doInBackground(Void... params) {
+				if (cachedSongsList == null || cachedSongsList.size() == 0) {
+					fetchNewSongsOrReportPlayInfo(ReportType.NULL,
+							startInClassScope != null ? new Interval(startInClassScope, new DateTime()).toDuration().toPeriod().getSeconds() : 0
+							, BitRate.HIGH);
+					DoubanApplication.isPlaying = false;
+					return null;
+				}
+				currentPlayingSong = cachedSongsList.remove();
+				if (cachedSongsList.size() < WARNING_SIZE) {
+					fetchNewSongsOrReportPlayInfo(ReportType.NEXT_QUEUE,
+							startInClassScope != null ? new Interval(startInClassScope, new DateTime()).toDuration().toPeriod().getSeconds() : 0
+							, BitRate.HIGH);
+				}
+				playFragment.getView().post(new Runnable() {
+					@Override public void run() {
+						songChangeListener.onPlayStart(currentPlayingSong);
+					}
+				});
 
-                mp = new MediaPlayer();
-                final DateTime start = new DateTime();
-                startInClassScope = start;
-                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                    @Override
-                    public void onCompletion(MediaPlayer mp) {
-                        stopPlaying();
-                        //send end report
-                        int seconds = new Interval(start, new DateTime()).toDuration().toPeriod().getSeconds();
-                        sendReport(ReportType.END, seconds, BitRate.HIGH);
-                        play(channelId);
-                    }
-                });
+				mp = new MediaPlayer();
+				final DateTime start = new DateTime();
+				startInClassScope = start;
+				mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+					@Override
+					public void onCompletion(MediaPlayer mp) {
+						stopPlaying();
+						//send end report
+						int seconds = new Interval(start, new DateTime()).toDuration().toPeriod().getSeconds();
+						sendReport(ReportType.END, seconds, BitRate.HIGH);
+						play(channelId);
+					}
+				});
 
-                try {
-                    mp.setDataSource(currentPlayingSong.url);
-                    try {
-                        mp.prepare();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    mp.start();
-                } catch (IOException e) {
-                }
-
-            }
-        }.start();
+				try {
+					mp.setDataSource(currentPlayingSong.url);
+					try {
+						mp.prepare();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					mp.start();
+				} catch (IOException e) {
+				}
+				return null;
+			}
+		}.execute();
 
     }
 
@@ -114,7 +110,7 @@ public class PlayControlDelegate {
             mp = null;
         }catch (Exception e){
         }finally {
-            isPLAYING = false;
+			DoubanApplication.isPlaying = false;
         }
     }
 
@@ -129,7 +125,7 @@ public class PlayControlDelegate {
             @Override
             public void onSuccess() {
                 cachedSongsList = douban.songs;
-                if(!isPLAYING)play(currentPlayingChannelId);
+                if(!DoubanApplication.isPlaying)play(currentPlayingChannelId);
             }
 
             @Override
@@ -156,9 +152,18 @@ public class PlayControlDelegate {
     public void setDouban(Douban douban) {
         this.douban = douban;
     }
-    public interface SongActionListener{
+    public interface ISongActionListener {
         void banFailed();
         void favFailed();
     }
+	ISongChangeListener songChangeListener;
+
+	public void setSongChangeListener(ISongChangeListener songChangeListener) {
+		this.songChangeListener = songChangeListener;
+	}
+
+	public interface ISongChangeListener{
+		void onPlayStart(Song currentPlayingSong);
+	}
 
 }

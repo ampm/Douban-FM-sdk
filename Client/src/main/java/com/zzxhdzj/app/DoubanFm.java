@@ -3,12 +3,12 @@ package com.zzxhdzj.app;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.zzxhdzj.app.login.LoginFragment;
@@ -58,14 +58,17 @@ public class DoubanFm extends FragmentActivity {
     }
 
     protected void showPlayFragment(PlayFragment.SongQueueListener listener) {
-        Toast.makeText(this,"play....",Toast.LENGTH_SHORT).show();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        PlayFragment playFragment = new PlayFragment();
-        playFragment.setSongQueueListener(listener);
-        playFragment.setDouban(doubanFmDelegate.getDouban());
-        playFragment.setSongActionListener(doubanFmDelegate);
-        ft.replace(R.id.dou_content, playFragment,PlayFragment.TAG);
-        ft.commit();
+		FragmentManager fm = getSupportFragmentManager();
+		FragmentTransaction ft = fm.beginTransaction();
+		Fragment fragmentByTag = fm.findFragmentByTag(PlayFragment.TAG);
+		if(fragmentByTag==null){
+			PlayFragment playFragment = new PlayFragment();
+			playFragment.setSongQueueListener(listener);
+			playFragment.setDouban(doubanFmDelegate.getDouban());
+			playFragment.setSongActionListener(doubanFmDelegate);
+			ft.replace(R.id.dou_content, playFragment,PlayFragment.TAG);
+			ft.commit();
+		}
     }
 
 
