@@ -1,12 +1,9 @@
-package com.zzxhdzj.app;
+package com.zzxhdzj.app.home;
 
 import android.database.Cursor;
-import com.zzxhdzj.app.login.LoginFragment;
-import com.zzxhdzj.app.play.PlayControlDelegate;
-import com.zzxhdzj.app.play.PlayFragment;
+import com.zzxhdzj.app.home.activity.DoubanFm;
+import com.zzxhdzj.app.login.fragment.LoginFragment;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.ReportType;
-import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.channels.local.ChannelHelper;
 import com.zzxhdzj.douban.modules.channel.Channel;
 import com.zzxhdzj.http.Callback;
@@ -21,8 +18,7 @@ import java.util.ArrayList;
  * Date: 6/5/14
  * To change this template use File | Settings | File Templates.
  */
-public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragment.SongQueueListener,
-		PlayControlDelegate.ISongActionListener {
+public class DoubanFmDelegate implements LoginFragment.LoginListener {
     private DoubanFm doubanFm;
     private Douban douban;
     private static final String KEY_LAST_CHLS_QUERY_TIME = "KEY_LAST_CHLS_QUERY_TIME";
@@ -30,13 +26,13 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
 
     public DoubanFmDelegate(DoubanFm doubanFm) {
         this.doubanFm = doubanFm;
-        this.douban = new Douban(doubanFm);
-        channelHelper = new ChannelHelper(doubanFm);
+        this.douban = new Douban();
+        channelHelper = new ChannelHelper(this.doubanFm);
     }
 
     public void prepare() {
         if (douban.isLogged()) {
-            doubanFm.showPlayFragment(this);
+            doubanFm.showPlayFragment();
             doubanFm.showLoggedItems(douban.getUserInfo());
         } else {
             doubanFm.showLoginFragment();
@@ -48,12 +44,12 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
     }
 
     public void updateStaticChannelInfo() {
-        long lastChlsUpdateTime = Douban.sharedPreferences.getLong(KEY_LAST_CHLS_QUERY_TIME, 0);
+        long lastChlsUpdateTime = Douban.getSharedPreferences().getLong(KEY_LAST_CHLS_QUERY_TIME, 0);
         if (isRefreshChannelsOverdue(new DateTime().withMillis(lastChlsUpdateTime))) {
             channelHelper.queryStaticChannels(new ChannelHelper.ChannelHelperListener() {
                 @Override
                 public void onResult(Cursor cursor) {
-                    Douban.sharedPreferences.edit().putLong(KEY_LAST_CHLS_QUERY_TIME, new DateTime().getMillis());
+                    Douban.getSharedPreferences().edit().putLong(KEY_LAST_CHLS_QUERY_TIME, new DateTime().getMillis());
                     //更新固定频率id
                     fetchChannelsInfo(cursor);
                 }
@@ -166,22 +162,9 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener, PlayFragme
 
     @Override
     public void onLogin() {
-        doubanFm.showPlayFragment(this);
+        doubanFm.showPlayFragment();
         doubanFm.showLoggedItems(douban.getUserInfo());
-    }
-
-
-    @Override
-    public void songListNearlyEmptyOrNeedReport(ReportType reportType, String songId, int playTime, int currentChannel, BitRate bitRate, Callback callback) {
-        douban.songsOfChannel(reportType, songId, playTime, BitRate.HIGH, callback);
-    }
-
-    @Override
-    public void banFailed() {
-    }
-
-    @Override
-    public void favFailed() {
-        doubanFm.mLeftFavButton.setPressed(false);
+        updateStaticChannelInfo();
+        updateDynamicChannels();
     }
 }

@@ -1,6 +1,7 @@
 package com.zzxhdzj.app;
 
 import android.content.Intent;
+import com.zzxhdzj.app.home.activity.DoubanFm;
 import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.http.Callback;
@@ -21,9 +22,12 @@ public class DouCallback extends Callback {
     @Override
     public void onFailure() {
         super.onFailure();
-        if(dou.mApiRespErrorCode!=null&&dou.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())){
+        if (dou.mApiRespErrorCode != null && (dou.mApiRespErrorCode.getCode().equals(ApiInternalError.AUTH_ERROR.getCode())
+                || dou.mApiRespErrorCode.getCode().equals(ApiInternalError.SERVER_403_ERROR.getCode()))) {
+            Douban.clearCookie();
             Intent intent = new Intent();
-            intent.setClass(dou.getContext(),DoubanFm.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setClass(Douban.app, DoubanFm.class);
             Douban.app.startActivity(intent);
         }
     }

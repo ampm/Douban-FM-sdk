@@ -27,4 +27,6 @@
     <string name="song_album">Album</string>
     <string name="song_name">Song</string>
     <string name="login_username_lv">Username</string>
+    <string name="song_duration">Duration</string>
+    <string name="duration_split">/</string>
 </resources>

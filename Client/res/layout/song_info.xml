@@ -98,6 +98,21 @@
                     android:id="@+id/song_company_tv"
                     />
         </TableRow>
+        <TableRow android:layout_width="match_parent" android:layout_height="match_parent"
+                  android:gravity="left"
+                  android:id="@+id/row_duration"
+                  android:orientation="vertical">
+            <TextView android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      style="@style/song_info_title"
+                      android:text="@string/song_duration"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/song_info_value"
+                    android:id="@+id/song_duration_tv"
+                    />
+        </TableRow>
     </TableLayout>
 </RelativeLayout>
 

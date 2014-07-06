@@ -33,6 +33,8 @@ public class SongInfoView extends TableLayout {
     TextView mSongCompanyTv;
     @InjectView(R.id.cd_cover)
     ImageView mCdCover;
+    @InjectView(R.id.song_duration_tv)
+    public TextView mSongDurationTv;
     private DisplayImageOptions options;
 
     public SongInfoView(Context context, AttributeSet attrs) {
@@ -58,4 +60,6 @@ public class SongInfoView extends TableLayout {
         mSongCompanyTv.setSelected(true);
         ImageLoader.getInstance().displayImage(song.picture, mCdCover, options);
     }
+
+
 }

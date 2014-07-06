@@ -1,4 +1,4 @@
-package com.zzxhdzj.app.login;
+package com.zzxhdzj.app.login.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.zzxhdzj.app.login.delegate.LoginDelegate;
 import com.zzxhdzj.app.login.view.LoginView;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.R;
@@ -31,7 +32,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mDouban = new Douban(getActivity());
+        mDouban = new Douban();
         mLoginCallback = new Callback() {
             @Override
             public void onStart() {
