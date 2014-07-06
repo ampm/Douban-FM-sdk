@@ -91,19 +91,23 @@ public class PlayerService extends Service {
         }
     };
     Douban douban = new Douban();
+    private ReportType reportType;
     private Callback callback = new DouCallback(douban) {
         @Override
         public void onSuccess() {
             super.onSuccess();
             mPlayerEngine.loadSongs(douban.songs);
+            //FIXME:log the fav/unfav failed item to db
             mPlayerEngine.play();
         }
     };
+
 
     private SongsQueueListener mSongQueueListener = new SongsQueueListener() {
         @Override
         public void requireNewSongs(ReportType reportType, String songId, int playTime) {
             //FIXME:the forth param should read from the settings prefs.
+            PlayerService.this.reportType = reportType;
             douban.songsOfChannel(reportType, songId, playTime, BitRate.HIGH, callback);
         }
     };

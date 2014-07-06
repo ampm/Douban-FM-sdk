@@ -101,9 +101,11 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
             public void onClick(View v) {
                 if(mLeftFavButton.isActivated()){
                     PlayDelegate.getInstance().unfav();
+                    DoubanApplication.getInstance().getCurrentPlayingSong().like="0";
                     mLeftFavButton.setActivated(false);
                 }else {
                     PlayDelegate.getInstance().fav();
+                    DoubanApplication.getInstance().getCurrentPlayingSong().like="1";
                     mLeftFavButton.setActivated(true);
                 }
             }
