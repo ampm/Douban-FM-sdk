@@ -105,15 +105,18 @@ public class PlayerEngineImpl implements PlayerEngine {
                     cleanUp();
                     mCurrentMediaPlayer = build(mSongsList.remove());
                 }
+
                 // check if there is any player instance, if not, abort further execution
                 if (mCurrentMediaPlayer != null) {
+                    if (!mCurrentMediaPlayer.isPlaying()) {
+                        for (PlayerEngineListener playerEngineListener : playerEngineListeners) {
+                            playerEngineListener.onSongChanged();
+                        }
+                    }
                     if (mCurrentMediaPlayer.preparing) {
                         mCurrentMediaPlayer.playAfterPrepare = true;
                     } else {
                         if (!mCurrentMediaPlayer.isPlaying()) {
-                            for (PlayerEngineListener playerEngineListener : playerEngineListeners) {
-                                playerEngineListener.onSongChanged(mCurrentMediaPlayer.getDuration()/1000L);
-                            }
                             // starting timer
                             mHandler.removeCallbacks(mUpdateTimeTask);
                             mHandler.postDelayed(mUpdateTimeTask, 1000);
@@ -185,7 +188,7 @@ public class PlayerEngineImpl implements PlayerEngine {
             if (mCurrentMediaPlayer.isPlaying()) {
                 mCurrentMediaPlayer.pause();
                 for (PlayerEngineListener playerEngineListener : playerEngineListeners) {
-                    playerEngineListener.onPause();
+                    playerEngineListener.onSongPause();
                 }
             }
         }
@@ -200,17 +203,19 @@ public class PlayerEngineImpl implements PlayerEngine {
 
     @Override
     public void fav() {
-
+        songQueueListener.requireNewSongs(ReportType.FAV, mCurrentMediaPlayer.currentSong != null ? mCurrentMediaPlayer.currentSong.sid : "", mCurrentMediaPlayer.getCurrentPosition() / 1000);
     }
 
     @Override
     public void unfav() {
-
+        songQueueListener.requireNewSongs(ReportType.UN_FAV, mCurrentMediaPlayer.currentSong != null ? mCurrentMediaPlayer.currentSong.sid : "", mCurrentMediaPlayer.getCurrentPosition() / 1000);
     }
 
     @Override
     public void ban() {
-
+        songQueueListener.requireNewSongs(ReportType.BAN, mCurrentMediaPlayer.currentSong != null ? mCurrentMediaPlayer.currentSong.sid : "", mCurrentMediaPlayer.getCurrentPosition() / 1000);
+        mCurrentMediaPlayer.currentSong = null;
+        play();
     }
 
     @Override

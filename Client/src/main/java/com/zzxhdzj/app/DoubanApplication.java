@@ -9,7 +9,9 @@ import com.zzxhdzj.app.base.media.PlayerEngineListener;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.modules.song.Song;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,14 +31,15 @@ public class DoubanApplication extends Application {
     public Song getCurrentPlayingSong() {
         return mCurrentPlayingSong;
     }
-    public PlayerEngineListener uiPlayerEngineListener;
+    public List<PlayerEngineListener> playerEngineListeners = new ArrayList<PlayerEngineListener>();
 
-    public PlayerEngineListener getUiPlayerEngineListener() {
-        return uiPlayerEngineListener;
+    public List<PlayerEngineListener> getPlayerEngineListeners() {
+        return playerEngineListeners;
     }
 
-    public void setUiPlayerEngineListener(PlayerEngineListener uiPlayerEngineListener) {
-        this.uiPlayerEngineListener = uiPlayerEngineListener;
+    public List<PlayerEngineListener> addPlayerEngineListener(PlayerEngineListener playerEngineListener) {
+        this.playerEngineListeners.add(playerEngineListener);
+        return playerEngineListeners;
     }
 
     public void setCurrentPlayingSong(Song mCurrentPlayingSong) {

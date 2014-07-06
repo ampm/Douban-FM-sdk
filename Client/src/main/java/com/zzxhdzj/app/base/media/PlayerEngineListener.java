@@ -14,11 +14,10 @@ public interface PlayerEngineListener {
      * @return
      */
     public boolean shouldPlay();
-    public void onSongChanged(long duration);
+    public void onSongChanged();
     public void onSongStart();
     public void onSongPause();
     public void onFav();
-    public void onPause();
     public void onBan();
     public void onSongProgress(int duration, int playDuration);
     public void onBuffering(int percent);

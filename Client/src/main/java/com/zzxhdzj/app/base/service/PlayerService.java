@@ -25,6 +25,8 @@ import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.modules.song.Song;
 import com.zzxhdzj.http.Callback;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: yangning.roy
@@ -39,6 +41,7 @@ public class PlayerService extends Service {
     public static final String ACTION_BAN = "ban";
     public static final String ACTION_BIND_LISTENER = "bind_listener";
     private static final int PLAYING_NOTIFY_ID = 667667;
+    public static final String ACTION_UNFAV = "unfav";
 
     private WifiManager mWifiManager;
     private WifiManager.WifiLock mWifiLock;
@@ -53,7 +56,7 @@ public class PlayerService extends Service {
         }
 
         @Override
-        public void onSongChanged(long duration) {
+        public void onSongChanged() {
             displayNotification(DoubanApplication.getInstance().getCurrentPlayingSong());
         }
 
@@ -69,11 +72,6 @@ public class PlayerService extends Service {
 
         @Override
         public void onFav() {
-
-        }
-
-        @Override
-        public void onPause() {
 
         }
 
@@ -156,19 +154,18 @@ public class PlayerService extends Service {
 
         String action = intent.getAction();
         Log.i(DoubanApplication.TAG, "Player Service onStart - " + action);
-
-        if (action.equals(ACTION_BAN)) {
-            stopSelfResult(startId);
+        if (action.equals(ACTION_BIND_LISTENER)) {
+            List<PlayerEngineListener> playerEngineListeners = DoubanApplication.getInstance().getPlayerEngineListeners();
+            if (playerEngineListeners != null) {
+                for (PlayerEngineListener listener:playerEngineListeners){
+                    mPlayerEngine.addPlayerEngineListener(listener);
+                }
+            }
             return START_STICKY;
         }
 
-        if (action.equals(ACTION_BIND_LISTENER)) {
-            PlayerEngineListener uiPlayerEngineListener = DoubanApplication.getInstance().getUiPlayerEngineListener();
-            if (uiPlayerEngineListener != null) {
-                mPlayerEngine.addPlayerEngineListener(uiPlayerEngineListener);
-            }
-            ;
-
+        if (action.equals(ACTION_BAN)) {
+            stopSelfResult(startId);
             return START_STICKY;
         }
 
@@ -184,6 +181,10 @@ public class PlayerService extends Service {
 
         if (action.equals(ACTION_FAV)) {
             mPlayerEngine.fav();
+            return START_STICKY;
+        }
+        if (action.equals(ACTION_UNFAV)) {
+            mPlayerEngine.unfav();
             return START_STICKY;
         }
         return super.onStartCommand(intent, flags, startId);

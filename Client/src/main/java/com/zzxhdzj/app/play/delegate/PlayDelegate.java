@@ -36,11 +36,19 @@ public class PlayDelegate{
     }
 
     public void fav() {
-
+        if (DoubanApplication.getInstance().getServicePlayerEngine() != null) {
+            DoubanApplication.getInstance().getServicePlayerEngine().fav();
+        } else {
+            startAction(PlayerService.ACTION_FAV);
+        }
     }
 
     public void ban() {
-
+        if (DoubanApplication.getInstance().getServicePlayerEngine() != null) {
+            DoubanApplication.getInstance().getServicePlayerEngine().ban();
+        } else {
+            startAction(PlayerService.ACTION_BAN);
+        }
     }
 
     public void stop() {
@@ -48,7 +56,7 @@ public class PlayDelegate{
     }
 
     public void setPlayerEngineListener(PlayerEngineListener playerEngineListener) {
-        DoubanApplication.getInstance().setUiPlayerEngineListener(playerEngineListener);
+        DoubanApplication.getInstance().addPlayerEngineListener(playerEngineListener);
         if (DoubanApplication.getInstance().getServicePlayerEngine()!= null||playerEngineListener!=null) {
             startAction(PlayerService.ACTION_BIND_LISTENER);
         }
@@ -70,6 +78,10 @@ public class PlayDelegate{
     }
 
     public void unfav() {
-
+        if (DoubanApplication.getInstance().getServicePlayerEngine() != null) {
+            DoubanApplication.getInstance().getServicePlayerEngine().fav();
+        } else {
+            startAction(PlayerService.ACTION_UNFAV);
+        }
     }
 }

@@ -87,7 +87,7 @@ public class PlayFragment extends Fragment implements ChannelListener, PlayerEng
     }
 
     @Override
-    public void onSongChanged(long duration) {
+    public void onSongChanged() {
         mSongItem.bindView(DoubanApplication.getInstance().getCurrentPlayingSong());
     }
 

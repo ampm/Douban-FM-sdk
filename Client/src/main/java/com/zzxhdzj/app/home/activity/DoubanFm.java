@@ -11,6 +11,8 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.andlabs.androidutils.logging.L;
+import com.zzxhdzj.app.DoubanApplication;
+import com.zzxhdzj.app.base.media.PlayerEngineListener;
 import com.zzxhdzj.app.home.DoubanFmDelegate;
 import com.zzxhdzj.app.login.fragment.LoginFragment;
 import com.zzxhdzj.app.play.delegate.PlayDelegate;
@@ -24,7 +26,7 @@ import com.zzxhdzj.douban.modules.UserInfo;
  * Date: 3/29/14
  * To change this template use File | Settings | File Templates.
  */
-public class DoubanFm extends FragmentActivity {
+public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
     @InjectView(R.id.mhz_name)
     TextView mMhzName;
     @InjectView(R.id.listened_count)
@@ -51,6 +53,7 @@ public class DoubanFm extends FragmentActivity {
         setContentView(R.layout.main);
         ButterKnife.inject(this);
         doubanFmDelegate = new DoubanFmDelegate(this);
+        DoubanApplication.getInstance().addPlayerEngineListener(this);
     }
 
     public void showLoginFragment() {
@@ -83,6 +86,7 @@ public class DoubanFm extends FragmentActivity {
         mLeftSkipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pauseControlBtn();
                 PlayDelegate.getInstance().skip();
             }
         });
@@ -106,10 +110,66 @@ public class DoubanFm extends FragmentActivity {
         });
     }
 
+    private void pauseControlBtn() {
+        mLeftSkipButton.setEnabled(false);
+        mLeftFavButton.setEnabled(false);
+        mLeftBanButton.setEnabled(false);
+        mLeftFavButton.setActivated(false);
+
+    }
+    private void resumeControlBtn() {
+        mLeftSkipButton.setEnabled(true);
+        mLeftFavButton.setEnabled(true);
+        mLeftBanButton.setEnabled(true);
+        if(DoubanApplication.getInstance().getCurrentPlayingSong().isLiked()){
+            mLeftFavButton.setActivated(true);
+        }
+    }
+
+    @Override
+    public boolean shouldPlay() {
+        return true;
+    }
+
+    @Override
+    public void onSongChanged() {
+        resumeControlBtn();
+    }
+
+    @Override
+    public void onSongStart() {
+
+    }
+
+    @Override
+    public void onSongPause() {
+
+    }
+
+    @Override
+    public void onFav() {
+
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
         L.d("onPause");
+    }
+
+    @Override
+    public void onBan() {
+
+    }
+
+    @Override
+    public void onSongProgress(int duration, int playDuration) {
+
+    }
+
+    @Override
+    public void onBuffering(int percent) {
+
     }
 
     @Override
