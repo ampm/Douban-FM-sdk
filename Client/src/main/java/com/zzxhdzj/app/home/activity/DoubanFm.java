@@ -125,6 +125,8 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
         mLeftBanButton.setEnabled(true);
         if(DoubanApplication.getInstance().getCurrentPlayingSong()!=null&&DoubanApplication.getInstance().getCurrentPlayingSong().isLiked()){
             mLeftFavButton.setActivated(true);
+        }else {
+            mLeftFavButton.setActivated(false);
         }
     }
 
