@@ -73,6 +73,9 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
     
     http://douban.fm/j/mine/playlist?type=n&sid=1920481&pt=4.4&channel=1005153&pb=128&from=mainsite&kbps=192&r=dead262593
 
+- 2014-07-06
+
+replace front player to service:architecture reference to <https://github.com/telecapoland/jamendo-android>
   
 #Usage:
 
