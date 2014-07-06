@@ -189,6 +189,7 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
         super.onResume();
         L.d("onResume");
         doubanFmDelegate.prepare();
+        resumeControlBtn();
     }
 
 }
