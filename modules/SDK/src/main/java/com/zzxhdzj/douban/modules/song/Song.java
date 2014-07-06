@@ -34,4 +34,7 @@ public class Song implements Serializable{
     public String subType;
     public String title;
     public String url;
+    public boolean isLiked(){
+        return like.equals("1")||like.equals("true");
+    }
 }
