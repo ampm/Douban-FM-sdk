@@ -169,7 +169,7 @@ public class PlayerService extends Service {
         }
 
         if (action.equals(ACTION_BAN)) {
-            stopSelfResult(startId);
+            mPlayerEngine.ban();
             return START_STICKY;
         }
 
