@@ -79,7 +79,7 @@ public class PlayDelegate{
 
     public void unfav() {
         if (DoubanApplication.getInstance().getServicePlayerEngine() != null) {
-            DoubanApplication.getInstance().getServicePlayerEngine().fav();
+            DoubanApplication.getInstance().getServicePlayerEngine().unfav();
         } else {
             startAction(PlayerService.ACTION_UNFAV);
         }
