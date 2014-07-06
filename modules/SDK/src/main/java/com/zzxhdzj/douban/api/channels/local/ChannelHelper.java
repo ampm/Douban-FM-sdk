@@ -42,11 +42,11 @@ public class ChannelHelper {
             if (loaderId == QUERY_STATIC_CHANNEL) {
                 String staticWhere = " category in ("+ChannelTypes.queryIndexString(true)+") ";
                 return new CursorLoader(context, ChannelTable.CONTENT_URI,
-                        Channel.RECEIPT_PROJECTION, staticWhere,null , null);
+                        Channel.CHANNEL_PROJECTION, staticWhere,null , null);
             } else if (loaderId == QUERY_DYNAMIC_CHANNEL) {
                 String dynamicWhere = " category in ("+ChannelTypes.queryIndexString(false)+") ";
                 return new CursorLoader(context, ChannelTable.CONTENT_URI,
-                        Channel.RECEIPT_PROJECTION, dynamicWhere,null, null);
+                        Channel.CHANNEL_PROJECTION, dynamicWhere,null, null);
             }
             return null;
         }

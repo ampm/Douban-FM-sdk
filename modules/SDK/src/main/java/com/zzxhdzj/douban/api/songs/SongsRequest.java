@@ -1,6 +1,5 @@
 package com.zzxhdzj.douban.api.songs;
 
-import android.content.Context;
 import android.text.TextUtils;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.ReportType;
@@ -20,12 +19,8 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class SongsRequest extends AuthApiRequest {
-//    private final int channelId;
-//    private final int bitRate;
-//    private final String songType;
 
-    public SongsRequest(int channelId, BitRate bitRate, ReportType songType, String currentSongId, int playTime, Context context) {
-        super(context);
+    public SongsRequest(int channelId, BitRate bitRate, ReportType songType, String currentSongId, int playTime) {
         super.appendParameter("channel", channelId + "")
                 .appendParameter("kbps", bitRate.toString())
                 .appendParameter("pb", bitRate.toString())

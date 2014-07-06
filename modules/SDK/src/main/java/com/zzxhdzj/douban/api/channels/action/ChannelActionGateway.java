@@ -3,11 +3,10 @@ package com.zzxhdzj.douban.api.channels.action;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.api.base.BaseApiGateway;
 import com.zzxhdzj.douban.api.CommonTextApiResponseCallback;
 import com.zzxhdzj.douban.api.RespType;
-import com.zzxhdzj.douban.api.base.ApiInstance;
 import com.zzxhdzj.douban.api.base.ApiRespErrorCode;
+import com.zzxhdzj.douban.api.base.BaseApiGateway;
 import com.zzxhdzj.douban.modules.channel.FavChannelResp;
 import com.zzxhdzj.http.ApiGateway;
 import com.zzxhdzj.http.Callback;
@@ -29,14 +28,14 @@ public class ChannelActionGateway extends BaseApiGateway {
     }
 
     public void favAChannel(ChannelActionType favChannel, int channelId, Callback callback) {
-        apiGateway.makeRequest(new ChannelActionRequest(favChannel, channelId, douban.getContext()), new ChannelActionApiResponseCallbacks(callback, this, douban));
+        apiGateway.makeRequest(new ChannelActionRequest(favChannel, channelId), new ChannelActionApiResponseCallbacks(callback, this, douban));
     }
 
-    private class ChannelActionApiResponseCallbacks extends CommonTextApiResponseCallback {
+    private class ChannelActionApiResponseCallbacks extends CommonTextApiResponseCallback<Douban> {
 
         private FavChannelResp favChannelResp;
 
-        public ChannelActionApiResponseCallbacks(Callback bizCallback, BaseApiGateway gateway, ApiInstance apiInstance) {
+        public ChannelActionApiResponseCallbacks(Callback bizCallback, BaseApiGateway gateway, Douban apiInstance) {
             super(bizCallback, gateway, apiInstance);
         }
 

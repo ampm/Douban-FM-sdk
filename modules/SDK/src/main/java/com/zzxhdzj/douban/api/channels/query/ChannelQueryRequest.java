@@ -1,6 +1,5 @@
 package com.zzxhdzj.douban.api.channels.query;
 
-import android.content.Context;
 import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
@@ -17,37 +16,34 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class ChannelQueryRequest extends AuthApiRequest {
-    protected ChannelQueryRequest(Context context) {
-        super(context);
-    }
-    public static ApiRequest<TextApiResponse> getFavQueryRequest(Context context, String url) {
-        return new ChannelQueryRequest(context).setBaseUrl(url);
+    public static ApiRequest<TextApiResponse> getFavQueryRequest(String url) {
+        return new ChannelQueryRequest().setBaseUrl(url);
     }
 
-    public static ApiRequest<TextApiResponse> getHotAndTrendingQueryRequest(int start, int limit, String url, Context context) {
-        return new ChannelQueryRequest(context).appendParameter("start", start + "")
+    public static ApiRequest<TextApiResponse> getHotAndTrendingQueryRequest(int start, int limit, String url) {
+        return new ChannelQueryRequest().appendParameter("start", start + "")
                 .appendParameter("limit", limit + "")
                 .setBaseUrl(url);
     }
 
-    public static ApiRequest<TextApiResponse> getQueryByGenreRequest(int start, int limit, int genreId, String genreChannelUrl, Context context) {
-        return new ChannelQueryRequest(context).appendParameter("start", start + "")
+    public static ApiRequest<TextApiResponse> getQueryByGenreRequest(int start, int limit, int genreId, String genreChannelUrl) {
+        return new ChannelQueryRequest().appendParameter("start", start + "")
                 .appendParameter("limit",limit+"")
                 .appendParameter("genreId",genreId+"")
                 .setBaseUrl(genreChannelUrl);
     }
-    public static ApiRequest<TextApiResponse> getLoginRecommendChannelRequest(String userId, String loginChlsUrl, Context context) {
-            return new ChannelQueryRequest(context)
+    public static ApiRequest<TextApiResponse> getLoginRecommendChannelRequest(String userId, String loginChlsUrl) {
+            return new ChannelQueryRequest()
                     .appendParameter("uk",userId).setBaseUrl(loginChlsUrl);
     }
-    public static ApiRequest<TextApiResponse> getRecommendChannelRequest(ArrayList<Integer> channelIds, String recChlsUrl, Context context) {
-        return new ChannelQueryRequest(context)
+    public static ApiRequest<TextApiResponse> getRecommendChannelRequest(ArrayList<Integer> channelIds, String recChlsUrl) {
+        return new ChannelQueryRequest()
                 .appendParameter("orecs",getOrecsParams(channelIds))
                 .setBaseUrl(recChlsUrl);
     }
 
-    public static ApiRequest<TextApiResponse> getASingleQueryRequest(String channelId, Context context, String url) {
-        return new ChannelQueryRequest(context).setBaseUrl(url).appendParameter("channel_id",channelId);
+    public static ApiRequest<TextApiResponse> getASingleQueryRequest(String channelId, String url) {
+        return new ChannelQueryRequest().setBaseUrl(url).appendParameter("channel_id",channelId);
     }
 
     @Override

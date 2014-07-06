@@ -1,6 +1,5 @@
 package com.zzxhdzj.douban.api.auth;
 
-import android.content.Context;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
@@ -16,8 +15,7 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class AuthGetCaptchaRequest extends AuthApiRequest{
-    protected AuthGetCaptchaRequest(Context context) {
-        super(context);
+    protected AuthGetCaptchaRequest() {
         allowRedirect = true;
         super.setBaseUrl(Constants.CAPTCHA_ID);
     }

@@ -34,7 +34,7 @@ public class AuthenticationRequestTest extends BaseAuthApiRequestTestCase {
                 .withLoginMail("test@gmail.com")
                 .withPassword("password")
                 .build();
-        request = new AuthenticationRequest(loginParams,context);
+        request = new AuthenticationRequest(loginParams);
 
     }
 

@@ -25,10 +25,10 @@ public class ChannelActionRequestTest extends BaseAuthApiRequestTestCase {
 
     @Test
     public void shouldHaveCorrectUrl() {
-        request = new ChannelActionRequest(ChannelActionType.FAV_CHANNEL, channelId,context);
+        request = new ChannelActionRequest(ChannelActionType.FAV_CHANNEL, channelId);
         String urlString = request.getUrlString();
         assertThat(urlString, equalTo("http://douban.fm/j/explore/fav_channel?cid=1"));
-        request = new ChannelActionRequest(ChannelActionType.UNFAV_CHANNEL, channelId, context);
+        request = new ChannelActionRequest(ChannelActionType.UNFAV_CHANNEL, channelId);
         urlString = request.getUrlString();
         assertThat(urlString, equalTo("http://douban.fm/j/explore/unfav_channel?cid=1"));
     }

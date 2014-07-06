@@ -1,5 +1,7 @@
 package com.zzxhdzj.douban.modules.channel;
 
+import android.content.Context;
+import android.database.Cursor;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.zzxhdzj.douban.db.tables.ChannelTable;
@@ -19,7 +21,7 @@ public class Channel {
     protected Channel() {
     }
 
-    public static final String[] RECEIPT_PROJECTION = new String[]{
+    public static final String[] CHANNEL_PROJECTION = new String[]{
             ChannelTable.Columns._ID,
             ChannelTable.Columns.CHANNEL_ID,
             ChannelTable.Columns.SONG_NUM,
@@ -89,5 +91,30 @@ public class Channel {
 
     public void setCategory(int category) {
         this.category = category;
+    }
+    public static Channel queryChannel(int channelId, Context context) {
+
+        Cursor cursor = context.getContentResolver()
+                .query(ChannelTable.CONTENT_URI, Channel.CHANNEL_PROJECTION, ChannelTable.Columns.CHANNEL_ID + " = " + channelId, null, null);
+
+        Channel channel = null;
+        try {
+            if (cursor != null && cursor.moveToFirst()) {
+                channel = ChannelBuilder.aChannel()
+                        .withBanner(cursor.getString(Channel.BANNER_INDEX))
+                        .withCategory(cursor.getInt(Channel.CATEGORY_INDEX))
+                        .withCover(cursor.getString(Channel.COVER_INDEX))
+                        .withName(cursor.getString(Channel.NAME_INDEX))
+                        .withId(cursor.getInt(Channel.CHANNEL_ID_INDEX))
+                        .withIntro(cursor.getString(Channel.INTRO_INDEX))
+                        .build();
+            }
+        }finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return channel;
     }
 }

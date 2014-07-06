@@ -43,27 +43,27 @@ public class FavoredChannelRequestTest extends BaseAuthApiRequestTestCase {
 
     @Test
     public void shouldHaveFavoredRequestUrl() {
-        request = ChannelQueryRequest.getFavQueryRequest(context, "http://douban.fm/j/fav_channels");
+        request = ChannelQueryRequest.getFavQueryRequest( "http://douban.fm/j/fav_channels");
         String url = request.getUrlString();
         assertThat(url, equalTo("http://douban.fm/j/fav_channels"));
     }
 
     @Test
     public void shouldHaveHotRequestUrl() {
-        request = ChannelQueryRequest.getHotAndTrendingQueryRequest(start, limit, Constants.HOT_CHANNELS, context);
+        request = ChannelQueryRequest.getHotAndTrendingQueryRequest(start, limit, Constants.HOT_CHANNELS);
         String url = request.getUrlString();
         assertThat(url, equalTo("http://douban.fm/j/explore/hot_channels?start=1&limit=1"));
     }
 
     @Test
     public void shouldHaveLoginRecommendRequestUrl() {
-        request = ChannelQueryRequest.getLoginRecommendChannelRequest(userId, Constants.LOGIN_CHLS_URL, context);
+        request = ChannelQueryRequest.getLoginRecommendChannelRequest(userId, Constants.LOGIN_CHLS_URL);
         String url = request.getUrlString();
         assertThat(url, equalTo("http://douban.fm/j/explore/get_login_chls?uk=69077079"));
     }
     @Test
     public void shouldHaveRecommendRequestUrl() {
-        request = ChannelQueryRequest.getRecommendChannelRequest(channelIds, Constants.RECOMMEND_CHLS_URL, context);
+        request = ChannelQueryRequest.getRecommendChannelRequest(channelIds, Constants.RECOMMEND_CHLS_URL);
         String url = request.getUrlString();
         assertThat(url, equalTo("http://douban.fm/j/explore/get_recommend_chl?orecs=2%7C61%7C9%7C14"));//2|61|9|14
     }

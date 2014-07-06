@@ -31,7 +31,7 @@ public class SongsGateway extends BaseApiGateway {
                 ||channelId== ChannelConstantIds.FAV){
             this.isAuthRequire=true;
         }
-        apiGateway.makeRequest(new SongsRequest(channelId, bitRate, songType,currentSongId, playTime,douban.getContext()), new SongApiResponseCallback(callback, this, douban));
+        apiGateway.makeRequest(new SongsRequest(channelId, bitRate, songType,currentSongId, playTime), new SongApiResponseCallback(callback, this, douban));
     }
 
     private class SongApiResponseCallback extends CommonTextApiResponseCallback {

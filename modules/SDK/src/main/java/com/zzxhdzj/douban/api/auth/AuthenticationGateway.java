@@ -34,19 +34,19 @@ public class AuthenticationGateway extends BaseApiGateway {
     }
 
     public void signIn(LoginParams login, Callback responseCallback) {
-        apiGateway.makeRequest(new AuthenticationRequest(login, douban.getContext()),
+        apiGateway.makeRequest(new AuthenticationRequest(login),
                 new AuthenticationApiResponseCallback(responseCallback, this, douban));
     }
 
     private void cacheUserInfo(UserInfo userInfo) {
         Gson gson = new Gson();
-        SharedPreferences.Editor edit = Douban.sharedPreferences.edit();
+        SharedPreferences.Editor edit = Douban.getSharedPreferences().edit();
         edit.putString(PrefsConstant.USER_KEY, gson.toJson(userInfo));
         edit.commit();
     }
 
     private void markAsLogged() {
-        Douban.sharedPreferences.edit().putBoolean(PrefsConstant.LOGGED, true).commit();
+        Douban.getSharedPreferences().edit().putBoolean(PrefsConstant.LOGGED, true).commit();
     }
 
     private class AuthenticationApiResponseCallback extends CommonTextApiResponseCallback<Douban> {
@@ -79,7 +79,6 @@ public class AuthenticationGateway extends BaseApiGateway {
         @Override
         public void onComplete() {
             super.onComplete();
-            douban.clear();
         }
     }
 

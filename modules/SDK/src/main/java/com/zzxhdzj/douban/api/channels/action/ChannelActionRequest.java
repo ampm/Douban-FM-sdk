@@ -1,6 +1,5 @@
 package com.zzxhdzj.douban.api.channels.action;
 
-import android.content.Context;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
@@ -17,8 +16,7 @@ import java.util.Map;
 public class ChannelActionRequest extends AuthApiRequest {
 
 
-    public ChannelActionRequest(ChannelActionType channelActionType, int channelId, Context context) {
-        super(context);
+    public ChannelActionRequest(ChannelActionType channelActionType, int channelId) {
         super.appendParameter("cid",channelId+"")
         .setBaseUrl(Constants.CHANNEL_ACTION_URL+channelActionType.getKey());
     }

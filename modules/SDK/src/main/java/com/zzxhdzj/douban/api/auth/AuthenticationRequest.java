@@ -1,6 +1,5 @@
 package com.zzxhdzj.douban.api.auth;
 
-import android.content.Context;
 import com.zzxhdzj.douban.Constants;
 import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.douban.modules.LoginParams;
@@ -24,8 +23,7 @@ import java.util.Map;
 public class AuthenticationRequest extends AuthApiRequest {
     private final LoginParams loginParams;
 
-    public AuthenticationRequest(LoginParams loginParams,Context context) {
-        super(context);
+    public AuthenticationRequest(LoginParams loginParams) {
         this.loginParams = loginParams;
         this.method = HttpPost.METHOD_NAME;
         super.setBaseUrl(Constants.LOGIN_URL);

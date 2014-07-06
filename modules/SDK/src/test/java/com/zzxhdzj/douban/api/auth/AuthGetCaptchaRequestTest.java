@@ -23,7 +23,7 @@ public class AuthGetCaptchaRequestTest extends BaseAuthApiRequestTestCase{
     private AuthGetCaptchaRequest request;
     @Before
     public void setUp() throws Exception {
-        request = new AuthGetCaptchaRequest(context);
+        request = new AuthGetCaptchaRequest();
     }
     @Test
     public void shouldHaveRequestUrl() {

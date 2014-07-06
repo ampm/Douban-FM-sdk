@@ -30,39 +30,38 @@ public class ChannelQueryGateway extends BaseApiGateway {
     }
 
     public void queryChannelInfo(String channelId, Callback callback) {
-        apiGateway.makeRequest(ChannelQueryRequest.getASingleQueryRequest(channelId, douban.getContext(), Constants.CHANNEL_DETAILS),
+        apiGateway.makeRequest(ChannelQueryRequest.getASingleQueryRequest(channelId,Constants.CHANNEL_DETAILS),
                 new SingleChannelApiResponseCallback(callback, this, douban));
     }
 
     public void fetchFavChannels(Callback callback) {
-        apiGateway.makeRequest(ChannelQueryRequest.getFavQueryRequest(douban.getContext(), Constants.FAV_CHANNELS),
+        apiGateway.makeRequest(ChannelQueryRequest.getFavQueryRequest(Constants.FAV_CHANNELS),
                 new ChannelsApiResponseCallback(callback, this, douban,null));
     }
 
     public void fetchHotChannels(int start, int limit, Callback callback) {
         apiGateway.makeRequest(ChannelQueryRequest
-				.getHotAndTrendingQueryRequest(start, limit, Constants.HOT_CHANNELS,
-						douban.getContext()),
+				.getHotAndTrendingQueryRequest(start, limit, Constants.HOT_CHANNELS),
 				new ChannelsApiResponseCallback(callback, this, douban, ChannelTypes.Hits));
     }
 
     public void fetchTrendingChannels(int start, int limit, Callback callback) {
-        apiGateway.makeRequest(ChannelQueryRequest.getHotAndTrendingQueryRequest(start, limit, Constants.TRENDING_CHANNELS, douban.getContext()),
+        apiGateway.makeRequest(ChannelQueryRequest.getHotAndTrendingQueryRequest(start, limit, Constants.TRENDING_CHANNELS),
                 new ChannelsApiResponseCallback(callback, this, douban,ChannelTypes.Trending));
     }
 
     public void fetchChannelsByGenreId(int genreId, int start, int limit, Callback callback) {
-        apiGateway.makeRequest(ChannelQueryRequest.getQueryByGenreRequest(start, limit, genreId, Constants.GENRE_CHANNEL_URL, douban.getContext()),
+        apiGateway.makeRequest(ChannelQueryRequest.getQueryByGenreRequest(start, limit, genreId, Constants.GENRE_CHANNEL_URL),
                 new ChannelsApiResponseCallback(callback, this, douban,null));
     }
 
     public void getLoginRecommendChannels(String userId, Callback callback) {
-        apiGateway.makeRequest(ChannelQueryRequest.getLoginRecommendChannelRequest(userId, Constants.LOGIN_CHLS_URL, douban.getContext()),
+        apiGateway.makeRequest(ChannelQueryRequest.getLoginRecommendChannelRequest(userId, Constants.LOGIN_CHLS_URL),
                 new LoginChannelsApiResponseCallbacks(callback, this, douban));
     }
 
     public void getRecommendChannels(ArrayList<Integer> channelIds, Callback callback) {
-        apiGateway.makeRequest(ChannelQueryRequest.getRecommendChannelRequest(channelIds, Constants.RECOMMEND_CHLS_URL, douban.getContext()),
+        apiGateway.makeRequest(ChannelQueryRequest.getRecommendChannelRequest(channelIds, Constants.RECOMMEND_CHLS_URL),
                 new RecommendApiResponseCallbacks(callback, this, douban));
     }
 

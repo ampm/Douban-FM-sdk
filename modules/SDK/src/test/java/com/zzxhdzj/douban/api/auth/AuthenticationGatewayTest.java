@@ -55,7 +55,7 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     public void shouldSendLoginParams() throws Exception {
         authenticationGateway.signIn(loginParams, new Callback());
         AuthenticationRequest authenticationRequest = (AuthenticationRequest) apiGateway.getLatestRequest();
-        assertThat(authenticationRequest, equalTo(new AuthenticationRequest(loginParams, douban.getContext())));
+        assertThat(authenticationRequest, equalTo(new AuthenticationRequest(loginParams)));
         HttpEntity postEntity = authenticationRequest.getPostEntity();
         assertThat(postEntity.getContentType().getValue(), equalTo("application/x-www-form-urlencoded; charset=UTF-8"));
         String content = HiUtil.dump(postEntity);

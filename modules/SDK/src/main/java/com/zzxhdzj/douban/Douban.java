@@ -25,7 +25,7 @@ import java.util.LinkedList;
 
 public class Douban extends ApiInstance {
 
-    public static SharedPreferences sharedPreferences;
+    private static SharedPreferences sharedPreferences;
     public static Context app;
     public String captchaImageUrl;
     public String captchaId;
@@ -35,18 +35,24 @@ public class Douban extends ApiInstance {
     public Channel recommendChannel;
     public LinkedList<Song> songs;
     private final ApiGateway apiGateway;
-    private Context context;
     public Object singleObject;
 
-    public Douban(Context context) {
-        this.context = context;
+    public Douban() {
         apiGateway = new ApiGateway();
-        sharedPreferences = context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE);
     }
     public static void init(Context context){
         Http.initCookieManager(context);
         app = context;
-        DoubanDb.getInstance(app).getDb(true);
+        sharedPreferences = context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE);
+        if(!Constants.UNIT_TEST)DoubanDb.getInstance(app).getDb(true);
+    }
+    public static void clearCookie(){
+        Http.clearCookie(app);
+        app.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).edit().clear().commit();
+    }
+
+    public static SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
     }
 
     /**
@@ -160,25 +166,8 @@ public class Douban extends ApiInstance {
     }
 
 
-
-
-    public Context getContext() {
-        return context;
-    }
-
-
-    public void clear() {
-        if (!Constants.UNIT_TEST) {
-            this.songs = null;
-            this.channels = null;
-            this.recChannels = null;
-            this.favChannels = null;
-            this.recommendChannel = null;
-        }
-    }
-
     public boolean isLogged() {
-        return context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).getBoolean(PrefsConstant.LOGGED, false);
+        return app.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).getBoolean(PrefsConstant.LOGGED, false);
     }
 
     public UserInfo getUserInfo() {

@@ -25,7 +25,7 @@ public class AuthorityGetCaptchaGateway extends BaseApiGateway {
     }
 
     public void newCaptchaId(Callback callback) {
-        apiGateway.makeRequest(new AuthGetCaptchaRequest(douban.getContext()), new AuthorityGetCaptchaCallback(callback, this, douban));
+        apiGateway.makeRequest(new AuthGetCaptchaRequest(), new AuthorityGetCaptchaCallback(callback, this, douban));
     }
 
 

@@ -20,7 +20,7 @@ public class Song implements Serializable{
     public String company;
     public String kbps;
     @SerializedName("length")
-    public String lengthSeconds;
+    public int lengthSeconds;
     public String like;//有时候返回是false 有时候返回是1/0
     public String picture;
     @SerializedName("public_time")

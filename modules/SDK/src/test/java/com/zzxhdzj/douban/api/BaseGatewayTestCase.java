@@ -27,8 +27,9 @@ public abstract class BaseGatewayTestCase {
     @Before
     public void setUp() {
         apiGateway = new TestApiGateway();
-        douban = new Douban(Robolectric.application.getApplicationContext());
+        douban = new Douban();
         Constants.UNIT_TEST =true;
+        Douban.init(Robolectric.application.getApplicationContext());
         badCallback = new Callback() {
             @Override
             public void onSuccess() {

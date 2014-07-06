@@ -1,6 +1,5 @@
 package com.zzxhdzj.douban.api;
 
-import android.content.Context;
 import com.zzxhdzj.http.ApiRequest;
 import com.zzxhdzj.http.TextApiResponse;
 
@@ -12,10 +11,5 @@ import com.zzxhdzj.http.TextApiResponse;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class AuthApiRequest extends ApiRequest<TextApiResponse> {
-    protected Context context;
-
-    protected AuthApiRequest(Context context) {
-        this.context = context;
-    }
 
 }
