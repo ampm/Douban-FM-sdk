@@ -25,6 +25,9 @@ public class Http {
         CookieHandler.setDefault(cmrCookieMan);
     }
 
+    public static void clearCookie(Context context) {
+        context.getSharedPreferences(PrefsCookieStore.COOKIE_PREFS_NAME, Context.MODE_PRIVATE).edit().clear().commit();
+    }
 
 
     public Response get(String url, Map<String, String> headers, boolean allowRedirect)
@@ -78,11 +81,11 @@ public class Http {
             urlConnection.setRequestProperty(entry.getKey(), entry.getValue());
         }
         urlConnection.setRequestProperty("Accept-Encoding", "gzip");
-        urlConnection.setRequestProperty("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
+        urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
         urlConnection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
         urlConnection.setInstanceFollowRedirects(allowRedirect);
-        urlConnection.setConnectTimeout(60*1000);
-        urlConnection.setReadTimeout(60*1000);
+        urlConnection.setConnectTimeout(60 * 1000);
+        urlConnection.setReadTimeout(60 * 1000);
     }
 
     public static class Response {
@@ -109,6 +112,7 @@ public class Http {
             return responseBody;
         }
     }
+
     public static byte[] unGZIP(byte[] zipped) throws Exception {
         ByteArrayInputStream in = new ByteArrayInputStream(zipped);
         GZIPInputStream zipIn = null;
@@ -150,6 +154,7 @@ public class Http {
         inStream.close();
         return new ByteArrayInputStream(data);
     }
+
     public static ByteArrayInputStream read(InputStream inStream, String charsetName) throws Exception {
         BufferedInputStream bis = new BufferedInputStream(inStream);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -165,16 +170,17 @@ public class Http {
         inStream.close();
         return new ByteArrayInputStream(data);
     }
+
     private InputStream readInputStream(HttpURLConnection urlConnection) throws Exception {
         InputStream in = null;
-        if(urlConnection.getResponseCode()/100!=2){
+        if (urlConnection.getResponseCode() / 100 != 2) {
             in = urlConnection.getErrorStream();
-        }else {
+        } else {
             in = urlConnection.getInputStream();
         }
         if (!TextUtils.isEmpty(urlConnection.getContentEncoding()) && "gzip".equals(urlConnection.getContentEncoding())) {
             in = readDataForZgip(in, "UTF-8");
-        }else {
+        } else {
             in = read(in, "UTF-8");
         }
         return in;
