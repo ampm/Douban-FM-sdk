@@ -192,8 +192,10 @@ public class PlayerService extends Service {
     private void displayNotification(Song song) {
 
 
+        Intent intent = new Intent(this, DoubanFm.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pIntent = PendingIntent.getActivity(DoubanApplication.getInstance(), 0,
-                new Intent(this, DoubanFm.class), 0);
+                intent, 0);
         Notification noti = new Notification.Builder(this)
                 .setContentTitle(song.title)
                 .setContentText(song.artist)

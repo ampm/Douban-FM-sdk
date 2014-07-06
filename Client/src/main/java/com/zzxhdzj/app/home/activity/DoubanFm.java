@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.nostra13.universalimageloader.utils.L;
+import com.andlabs.androidutils.logging.L;
 import com.zzxhdzj.app.home.DoubanFmDelegate;
 import com.zzxhdzj.app.login.fragment.LoginFragment;
 import com.zzxhdzj.app.play.delegate.PlayDelegate;
