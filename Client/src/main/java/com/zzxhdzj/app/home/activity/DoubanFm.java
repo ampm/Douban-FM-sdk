@@ -54,6 +54,7 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
         ButterKnife.inject(this);
         doubanFmDelegate = new DoubanFmDelegate(this);
         DoubanApplication.getInstance().addPlayerEngineListener(this);
+        pauseControlBtn();
     }
 
     public void showLoginFragment() {
@@ -123,11 +124,6 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
         mLeftSkipButton.setEnabled(true);
         mLeftFavButton.setEnabled(true);
         mLeftBanButton.setEnabled(true);
-        if(DoubanApplication.getInstance().getCurrentPlayingSong()!=null&&DoubanApplication.getInstance().getCurrentPlayingSong().isLiked()){
-            mLeftFavButton.setActivated(true);
-        }else {
-            mLeftFavButton.setActivated(false);
-        }
     }
 
     @Override
@@ -193,7 +189,11 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
         super.onResume();
         L.d("onResume");
         doubanFmDelegate.prepare();
-        resumeControlBtn();
+        if(DoubanApplication.getInstance().getCurrentPlayingSong()!=null&&DoubanApplication.getInstance().getCurrentPlayingSong().isLiked()){
+            mLeftFavButton.setActivated(true);
+        }else {
+            mLeftFavButton.setActivated(false);
+        }
     }
 
 }

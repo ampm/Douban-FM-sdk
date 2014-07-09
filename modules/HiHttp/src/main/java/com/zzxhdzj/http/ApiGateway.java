@@ -19,8 +19,8 @@ public class ApiGateway<T extends ApiResponse> {
         InputStream responseBody = null;
         Http.Response response;
         try {
+            Log.d("ApiGateway", "req info [url=" + apiRequest.getUrlString() + " ,headers=" + apiRequest.getHeaders() + " ]");
             if (HttpPost.METHOD_NAME.equals(apiRequest.getMethod())) {
-                Log.d("ApiGateway", "req info [url=" + apiRequest.getUrlString() + " ,headers=" + apiRequest.getHeaders() + " ]");
                 response = http.post(apiRequest.getUrlString(), apiRequest.getHeaders(), apiRequest.getPostEntity(), apiRequest.allowRedirect);
             } else if (HttpGet.METHOD_NAME.equals(apiRequest.getMethod())) {
                 response = http.get(apiRequest.getUrlString(), apiRequest.getHeaders(), apiRequest.allowRedirect);

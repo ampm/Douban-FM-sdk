@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 import com.zzxhdzj.app.DouCallback;
 import com.zzxhdzj.app.DoubanApplication;
 import com.zzxhdzj.app.base.media.PlayerEngine;
@@ -100,6 +101,13 @@ public class PlayerService extends Service {
             //FIXME:log the fav/unfav failed item to db
             mPlayerEngine.play();
         }
+
+        @Override
+        public void onFailure() {
+            super.onFailure();
+            Toast.makeText(DoubanApplication.getInstance(),douban.mApiRespErrorCode.toString(),Toast.LENGTH_LONG).show();
+        }
+
     };
 
 
@@ -195,10 +203,8 @@ public class PlayerService extends Service {
     }
 
     private void displayNotification(Song song) {
-
-
         Intent intent = new Intent(this, DoubanFm.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pIntent = PendingIntent.getActivity(DoubanApplication.getInstance(), 0,
                 intent, 0);
         Notification noti = new Notification.Builder(this)

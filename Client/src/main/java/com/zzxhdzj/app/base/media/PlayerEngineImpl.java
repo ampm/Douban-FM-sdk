@@ -3,6 +3,7 @@ package com.zzxhdzj.app.base.media;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.text.TextUtils;
+import com.andlabs.androidutils.logging.L;
 import com.zzxhdzj.app.DoubanApplication;
 import com.zzxhdzj.douban.ReportType;
 import com.zzxhdzj.douban.modules.song.Song;
@@ -102,7 +103,7 @@ public class PlayerEngineImpl implements PlayerEngine {
                     mCurrentMediaPlayer = build(mSongsList.remove());
                 }
                 if (mCurrentMediaPlayer != null && mCurrentMediaPlayer.currentSong != DoubanApplication.getInstance().getCurrentPlayingSong()) {
-                    cleanUp();
+                    stop();
                     mCurrentMediaPlayer = build(mSongsList.remove());
                 }
 
@@ -147,6 +148,13 @@ public class PlayerEngineImpl implements PlayerEngine {
                             mediaPlayer.playAfterPrepare = false;
                             play();
                         }
+                    }
+                });
+                mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                    @Override
+                    public boolean onError(MediaPlayer mp, int what, int extra) {
+                        L.e("MediaPlayer.OnErrorListener",what,extra);
+                        return false;
                     }
                 });
                 mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -241,8 +249,9 @@ public class PlayerEngineImpl implements PlayerEngine {
         // nice clean-up job
         if (mCurrentMediaPlayer != null) {
             try {
-                mCurrentMediaPlayer.stop();
-            } catch (IllegalStateException e) {
+                if(mCurrentMediaPlayer.isPlaying())mCurrentMediaPlayer.stop();
+            } catch (Exception e) {
+                L.e(e.getMessage());
                 // this may happen sometimes
             } finally {
                 mCurrentMediaPlayer.release();

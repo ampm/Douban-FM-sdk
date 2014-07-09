@@ -2,6 +2,7 @@ package com.zzxhdzj.http;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import org.apache.http.HttpEntity;
 
 import java.io.*;
@@ -19,6 +20,8 @@ import java.util.zip.GZIPInputStream;
  * !!WARNING:"请勿添加业务相关代码"!!
  */
 public class Http {
+
+    private static final String TAG = "HTTP";
 
     public static void initCookieManager(Context context) {
         CookieManager cmrCookieMan = new CookieManager(new PrefsCookieStore(context), CookiePolicy.ACCEPT_ALL);
@@ -84,8 +87,8 @@ public class Http {
         urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
         urlConnection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
         urlConnection.setInstanceFollowRedirects(allowRedirect);
-        urlConnection.setConnectTimeout(60 * 1000);
-        urlConnection.setReadTimeout(60 * 1000);
+        urlConnection.setConnectTimeout(30 * 1000);
+        urlConnection.setReadTimeout(30 * 1000);
     }
 
     public static class Response {
