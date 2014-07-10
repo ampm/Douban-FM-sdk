@@ -5,8 +5,6 @@
                 android:layout_height="match_parent">
     <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
                android:id="@+id/bg_home"
-               android:focusable="true"
-               android:nextFocusLeft="@+id/left_ban_button"
                android:src="@drawable/home_bg"
                android:scaleType="fitXY"/>
     <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
@@ -27,7 +25,7 @@
                     android:focusable="true"
                     android:layout_height="48dp"
                     android:nextFocusDown="@+id/left_fav_button"
-                    android:nextFocusRight="@id/bg_home"
+                    android:nextFocusRight="@+id/dou_content"
                     android:nextFocusUp="@+id/left_skip_button"
                     android:src="@drawable/bg_player_ban"
                     android:padding="5dp"
@@ -40,19 +38,19 @@
                     android:layout_marginBottom="10dp"
                     android:focusable="true"
                     android:padding="5dp"
-                    android:nextFocusRight="@id/bg_home"
+                    android:nextFocusRight="@+id/dou_content"
                     android:nextFocusDown="@+id/left_skip_button"
                     android:nextFocusUp="@id/left_ban_button"
                     android:src="@drawable/bg_player_liked"
                     />
-            <ImageView android:id="@id/left_skip_button"
+            <ImageView android:id="@+id/left_skip_button"
                        android:layout_width="48dp"
                        android:layout_height="48dp"
                        android:padding="5dp"
                        android:focusable="true"
                        android:src="@drawable/bnt_play_next"
                        android:nextFocusUp="@id/left_fav_button"
-                       android:nextFocusRight="@id/bg_home"
+                       android:nextFocusRight="@id/dou_content"
                        android:nextFocusDown="@id/left_ban_button"
                     />
 
@@ -67,6 +65,8 @@
                 >
         </LinearLayout>
         <LinearLayout
+                android:focusable="true"
+                android:nextFocusLeft="@+id/left_ban_button"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@id/left_control"

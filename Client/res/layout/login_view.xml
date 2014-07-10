@@ -22,11 +22,16 @@
               android:background="@drawable/label_bg"
             />
     <EditText android:id="@+id/login_username_et"
+              android:focusable="true"
+              android:nextFocusDown="@+id/login_password_et"
               android:layout_width="match_parent" android:layout_height="wrap_content"
               android:background="@null"
+              android:inputType="textEmailAddress"
               android:gravity="center"
               android:singleLine="true"
-            />
+            >
+        <requestFocus/>
+    </EditText>
     <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@drawable/dash_line"
           android:hardwareAccelerated="false"
             />
@@ -40,6 +45,9 @@
             />
     <EditText android:id="@+id/login_password_et" android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:focusable="true"
+              android:nextFocusDown="@+id/login_captcha_et"
+              android:nextFocusUp="@id/login_username_et"
               android:singleLine="true"
               android:background="@null"
               android:gravity="center"
@@ -57,6 +65,9 @@
             />
     <EditText android:id="@+id/login_captcha_et" android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:focusable="true"
+              android:nextFocusDown="@+id/login_username_et"
+              android:nextFocusUp="@id/login_password_et"
               android:background="@null"
               android:gravity="center"
               android:singleLine="true"
