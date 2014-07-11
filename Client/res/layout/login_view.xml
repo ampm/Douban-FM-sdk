@@ -66,7 +66,7 @@
     <EditText android:id="@+id/login_captcha_et" android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:focusable="true"
-              android:nextFocusDown="@+id/login_username_et"
+              android:nextFocusDown="@+id/captcha_image_view"
               android:nextFocusUp="@id/login_password_et"
               android:background="@null"
               android:gravity="center"
@@ -83,6 +83,9 @@
                     android:layout_marginBottom="5dp">
         <ImageView android:layout_width="200dp" android:layout_height="30dp"
                    android:layout_centerInParent="true"
+                   android:focusable="true"
+                   android:nextFocusUp="@+id/login_captcha_et"
+                   android:nextFocusDown="@+id/login_submit_btn"
                    android:scaleType="fitXY"
                    android:id="@+id/captcha_image_view"
                 />
@@ -95,7 +98,10 @@
     </RelativeLayout>
     <Button android:layout_width="160dp" android:layout_height="wrap_content"
             android:id="@+id/login_submit_btn"
+            android:nextFocusUp="@id/captcha_image_view"
+            android:nextFocusDown="@id/login_username_et"
             android:text="@string/bt_login_text"
+            android:focusable="true"
             android:gravity="center"
             android:background="@drawable/button_bg_old"/>
     <TextView android:layout_width="172dp" android:layout_height="24dp"
