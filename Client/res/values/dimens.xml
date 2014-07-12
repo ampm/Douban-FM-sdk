@@ -8,4 +8,10 @@
     <dimen name="dou_margin_left">45dp</dimen>
     <dimen name="dou_margin_right">45dp</dimen>
     <dimen name="dou_margin_bottom">80dp</dimen>
+    <dimen name="bottom_line_thickness">1px</dimen>
+    <dimen name="about_me_btn_width">49dp</dimen>
+    <dimen name="channel_item_width">77dip</dimen>
+    <dimen name="channel_grid_item_drawable_padding">3.3299866dip</dimen>
+    <dimen name="channel_item_margin_bottom">14.669983dip</dimen>
+    <dimen name="channel_grid_center_item_margin_lr">24.669983dip</dimen>
 </resources>

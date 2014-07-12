@@ -29,4 +29,14 @@
     <string name="login_username_lv">Username</string>
     <string name="song_duration">Duration</string>
     <string name="duration_split">/</string>
+    <string name="channel_switch_btn">channel_switch</string>
+    <string name="channel_by_region_lang"><![CDATA[Region&Lang]]></string>
+    <string name="channel_by_ages">Ages</string>
+    <string name="channel_by_genre">Genre</string>
+    <string name="channel_by_special">Special</string>
+    <string name="channel_by_brand">Brand</string>
+    <string name="channel_by_artist">Artist</string>
+    <string name="channel_by_trending">Trending</string>
+    <string name="channel_by_hits">Hits</string>
+    <string name="channel_by_try">Try</string>
 </resources>

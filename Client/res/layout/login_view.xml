@@ -103,7 +103,7 @@
             android:text="@string/bt_login_text"
             android:focusable="true"
             android:gravity="center"
-            android:background="@drawable/button_bg_old"/>
+            android:background="@drawable/selector_button_bg_old"/>
     <TextView android:layout_width="172dp" android:layout_height="24dp"
               android:layout_marginBottom="20dp"
               android:textColor="#FFE7CA"

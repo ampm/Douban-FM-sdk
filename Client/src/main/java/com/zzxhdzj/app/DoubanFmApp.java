@@ -6,6 +6,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.zzxhdzj.app.base.media.PlayerEngine;
 import com.zzxhdzj.app.base.media.PlayerEngineListener;
+import com.zzxhdzj.app.channels.ChannelFragment;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.modules.song.Song;
 
@@ -19,14 +20,14 @@ import java.util.List;
  * Date: 3/29/14
  * To change this template use File | Settings | File Templates.
  */
-public class DoubanApplication extends Application {
+public class DoubanFmApp extends Application {
     public static final String TAG = "DoubanApplication";
     public static final int WARNING_SIZE = 3;
-    public static boolean isPlaying = true;
+    public static boolean isPauseByUser = false;
     private LinkedList<Song> mSongsList;
     private int currentChannelId;
     private Song mCurrentPlayingSong;
-    private static DoubanApplication instance;
+    private static DoubanFmApp instance;
     private PlayerEngine mServicePlayerEngine;
     public Song getCurrentPlayingSong() {
         return mCurrentPlayingSong;
@@ -41,7 +42,16 @@ public class DoubanApplication extends Application {
         this.playerEngineListeners.add(playerEngineListener);
         return playerEngineListeners;
     }
+    public List<ChannelFragment.ChannelFragmentListener> channelFragmentListeners = new ArrayList<ChannelFragment.ChannelFragmentListener>();
 
+    public List<ChannelFragment.ChannelFragmentListener> getChannelFragmentListeners() {
+        return channelFragmentListeners;
+    }
+
+    public List<ChannelFragment.ChannelFragmentListener> addChannelFragmentListener(ChannelFragment.ChannelFragmentListener channelFragmentListener) {
+        this.channelFragmentListeners.add(channelFragmentListener);
+        return channelFragmentListeners;
+    }
     public void setCurrentPlayingSong(Song mCurrentPlayingSong) {
         this.mCurrentPlayingSong = mCurrentPlayingSong;
     }
@@ -54,7 +64,7 @@ public class DoubanApplication extends Application {
         instance = this;
     }
 
-    public static DoubanApplication getInstance() {
+    public static DoubanFmApp getInstance() {
         return instance;
     }
 

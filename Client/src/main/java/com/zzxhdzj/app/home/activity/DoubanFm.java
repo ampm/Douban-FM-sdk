@@ -5,20 +5,22 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.andlabs.androidutils.logging.L;
-import com.zzxhdzj.app.DoubanApplication;
+import com.zzxhdzj.app.DoubanFmApp;
 import com.zzxhdzj.app.base.media.PlayerEngineListener;
+import com.zzxhdzj.app.channels.ChannelFragment;
 import com.zzxhdzj.app.home.DoubanFmDelegate;
 import com.zzxhdzj.app.login.fragment.LoginFragment;
 import com.zzxhdzj.app.play.delegate.PlayDelegate;
 import com.zzxhdzj.app.play.fragment.PlayFragment;
 import com.zzxhdzj.douban.R;
 import com.zzxhdzj.douban.modules.UserInfo;
+import com.zzxhdzj.douban.modules.channel.Channel;
+
+import static com.zzxhdzj.app.channels.ChannelFragment.ChannelFragmentListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,7 +28,7 @@ import com.zzxhdzj.douban.modules.UserInfo;
  * Date: 3/29/14
  * To change this template use File | Settings | File Templates.
  */
-public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
+public class DoubanFm extends FragmentActivity implements PlayerEngineListener, View.OnClickListener,ChannelFragmentListener {
     @InjectView(R.id.mhz_name)
     TextView mMhzName;
     @InjectView(R.id.listened_count)
@@ -42,18 +44,27 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
     @InjectView(R.id.left_ban_button)
     ImageView mLeftBanButton;
     @InjectView(R.id.left_fav_button)
-    public
-    ImageView mLeftFavButton;
+    public ImageView mLeftFavButton;
+    @InjectView(R.id.about_me)
+    ImageButton mAboutMe;
+    @InjectView(R.id.root_view)
+    FrameLayout mRootView;
+    @InjectView(R.id.btn_channels_grid)
+    ImageButton mBtnChannelsGrid;
+    @InjectView(R.id.bottom_control_layout)
+    LinearLayout mBottomControlLayout;
+
+
     private DoubanFmDelegate doubanFmDelegate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         L.d("onCreate");
-        setContentView(R.layout.main);
+        setContentView(R.layout.fragment_main);
         ButterKnife.inject(this);
         doubanFmDelegate = new DoubanFmDelegate(this);
-        DoubanApplication.getInstance().addPlayerEngineListener(this);
+        DoubanFmApp.getInstance().addPlayerEngineListener(this);
         pauseControlBtn();
     }
 
@@ -76,6 +87,7 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        L.d("onBackPressed");
     }
 
     public void showLoggedItems(UserInfo userInfo) {
@@ -84,35 +96,22 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
         mListenedCount.setText(String.format(getString(R.string.listened_count), userInfo.playRecord.played));
         mPersonalInfo.setVisibility(View.VISIBLE);
         mLeftControl.setVisibility(View.VISIBLE);
-        mLeftSkipButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pauseControlBtn();
-                PlayDelegate.getInstance().skip();
-            }
-        });
-        mLeftBanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PlayDelegate.getInstance().ban();
-            }
-        });
-        mLeftFavButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mLeftFavButton.isActivated()){
-                    PlayDelegate.getInstance().unfav();
-                    DoubanApplication.getInstance().getCurrentPlayingSong().like="0";
-                    mLeftFavButton.setActivated(false);
-                }else {
-                    PlayDelegate.getInstance().fav();
-                    DoubanApplication.getInstance().getCurrentPlayingSong().like="1";
-                    mLeftFavButton.setActivated(true);
-                }
-            }
-        });
+        registerViewClickListeners(
+                mLeftBanButton,
+                mLeftFavButton,
+                mLeftSkipButton,
+                mBtnChannelsGrid);
     }
-
+    void registerViewClickListeners(View ... views){
+        for (View view:views){
+            view.setOnClickListener(this);
+        }
+    }
+    void unRegisterViewClickListeners(View ... views){
+        for (View view:views){
+            view.setOnClickListener(null);
+        }
+    }
     private void pauseControlBtn() {
         mLeftSkipButton.setEnabled(false);
         mLeftFavButton.setEnabled(false);
@@ -173,10 +172,13 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         L.d("onDestroy");
+        DoubanFmApp.getInstance().getChannelFragmentListeners().clear();
     }
+
+
 
     @Override
     protected void onRestart() {
@@ -189,11 +191,70 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener{
         super.onResume();
         L.d("onResume");
         doubanFmDelegate.prepare();
-        if(DoubanApplication.getInstance().getCurrentPlayingSong()!=null&&DoubanApplication.getInstance().getCurrentPlayingSong().isLiked()){
-            mLeftFavButton.setActivated(true);
+        if(DoubanFmApp.getInstance().getCurrentPlayingSong()!=null){
+            resumeControlBtn();
+            if(DoubanFmApp.getInstance().getCurrentPlayingSong().isLiked()){
+                mLeftFavButton.setActivated(true);
+            }
         }else {
             mLeftFavButton.setActivated(false);
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.left_skip_button:
+                pauseControlBtn();
+                PlayDelegate.getInstance().skip();
+                break;
+            case R.id.left_ban_button:
+                PlayDelegate.getInstance().ban();
+                break;
+            case R.id.left_fav_button:
+                if(mLeftFavButton.isActivated()){
+                    PlayDelegate.getInstance().unfav();
+                    DoubanFmApp.getInstance().getCurrentPlayingSong().like="0";
+                    mLeftFavButton.setActivated(false);
+                }else {
+                    PlayDelegate.getInstance().fav();
+                    DoubanFmApp.getInstance().getCurrentPlayingSong().like="1";
+                    mLeftFavButton.setActivated(true);
+                }
+                break;
+            case R.id.btn_channels_grid:
+                showChannelsFragment();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void showChannelsFragment() {
+        unRegisterViewClickListeners(
+                mLeftBanButton,
+                mLeftFavButton,
+                mLeftSkipButton,
+                mBtnChannelsGrid);
+        mBottomControlLayout.setVisibility(View.GONE);
+        DoubanFmApp.getInstance().getChannelFragmentListeners().add(this);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.root_view, new ChannelFragment())
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onChannelFragmentDestroy() {
+        registerViewClickListeners(mLeftBanButton,
+                mLeftFavButton,
+                mLeftSkipButton,
+                mBtnChannelsGrid);
+        mBottomControlLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onChannelSelected(Channel channel) {
+    }
 }

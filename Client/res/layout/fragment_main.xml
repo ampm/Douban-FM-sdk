@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/root_view"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+                   android:id="@+id/bg_home"
+                   android:src="@drawable/home_bg"
+                   android:scaleType="fitXY"/>
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/dou_margin_top"
+                        android:layout_marginBottom="@dimen/dou_margin_bottom"
+                >
+            <LinearLayout android:id="@+id/left_control"
+                          android:layout_width="@dimen/dou_margin_left"
+                          android:layout_height="match_parent"
+                          android:visibility="invisible"
+                          android:orientation="vertical"
+                          android:gravity="center"
+                          android:layout_alignParentLeft="true"
+                    >
+                <ImageView
+                        android:id="@+id/left_ban_button"
+                        android:layout_width="48dp"
+                        android:focusable="true"
+                        android:layout_height="48dp"
+                        android:nextFocusDown="@+id/left_fav_button"
+                        android:nextFocusRight="@+id/dou_content"
+                        android:nextFocusUp="@+id/left_skip_button"
+                        android:src="@drawable/selector_bg_player_ban"
+                        android:padding="5dp"
+                        />
+                <ImageView
+                        android:id="@id/left_fav_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:focusable="true"
+                        android:padding="5dp"
+                        android:nextFocusRight="@+id/dou_content"
+                        android:nextFocusDown="@+id/left_skip_button"
+                        android:nextFocusUp="@id/left_ban_button"
+                        android:src="@drawable/selector_bg_player_liked"
+                        />
+                <ImageView android:id="@+id/left_skip_button"
+                           android:layout_width="48dp"
+                           android:layout_height="48dp"
+                           android:padding="5dp"
+                           android:focusable="true"
+                           android:src="@drawable/selector_bnt_play_next"
+                           android:nextFocusUp="@id/left_fav_button"
+                           android:nextFocusRight="@id/dou_content"
+                           android:nextFocusDown="@id/left_ban_button"
+                        />
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/right_control"
+                    android:layout_width="@dimen/dou_margin_left"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_alignParentRight="true"
+                    >
+            </LinearLayout>
+            <LinearLayout
+                    android:focusable="true"
+                    android:nextFocusLeft="@+id/left_ban_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/left_control"
+                    android:layout_toLeftOf="@id/right_control"
+                    android:id="@+id/dou_content"
+                    android:gravity="center_horizontal"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    />
+        </RelativeLayout>
+
+        <LinearLayout android:id="@+id/personal_info" android:layout_width="112dp" android:layout_height="112dp"
+                      android:orientation="vertical"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginRight="10dp"
+                      android:layout_alignParentTop="true"
+                      android:layout_alignParentRight="true"
+                      android:visibility="invisible"
+                      android:background="#f5ffffff"
+                >
+            <TextView android:layout_width="match_parent" android:layout_height="36dp"
+                      android:id="@+id/mhz_name"
+                      android:background="#f576aeef"
+                      android:gravity="center"
+                      android:textColor="@android:color/white"
+                      android:text="@string/mhz_name_text"
+                    />
+            <TextView android:layout_width="match_parent" android:layout_height="36dp"
+                      android:id="@+id/listened_count"
+                      android:gravity="center"
+                      android:textColor="@android:color/black"
+                      android:text="@string/listened_count"
+                    />
+            <TextView android:layout_width="match_parent" android:layout_height="36dp"
+                      android:id="@+id/favored_count"
+                      android:gravity="center"
+                      android:textColor="@android:color/black"
+                      android:text="@string/favored_count"
+                    />
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="58dp"
+                      android:id="@+id/bottom_control_layout"
+                      android:background="#ff2f3743"
+                      android:layout_alignParentBottom="true"
+                      android:orientation="horizontal">
+            <ImageButton android:id="@+id/btn_channels_grid"
+                    android:layout_width="49dp" android:layout_height="match_parent"
+                         android:contentDescription="@string/channel_switch_btn"
+                         android:background="#ff242629"
+                         android:src="@drawable/selector_channel_switch"
+                    />
+            <View android:background="#ff393b3e" android:layout_width="@dimen/bottom_line_thickness"
+                  android:layout_height="fill_parent"/>
+            <LinearLayout android:gravity="center" android:background="#ff242629" android:paddingLeft="4.669983dip"
+                          android:clickable="true" android:layout_width="0.0dip"
+                          android:layout_height="match_parent" android:layout_weight="1.0">
+            </LinearLayout>
+            <View android:background="#ff393b3e" android:layout_width="@dimen/bottom_line_thickness"
+                  android:layout_height="fill_parent"/>
+            <ImageButton android:id="@+id/about_me" android:background="#ff242629" android:clickable="true"
+                         android:layout_width="@dimen/about_me_btn_width" android:layout_height="match_parent"
+                         android:src="@drawable/album_ic_info_pressed"/>
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

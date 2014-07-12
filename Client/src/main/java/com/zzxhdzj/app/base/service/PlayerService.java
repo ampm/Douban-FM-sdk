@@ -12,8 +12,8 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
+import com.zzxhdzj.app.DoubanFmApp;
 import com.zzxhdzj.app.DouCallback;
-import com.zzxhdzj.app.DoubanApplication;
 import com.zzxhdzj.app.base.media.PlayerEngine;
 import com.zzxhdzj.app.base.media.PlayerEngineImpl;
 import com.zzxhdzj.app.base.media.PlayerEngineListener;
@@ -58,7 +58,7 @@ public class PlayerService extends Service {
 
         @Override
         public void onSongChanged() {
-            displayNotification(DoubanApplication.getInstance().getCurrentPlayingSong());
+            displayNotification(DoubanFmApp.getInstance().getCurrentPlayingSong());
         }
 
         @Override
@@ -105,7 +105,7 @@ public class PlayerService extends Service {
         @Override
         public void onFailure() {
             super.onFailure();
-            Toast.makeText(DoubanApplication.getInstance(),douban.mApiRespErrorCode.toString(),Toast.LENGTH_LONG).show();
+            Toast.makeText(DoubanFmApp.getInstance(),douban.mApiRespErrorCode.toString(),Toast.LENGTH_LONG).show();
         }
 
     };
@@ -116,7 +116,7 @@ public class PlayerService extends Service {
         public void requireNewSongs(ReportType reportType, String songId, int playTime) {
             //FIXME:the forth param should read from the settings prefs.
             PlayerService.this.reportType = reportType;
-            douban.songsOfChannel(reportType, songId, playTime, BitRate.HIGH, callback);
+            douban.songsOfChannel(reportType, songId, playTime, BitRate.HIGH, DoubanFmApp.getInstance().getCurrentChannelId(),callback);
         }
     };
 
@@ -127,7 +127,7 @@ public class PlayerService extends Service {
 
     @Override
     public void onCreate() {
-        Log.i(DoubanApplication.TAG, "Player Service onCreate");
+        Log.i(DoubanFmApp.TAG, "Player Service onCreate");
 
         // All necessary Application <-> Service pre-setup goes in here
         mPlayerEngine = new PlayerEngineImpl();
@@ -139,7 +139,7 @@ public class PlayerService extends Service {
 
             @Override
             public void onCallStateChanged(int state, String incomingNumber) {
-                Log.e(DoubanApplication.TAG, "onCallStateChanged");
+                Log.e(DoubanFmApp.TAG, "onCallStateChanged");
                 if (state == TelephonyManager.CALL_STATE_IDLE) {
                     // resume playback
                 } else {
@@ -153,9 +153,9 @@ public class PlayerService extends Service {
         mTelephonyManager.listen(mPhoneStateListener, PhoneStateListener.LISTEN_CALL_STATE);
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mWifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        mWifiLock = mWifiManager.createWifiLock(DoubanApplication.TAG);
+        mWifiLock = mWifiManager.createWifiLock(DoubanFmApp.TAG);
         mWifiLock.setReferenceCounted(false);
-        DoubanApplication.getInstance().setConcretePlayerEngine(mPlayerEngine);
+        DoubanFmApp.getInstance().setConcretePlayerEngine(mPlayerEngine);
     }
 
     @Override
@@ -165,9 +165,9 @@ public class PlayerService extends Service {
         }
 
         String action = intent.getAction();
-        Log.i(DoubanApplication.TAG, "Player Service onStart - " + action);
+        Log.i(DoubanFmApp.TAG, "Player Service onStart - " + action);
         if (action.equals(ACTION_BIND_LISTENER)) {
-            List<PlayerEngineListener> playerEngineListeners = DoubanApplication.getInstance().getPlayerEngineListeners();
+            List<PlayerEngineListener> playerEngineListeners = DoubanFmApp.getInstance().getPlayerEngineListeners();
             if (playerEngineListeners != null) {
                 for (PlayerEngineListener listener:playerEngineListeners){
                     mPlayerEngine.addPlayerEngineListener(listener);
@@ -205,7 +205,7 @@ public class PlayerService extends Service {
     private void displayNotification(Song song) {
         Intent intent = new Intent(this, DoubanFm.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        PendingIntent pIntent = PendingIntent.getActivity(DoubanApplication.getInstance(), 0,
+        PendingIntent pIntent = PendingIntent.getActivity(DoubanFmApp.getInstance(), 0,
                 intent, 0);
         Notification noti = new Notification.Builder(this)
                 .setContentTitle(song.title)

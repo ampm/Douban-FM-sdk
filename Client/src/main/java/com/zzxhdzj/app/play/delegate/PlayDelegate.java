@@ -1,7 +1,7 @@
 package com.zzxhdzj.app.play.delegate;
 
 import android.content.Intent;
-import com.zzxhdzj.app.DoubanApplication;
+import com.zzxhdzj.app.DoubanFmApp;
 import com.zzxhdzj.app.base.media.PlayerEngineListener;
 import com.zzxhdzj.app.base.service.PlayerService;
 
@@ -16,8 +16,8 @@ public class PlayDelegate{
     private static PlayDelegate playDelegate;
 
     public void play() {
-        if (DoubanApplication.getInstance().getServicePlayerEngine() != null) {
-            DoubanApplication.getInstance().getServicePlayerEngine().play();
+        if (DoubanFmApp.getInstance().getServicePlayerEngine() != null) {
+            DoubanFmApp.getInstance().getServicePlayerEngine().play();
         } else {
             startAction(PlayerService.ACTION_PLAY);
         }
@@ -28,24 +28,24 @@ public class PlayDelegate{
     }
 
     public void skip() {
-        if (DoubanApplication.getInstance().getServicePlayerEngine() != null) {
-            DoubanApplication.getInstance().getServicePlayerEngine().skip();
+        if (DoubanFmApp.getInstance().getServicePlayerEngine() != null) {
+            DoubanFmApp.getInstance().getServicePlayerEngine().skip();
         } else {
             startAction(PlayerService.ACTION_SKIP);
         }
     }
 
     public void fav() {
-        if (DoubanApplication.getInstance().getServicePlayerEngine() != null) {
-            DoubanApplication.getInstance().getServicePlayerEngine().fav();
+        if (DoubanFmApp.getInstance().getServicePlayerEngine() != null) {
+            DoubanFmApp.getInstance().getServicePlayerEngine().fav();
         } else {
             startAction(PlayerService.ACTION_FAV);
         }
     }
 
     public void ban() {
-        if (DoubanApplication.getInstance().getServicePlayerEngine() != null) {
-            DoubanApplication.getInstance().getServicePlayerEngine().ban();
+        if (DoubanFmApp.getInstance().getServicePlayerEngine() != null) {
+            DoubanFmApp.getInstance().getServicePlayerEngine().ban();
         } else {
             startAction(PlayerService.ACTION_BAN);
         }
@@ -56,17 +56,17 @@ public class PlayDelegate{
     }
 
     public void setPlayerEngineListener(PlayerEngineListener playerEngineListener) {
-        DoubanApplication.getInstance().addPlayerEngineListener(playerEngineListener);
-        if (DoubanApplication.getInstance().getServicePlayerEngine()!= null||playerEngineListener!=null) {
+        DoubanFmApp.getInstance().addPlayerEngineListener(playerEngineListener);
+        if (DoubanFmApp.getInstance().getServicePlayerEngine()!= null||playerEngineListener!=null) {
             startAction(PlayerService.ACTION_BIND_LISTENER);
         }
     }
 
     private void startAction(String action) {
-        Intent intent = new Intent(DoubanApplication.getInstance(),
+        Intent intent = new Intent(DoubanFmApp.getInstance(),
                 PlayerService.class);
         intent.setAction(action);
-        DoubanApplication.getInstance().startService(intent);
+        DoubanFmApp.getInstance().startService(intent);
     }
     private PlayDelegate(){
     }
@@ -78,8 +78,8 @@ public class PlayDelegate{
     }
 
     public void unfav() {
-        if (DoubanApplication.getInstance().getServicePlayerEngine() != null) {
-            DoubanApplication.getInstance().getServicePlayerEngine().unfav();
+        if (DoubanFmApp.getInstance().getServicePlayerEngine() != null) {
+            DoubanFmApp.getInstance().getServicePlayerEngine().unfav();
         } else {
             startAction(PlayerService.ACTION_UNFAV);
         }

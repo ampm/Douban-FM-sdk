@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@+id/channels_grid_bg" android:background="@color/channels_grid_bg_dim"
+                android:layout_width="fill_parent" android:layout_height="fill_parent"
+                xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/channels_grid"
+                    android:layout_centerInParent="true">
+        <TextView android:id="@+id/btn_channel_item_region" android:layout_width="@dimen/channel_item_width"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/channel_item_margin_bottom"
+                  android:singleLine="true"
+                  android:text="@string/channel_by_region_lang" android:drawableTop="@drawable/region_lang_ico"
+                  android:drawablePadding="@dimen/channel_grid_item_drawable_padding"
+                  style="@style/channel_item_name"/>
+        <TextView android:id="@+id/btn_channel_item_ages" android:layout_width="@dimen/channel_item_width"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/channel_grid_center_item_margin_lr"
+                  android:layout_marginRight="@dimen/channel_grid_center_item_margin_lr"
+                  android:text="@string/channel_by_ages"
+                  android:drawableTop="@drawable/channel_grid_item_ages_ico"
+                  android:drawablePadding="@dimen/channel_grid_item_drawable_padding"
+                  android:layout_toRightOf="@+id/btn_channel_item_region"
+                  android:layout_alignTop="@id/btn_channel_item_region"
+                  style="@style/channel_item_name"/>
+        <TextView android:id="@+id/btn_channel_item_genre" android:layout_width="@dimen/channel_item_width"
+                  android:layout_height="wrap_content" android:text="@string/channel_by_genre"
+                  android:drawableTop="@drawable/channel_grid_item_genre_ico"
+                  android:drawablePadding="@dimen/channel_grid_item_drawable_padding"
+                  android:layout_toRightOf="@id/btn_channel_item_ages" android:layout_alignTop="@+id/btn_channel_item_region"
+                  style="@style/channel_item_name"/>
+
+        <TextView android:id="@+id/btn_channel_item_special" android:layout_width="@dimen/channel_item_width"
+                  android:layout_height="wrap_content"
+                  android:layout_marginBottom="@dimen/channel_item_margin_bottom"
+                  android:text="@string/channel_by_special"
+                  android:drawableTop="@drawable/channel_grid_item_special_ico"
+                  android:drawablePadding="@dimen/channel_grid_item_drawable_padding"
+                  android:layout_below="@+id/btn_channel_item_region"
+                  style="@style/channel_item_name"/>
+        <TextView android:id="@+id/btn_channel_item_brand" android:layout_width="@dimen/channel_item_width"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/channel_grid_center_item_margin_lr"
+                  android:layout_marginRight="@dimen/channel_grid_center_item_margin_lr"
+                  android:text="@string/channel_by_brand"
+                  android:drawableTop="@drawable/channel_grid_item_brand"
+                  android:drawablePadding="@dimen/channel_grid_item_drawable_padding"
+                  android:layout_toRightOf="@id/btn_channel_item_special"
+                  android:layout_alignTop="@id/btn_channel_item_special"
+                  style="@style/channel_item_name"/>
+        <TextView android:id="@+id/btn_channel_item_artist" android:layout_width="@dimen/channel_item_width"
+                  android:layout_height="wrap_content" android:text="@string/channel_by_artist"
+                  android:drawableTop="@drawable/channel_grid_item_artist"
+                  android:drawablePadding="@dimen/channel_grid_item_drawable_padding"
+                  android:layout_toRightOf="@+id/btn_channel_item_brand" android:layout_alignTop="@+id/btn_channel_item_special"
+                  style="@style/channel_item_name"/>
+        <TextView android:id="@+id/btn_channel_item_trending" android:layout_width="@dimen/channel_item_width"
+                  android:layout_height="wrap_content" android:text="@string/channel_by_trending"
+                  android:drawableTop="@drawable/channel_grid_item_trending_ico"
+                  android:drawablePadding="@dimen/channel_grid_item_drawable_padding"
+                  android:layout_below="@+id/btn_channel_item_special" style="@style/channel_item_name"/>
+
+        <TextView android:id="@+id/btn_channel_item_hits" android:layout_width="@dimen/channel_item_width"
+                  android:layout_height="wrap_content"
+                  android:layout_marginLeft="@dimen/channel_grid_center_item_margin_lr"
+                  android:layout_marginRight="@dimen/channel_grid_center_item_margin_lr"
+                  android:text="@string/channel_by_hits"
+                  android:drawableTop="@drawable/channel_grid_item_hits_ico"
+                  android:drawablePadding="@dimen/channel_grid_item_drawable_padding"
+                  android:layout_toRightOf="@+id/btn_channel_item_trending"
+                  android:layout_alignTop="@+id/btn_channel_item_trending"
+                  style="@style/channel_item_name"/>
+        <TextView android:id="@+id/btn_channel_item_try" android:layout_width="@dimen/channel_item_width"
+                  android:layout_height="wrap_content" android:text="@string/channel_by_try"
+                  android:drawableTop="@drawable/channel_grid_item_try_ico"
+                  android:drawablePadding="@dimen/channel_grid_item_drawable_padding"
+                  android:layout_toRightOf="@+id/btn_channel_item_hits"
+                  android:layout_alignTop="@+id/btn_channel_item_trending"
+                  style="@style/channel_item_name"/>
+    </RelativeLayout>
+
+    <ImageView android:id="@+id/btn_search" android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:src="@drawable/btn_title_search" android:minWidth="40.0dip" android:minHeight="40.0dip"
+               android:layout_alignRight="@id/channels_grid"
+               android:layout_alignParentTop="true"/>
+    <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:layout_marginLeft="13.329987dip" android:layout_marginBottom="18.0dip"
+               android:src="@drawable/grid_btn_close" android:minWidth="22.669983dip"
+               android:minHeight="22.669983dip" android:layout_alignParentLeft="true"
+               android:layout_alignParentBottom="true"/>
+</RelativeLayout>

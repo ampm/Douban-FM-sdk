@@ -4,7 +4,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.text.TextUtils;
 import com.andlabs.androidutils.logging.L;
-import com.zzxhdzj.app.DoubanApplication;
+import com.zzxhdzj.app.DoubanFmApp;
 import com.zzxhdzj.douban.ReportType;
 import com.zzxhdzj.douban.modules.song.Song;
 
@@ -58,6 +58,7 @@ public class PlayerEngineImpl implements PlayerEngine {
          */
         public boolean playAfterPrepare = false;
 
+        public int currentChannelId;
     }
 
     /**
@@ -72,8 +73,8 @@ public class PlayerEngineImpl implements PlayerEngine {
                 // TODO use getCurrentPosition less frequently (usage of currentTimeMillis or uptimeMillis)
                 if (mCurrentMediaPlayer != null) {
                     for (PlayerEngineListener listener : playerEngineListeners) {
-                        if(mCurrentMediaPlayer.getDuration()>24*60*60*1000)return;
-                        listener.onSongProgress(mCurrentMediaPlayer.getDuration(),mCurrentMediaPlayer.getCurrentPosition());
+                        if (mCurrentMediaPlayer.getDuration() > 24 * 60 * 60 * 1000) return;
+                        listener.onSongProgress(mCurrentMediaPlayer.getDuration(), mCurrentMediaPlayer.getCurrentPosition());
                     }
                 }
                 mHandler.postDelayed(this, 1000);
@@ -94,26 +95,26 @@ public class PlayerEngineImpl implements PlayerEngine {
     public void play() {
         if (servicePlayerEngineListener.shouldPlay()) {
             if (mSongsList != null && mSongsList.size() > 0) {
-                if (mSongsList.size() < DoubanApplication.WARNING_SIZE) {
+                if (mSongsList.size() < DoubanFmApp.WARNING_SIZE) {
                     if (songQueueListener != null) {
                         songQueueListener.requireNewSongs(ReportType.NULL, null, 0);
                     }
                 }
-                if (mCurrentMediaPlayer == null) {
+                if (mCurrentMediaPlayer == null) {//第一次启动
                     mCurrentMediaPlayer = build(mSongsList.remove());
                 }
-                if (mCurrentMediaPlayer != null && mCurrentMediaPlayer.currentSong != DoubanApplication.getInstance().getCurrentPlayingSong()) {
+                if (mCurrentMediaPlayer != null && mCurrentMediaPlayer.currentSong != DoubanFmApp.getInstance().getCurrentPlayingSong()) {//换歌了
                     stop();
                     mCurrentMediaPlayer = build(mSongsList.remove());
                 }
-
+                if (mCurrentMediaPlayer != null &&DoubanFmApp.getInstance().getCurrentChannelId()!=mCurrentMediaPlayer.currentChannelId) {//换频道了
+                    stop();
+                    if (songQueueListener != null) {
+                        songQueueListener.requireNewSongs(ReportType.NULL, null, 0);
+                    }
+                }
                 // check if there is any player instance, if not, abort further execution
                 if (mCurrentMediaPlayer != null) {
-                    if (!mCurrentMediaPlayer.isPlaying()) {
-                        for (PlayerEngineListener playerEngineListener : playerEngineListeners) {
-                            playerEngineListener.onSongChanged();
-                        }
-                    }
                     if (mCurrentMediaPlayer.preparing) {
                         mCurrentMediaPlayer.playAfterPrepare = true;
                     } else {
@@ -122,6 +123,9 @@ public class PlayerEngineImpl implements PlayerEngine {
                             mHandler.removeCallbacks(mUpdateTimeTask);
                             mHandler.postDelayed(mUpdateTimeTask, 1000);
                             mCurrentMediaPlayer.start();
+                            for (PlayerEngineListener playerEngineListener : playerEngineListeners) {
+                                playerEngineListener.onSongChanged();
+                            }
                         }
                     }
                 }
@@ -153,7 +157,7 @@ public class PlayerEngineImpl implements PlayerEngine {
                 mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                     @Override
                     public boolean onError(MediaPlayer mp, int what, int extra) {
-                        L.e("MediaPlayer.OnErrorListener",what,extra);
+                        L.e("MediaPlayer.OnErrorListener", what, extra);
                         return false;
                     }
                 });
@@ -166,7 +170,8 @@ public class PlayerEngineImpl implements PlayerEngine {
                 mediaPlayer.currentSong = song;
                 mediaPlayer.preparing = true;
                 mediaPlayer.prepareAsync();
-                DoubanApplication.getInstance().setCurrentPlayingSong(song);
+                DoubanFmApp.getInstance().setCurrentPlayingSong(song);
+                mediaPlayer.currentChannelId = DoubanFmApp.getInstance().getCurrentChannelId();
                 return mediaPlayer;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -249,7 +254,7 @@ public class PlayerEngineImpl implements PlayerEngine {
         // nice clean-up job
         if (mCurrentMediaPlayer != null) {
             try {
-                if(mCurrentMediaPlayer.isPlaying())mCurrentMediaPlayer.stop();
+                if (mCurrentMediaPlayer.isPlaying()) mCurrentMediaPlayer.stop();
             } catch (Exception e) {
                 L.e(e.getMessage());
                 // this may happen sometimes
