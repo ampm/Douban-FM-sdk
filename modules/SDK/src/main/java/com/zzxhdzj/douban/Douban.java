@@ -160,9 +160,9 @@ public class Douban extends ApiInstance {
     }
 
 
-    public void songsOfChannel(ReportType reportType, String currentSongId, int playTime, BitRate bitRate, Callback callback) {
+    public void songsOfChannel(ReportType reportType, String currentSongId, int playTime, BitRate bitRate, int channelId, Callback callback) {
         SongsGateway songsGateway = new SongsGateway(this, apiGateway);
-        songsGateway.querySongsByChannelId(reportType,currentSongId,playTime, ChannelConstantIds.PRIVATE_CHANNEL, bitRate, callback);
+        songsGateway.querySongsByChannelId(reportType,currentSongId,playTime, channelId, bitRate, callback);
     }
 
 

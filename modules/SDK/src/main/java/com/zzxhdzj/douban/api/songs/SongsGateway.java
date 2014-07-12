@@ -34,7 +34,7 @@ public class SongsGateway extends BaseApiGateway {
         apiGateway.makeRequest(new SongsRequest(channelId, bitRate, songType,currentSongId, playTime), new SongApiResponseCallback(callback, this, douban));
     }
 
-    private class SongApiResponseCallback extends CommonTextApiResponseCallback {
+    private class SongApiResponseCallback extends CommonTextApiResponseCallback<Douban> {
 
         private SongResp songResp;
 
