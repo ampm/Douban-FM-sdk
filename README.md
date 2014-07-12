@@ -75,8 +75,15 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
 
 - 2014-07-06
 
-replace front player to service:architecture reference to <https://github.com/telecapoland/jamendo-android>
+    replace front player to service:architecture reference to <https://github.com/telecapoland/jamendo-android>
   
+- 2014-07-12
+    
+    start adding channel switch support.
+    
+    UI copycat from [naver](https://play.google.com/store/apps/details?id=com.nhn.android.music) music player
+    
+    
 #Usage:
 
 0 [demo](https://github.com/ampm/DoubanFM-android.git)会不断完善，直至一个完整的客户端
