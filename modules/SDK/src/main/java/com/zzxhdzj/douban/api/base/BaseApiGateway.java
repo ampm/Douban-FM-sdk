@@ -3,7 +3,6 @@ package com.zzxhdzj.douban.api.base;
 import android.text.TextUtils;
 import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.Douban;
-import com.zzxhdzj.douban.PrefsConstant;
 import com.zzxhdzj.douban.api.RespType;
 import com.zzxhdzj.douban.modules.Resp;
 import com.zzxhdzj.douban.modules.RespStatusCode;
@@ -44,7 +43,7 @@ public class BaseApiGateway {
         }
         if(!TextUtils.isEmpty(resp.warning)&&(resp.warning.contains("user_is_ananymous")||resp.warning.contains("user_is_anonymous"))){
             //anonymous:豆瓣官方拼写错误，防止他将来纠正过来,user_is_anonymous 也判断一下
-            Douban.getSharedPreferences().edit().putBoolean(PrefsConstant.LOGGED, false).commit();
+            Douban.reset();
             if(isAuthRequire){
                 isOk = false;
                 douban.mApiRespErrorCode = ApiRespErrorCode.createNonBizError(ApiInternalError.AUTH_ERROR);

@@ -52,7 +52,7 @@ public class SongsGateway extends BaseApiGateway {
         @Override
         public boolean _handleRespData(TextApiResponse response) {
             if (isRespOk(songResp)) {
-                douban.songs = songResp.songs;
+                Douban.songs = songResp.songs;
                 return true;
             } else {
                 detectAuthError(songResp);

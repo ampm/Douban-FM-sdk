@@ -236,7 +236,7 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
                 mLeftFavButton,
                 mLeftSkipButton,
                 mBtnChannelsGrid);
-        mBottomControlLayout.setVisibility(View.GONE);
+        mBottomControlLayout.setVisibility(View.INVISIBLE);
         DoubanFmApp.getInstance().getChannelFragmentListeners().add(this);
         getSupportFragmentManager()
                 .beginTransaction()

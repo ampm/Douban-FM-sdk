@@ -12,11 +12,79 @@
                    android:id="@+id/bg_home"
                    android:src="@drawable/home_bg"
                    android:scaleType="fitXY"/>
+        <!--底部控制-->
+        <LinearLayout android:layout_width="match_parent" android:layout_height="58dp"
+                      android:id="@+id/bottom_control_layout"
+                      android:background="#ff2f3743"
+                      android:layout_alignParentBottom="true"
+                      android:orientation="horizontal">
+            <ImageButton android:id="@+id/btn_channels_grid"
+                         android:layout_width="49dp" android:layout_height="match_parent"
+                         android:contentDescription="@string/channel_switch_btn"
+                         android:background="#ff242629"
+                         android:src="@drawable/selector_channel_switch"
+                    />
+            <View android:background="#ff393b3e" android:layout_width="@dimen/bottom_line_thickness"
+                  android:layout_height="fill_parent"/>
+            <LinearLayout android:id="@+id/ads_or_mention"
+                          android:orientation="horizontal"
+                          android:gravity="center"
+                          android:background="#ff242629"
+                          android:paddingLeft="4.669983dip"
+                          android:clickable="true"
+                          android:layout_width="0.0dip"
+                          android:layout_height="match_parent" android:layout_weight="1.0">
+                <Button android:id="@+id/play_private_channel"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/channel_switch_btn"
+                        android:textColor="#ffffffff"
+                        android:background="#ff242629"
+                        android:src="@drawable/selector_channel_switch"
+                        android:text="@string/buy_douban_pro_btn"
+                        />
+            </LinearLayout>
+            <View android:background="#ff393b3e" android:layout_width="@dimen/bottom_line_thickness"
+                  android:layout_height="fill_parent"/>
+            <ImageButton android:id="@+id/about_me" android:background="#ff242629" android:clickable="true"
+                         android:layout_width="@dimen/about_me_btn_width" android:layout_height="match_parent"
+                         android:src="@drawable/album_ic_info_pressed"
+                         android:contentDescription="@string/about_me_content_description"/>
+        </LinearLayout>
+
+
         <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
-                        android:layout_marginTop="@dimen/dou_margin_top"
-                        android:layout_marginBottom="@dimen/dou_margin_bottom"
-                >
+                        android:id="@+id/center_container"
+                        android:layout_above="@id/bottom_control_layout"
+                        android:layout_marginTop="@dimen/dou_margin_top">
+            <RadioGroup android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:id="@+id/shortcut_control"
+                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_alignLeft="@+id/dou_content_container"
+                        android:layout_alignRight="@+id/dou_content_container"
+                        android:orientation="horizontal">
+                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                             android:background="@drawable/step_1" android:layout_weight="1"
+                             android:gravity="bottom|center"
+                             android:text="test"
+                             android:button="@null"/>
+                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                             android:background="@drawable/step_1" android:layout_weight="1"
+                             android:text="test"
+                             android:gravity="bottom|center"
+                             android:button="@null"/>
+                <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                             android:background="@drawable/step_1" android:layout_weight="1"
+                             android:gravity="bottom|center"
+                             android:text="test"
+                             android:button="@null"/>
+            </RadioGroup>
+            <!-- 左侧控制区域-->
             <LinearLayout android:id="@+id/left_control"
+                          android:layout_above="@+id/shortcut_control"
                           android:layout_width="@dimen/dou_margin_left"
                           android:layout_height="match_parent"
                           android:visibility="invisible"
@@ -60,29 +128,37 @@
                         />
 
             </LinearLayout>
-
+            <!-- 右侧控制区域-->
             <LinearLayout
                     android:id="@+id/right_control"
+                    android:layout_above="@+id/shortcut_control"
                     android:layout_width="@dimen/dou_margin_left"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:layout_alignParentRight="true"
                     >
             </LinearLayout>
-            <LinearLayout
-                    android:focusable="true"
-                    android:nextFocusLeft="@+id/left_ban_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toRightOf="@id/left_control"
-                    android:layout_toLeftOf="@id/right_control"
-                    android:id="@+id/dou_content"
-                    android:gravity="center_horizontal"
-                    android:layout_centerInParent="true"
-                    android:orientation="vertical"
-                    />
+
+            <!--中央展示区-->
+            <ScrollView android:layout_width="wrap_content"
+                        android:layout_above="@+id/shortcut_control"
+                        android:id="@+id/dou_content_container"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:fillViewport="true">
+                <LinearLayout
+                        android:focusable="true"
+                        android:id="@+id/dou_content"
+                        android:layout_height="wrap_content"
+                        android:nextFocusLeft="@+id/left_ban_button"
+                        android:layout_width="260dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="vertical"
+                        />
+            </ScrollView>
         </RelativeLayout>
 
+        <!--右上角个人播放信息-->
         <LinearLayout android:id="@+id/personal_info" android:layout_width="112dp" android:layout_height="112dp"
                       android:orientation="vertical"
                       android:layout_marginTop="10dp"
@@ -111,29 +187,6 @@
                       android:textColor="@android:color/black"
                       android:text="@string/favored_count"
                     />
-        </LinearLayout>
-        <LinearLayout android:layout_width="match_parent" android:layout_height="58dp"
-                      android:id="@+id/bottom_control_layout"
-                      android:background="#ff2f3743"
-                      android:layout_alignParentBottom="true"
-                      android:orientation="horizontal">
-            <ImageButton android:id="@+id/btn_channels_grid"
-                    android:layout_width="49dp" android:layout_height="match_parent"
-                         android:contentDescription="@string/channel_switch_btn"
-                         android:background="#ff242629"
-                         android:src="@drawable/selector_channel_switch"
-                    />
-            <View android:background="#ff393b3e" android:layout_width="@dimen/bottom_line_thickness"
-                  android:layout_height="fill_parent"/>
-            <LinearLayout android:gravity="center" android:background="#ff242629" android:paddingLeft="4.669983dip"
-                          android:clickable="true" android:layout_width="0.0dip"
-                          android:layout_height="match_parent" android:layout_weight="1.0">
-            </LinearLayout>
-            <View android:background="#ff393b3e" android:layout_width="@dimen/bottom_line_thickness"
-                  android:layout_height="fill_parent"/>
-            <ImageButton android:id="@+id/about_me" android:background="#ff242629" android:clickable="true"
-                         android:layout_width="@dimen/about_me_btn_width" android:layout_height="match_parent"
-                         android:src="@drawable/album_ic_info_pressed"/>
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>

@@ -33,7 +33,7 @@ public class Douban extends ApiInstance {
     public ArrayList<Channel> favChannels;
     public ArrayList<Channel> recChannels;
     public Channel recommendChannel;
-    public LinkedList<Song> songs;
+    public static LinkedList<Song> songs;
     private final ApiGateway apiGateway;
     public Object singleObject;
 
@@ -46,9 +46,10 @@ public class Douban extends ApiInstance {
         sharedPreferences = context.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE);
         if(!Constants.UNIT_TEST)DoubanDb.getInstance(app).getDb(true);
     }
-    public static void clearCookie(){
+    public static void reset(){
         Http.clearCookie(app);
         app.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).edit().clear().commit();
+        if(Douban.songs!=null)Douban.songs.clear();
     }
 
     public static SharedPreferences getSharedPreferences() {
@@ -167,7 +168,7 @@ public class Douban extends ApiInstance {
 
 
     public boolean isLogged() {
-        return app.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).getBoolean(PrefsConstant.LOGGED, false);
+        return sharedPreferences.getBoolean(PrefsConstant.LOGGED, false);
     }
 
     public UserInfo getUserInfo() {

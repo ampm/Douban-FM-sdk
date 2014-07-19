@@ -39,4 +39,6 @@
     <string name="channel_by_trending">Trending</string>
     <string name="channel_by_hits">Hits</string>
     <string name="channel_by_try">Try</string>
+    <string name="about_me_content_description">click here to learn about this app developer</string>
+    <string name="buy_douban_pro_btn">Douban Pro</string>
 </resources>

@@ -78,10 +78,22 @@
                   style="@style/channel_item_name"/>
     </RelativeLayout>
 
-    <ImageView android:id="@+id/btn_search" android:layout_width="wrap_content" android:layout_height="wrap_content"
-               android:src="@drawable/btn_title_search" android:minWidth="40.0dip" android:minHeight="40.0dip"
+    <ImageView android:id="@+id/btn_search"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:src="@drawable/btn_title_search"
+               android:minWidth="40.0dip"
+               android:minHeight="40.0dip"
                android:layout_alignRight="@id/channels_grid"
                android:layout_alignParentTop="true"/>
+    <View android:background="#ffffff"
+          android:id="@+id/channels_grid_separator_line"
+          android:layout_width="match_parent"
+          android:layout_alignLeft="@+id/channels_grid"
+          android:layout_alignRight="@+id/channels_grid"
+          android:layout_below="@+id/btn_search"
+          android:layout_height="@dimen/bottom_line_thickness"/>
+
     <ImageView android:layout_width="wrap_content" android:layout_height="wrap_content"
                android:layout_marginLeft="13.329987dip" android:layout_marginBottom="18.0dip"
                android:src="@drawable/grid_btn_close" android:minWidth="22.669983dip"

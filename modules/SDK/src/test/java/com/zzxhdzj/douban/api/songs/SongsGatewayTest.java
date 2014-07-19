@@ -2,6 +2,7 @@ package com.zzxhdzj.douban.api.songs;
 
 import com.zzxhdzj.douban.ApiInternalError;
 import com.zzxhdzj.douban.ChannelConstantIds;
+import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.ReportType;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.BitRate;
@@ -35,9 +36,9 @@ public class SongsGatewayTest extends BaseGatewayTestCase {
     public void shouldReturnSongsOfChannel() throws Exception {
         songsGateway.querySongsByChannelId(ReportType.NEXT_QUEUE, "1", 10, ChannelConstantIds.PRIVATE_CHANNEL,BitRate.HIGH, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.ROCK_CHANNELS_SONGS_JSON, null);
-        assertNotNull(douban.songs);
-        assertThat(douban.songs.size(), equalTo(2));
-        assertThat(douban.songs.get(0).aid, equalTo("25779410"));
+        assertNotNull(Douban.songs);
+        assertThat(Douban.songs.size(), equalTo(2));
+        assertThat(Douban.songs.get(0).aid, equalTo("25779410"));
     }
 
 

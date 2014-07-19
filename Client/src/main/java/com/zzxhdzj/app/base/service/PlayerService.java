@@ -97,7 +97,7 @@ public class PlayerService extends Service {
         @Override
         public void onSuccess() {
             super.onSuccess();
-            mPlayerEngine.loadSongs(douban.songs);
+            mPlayerEngine.loadSongs(Douban.songs);
             //FIXME:log the fav/unfav failed item to db
             mPlayerEngine.play();
         }
