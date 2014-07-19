@@ -34,6 +34,11 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
         if (douban.isLogged()) {
             doubanFm.showPlayFragment();
             doubanFm.showLoggedItems(douban.getUserInfo());
+            long lastChlsUpdateTime = Douban.getSharedPreferences().getLong(KEY_LAST_CHLS_QUERY_TIME, 0);
+            if (isRefreshChannelsOverdue(new DateTime().withMillis(lastChlsUpdateTime))) {
+                updateStaticChannelInfo();
+                updateDynamicChannels();
+            }
         } else {
             doubanFm.showLoginFragment();
         }
@@ -44,23 +49,20 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
     }
 
     public void updateStaticChannelInfo() {
-        long lastChlsUpdateTime = Douban.getSharedPreferences().getLong(KEY_LAST_CHLS_QUERY_TIME, 0);
-        if (isRefreshChannelsOverdue(new DateTime().withMillis(lastChlsUpdateTime))) {
-            channelHelper.queryStaticChannels(new ChannelHelper.ChannelHelperListener() {
-                @Override
-                public void onResult(Cursor cursor) {
-                    Douban.getSharedPreferences().edit().putLong(KEY_LAST_CHLS_QUERY_TIME, new DateTime().getMillis());
-                    //更新固定频率id
-                    fetchChannelsInfo(cursor);
-                }
-            });
-        }
+        channelHelper.queryStaticChannels(new ChannelHelper.ChannelHelperListener() {
+            @Override
+            public void onResult(Cursor cursor) {
+                Douban.getSharedPreferences().edit().putLong(KEY_LAST_CHLS_QUERY_TIME, new DateTime().getMillis());
+                //更新固定频率id
+                fetchChannelsInfo(cursor);
+            }
+        });
     }
 
     public void updateDynamicChannels() {
         //根据我听的比较多的频道推荐频道:mock
         final ArrayList<Integer> channelIds = new ArrayList<Integer>();
-        //FIXME:从数据库查点击次数最多的
+        //FIXME:从数据库查点击次数最多的组合
         channelIds.add(1);
         channelIds.add(3);
         channelIds.add(5);
@@ -133,7 +135,7 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
     private void fetchChannelsInfo(final Cursor cursor) {
         //更新数据库中的固定频道信息
         try {
-            cursor.moveToFirst();
+//            cursor.moveToFirst();
             while (cursor.moveToNext()) {
                 String channelId = cursor.getString(Channel.CHANNEL_ID_INDEX);
                 final int _id = cursor.getInt(Channel.ID_INDEX);
@@ -148,8 +150,8 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
                     }
                 });
             }
-        }catch (Exception e){
-        }finally {
+        } catch (Exception e) {
+        } finally {
             cursor.close();
         }
 

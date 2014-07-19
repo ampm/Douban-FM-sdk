@@ -16,6 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name="com.zzxhdzj.app.channels.ChannelActivity"/>
         <service android:name="com.zzxhdzj.app.base.service.PlayerService"/>
         <provider android:authorities="com.zzxhdzj.douban" android:name=".providers.DoubanProvider"/>
     </application>
