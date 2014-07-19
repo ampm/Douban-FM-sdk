@@ -71,7 +71,7 @@ public class PlayerEngineImpl implements PlayerEngine {
 
             if (playerEngineListeners != null) {
                 // TODO use getCurrentPosition less frequently (usage of currentTimeMillis or uptimeMillis)
-                if (mCurrentMediaPlayer != null) {
+                if (mCurrentMediaPlayer != null&&!mCurrentMediaPlayer.preparing) {
                     for (PlayerEngineListener listener : playerEngineListeners) {
                         if (mCurrentMediaPlayer.getDuration() > 24 * 60 * 60 * 1000) return;
                         listener.onSongProgress(mCurrentMediaPlayer.getDuration(), mCurrentMediaPlayer.getCurrentPosition());
