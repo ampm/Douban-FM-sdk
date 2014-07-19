@@ -149,7 +149,7 @@
                 <LinearLayout
                         android:focusable="true"
                         android:id="@+id/dou_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:nextFocusLeft="@+id/left_ban_button"
                         android:layout_width="260dp"
                         android:gravity="center_horizontal"
