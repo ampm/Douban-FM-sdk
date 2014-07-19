@@ -85,7 +85,6 @@ public class ChannelListFragment extends Fragment implements LoaderManager.Loade
         super.onDetach();
         if(channelListFragmentListener!=null){
             channelListFragmentListener.onChannelListFragmentDestroy();
-            getActivity().getSupportFragmentManager().popBackStack();
         }
     }
 
