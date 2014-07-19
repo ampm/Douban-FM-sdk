@@ -49,6 +49,8 @@ public class ChannelFragment extends Fragment implements ChannelListFragmentList
     ImageView mBtnSearch;
     @InjectView(R.id.channels_grid)
     RelativeLayout mChannelsGrid;
+    @InjectView(R.id.channels_grid_close_btn)
+    ImageView mChannelsGridCloseBtn;
     private List<ChannelFragmentListener> channelFragmentListeners = DoubanFmApp.getInstance().getChannelFragmentListeners();
 
 
@@ -66,7 +68,8 @@ public class ChannelFragment extends Fragment implements ChannelListFragmentList
             R.id.btn_channel_item_artist,
             R.id.btn_channel_item_trending,
             R.id.btn_channel_item_hits,
-            R.id.btn_channel_item_try
+            R.id.btn_channel_item_try,
+            R.id.channels_grid_close_btn
     })
     public void registerOnClickListener(View view) {
         switch (view.getId()){
@@ -78,6 +81,9 @@ public class ChannelFragment extends Fragment implements ChannelListFragmentList
 //                }
 //                FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
 //                supportFragmentManager.popBackStack();
+                break;
+            case R.id.channels_grid_close_btn:
+                getActivity().getSupportFragmentManager().popBackStack();
                 break;
             default:
                 break;
