@@ -53,6 +53,8 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
     ImageButton mBtnChannelsGrid;
     @InjectView(R.id.bottom_control_layout)
     LinearLayout mBottomControlLayout;
+    @InjectView(R.id.shortcut_control)
+    RadioGroup mShortcutControl;
 
 
     private DoubanFmDelegate doubanFmDelegate;
@@ -81,7 +83,7 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
         FragmentTransaction ft = fm.beginTransaction();
         PlayFragment playFragment = new PlayFragment();
         ft.replace(R.id.dou_content, playFragment, PlayFragment.TAG);
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     @Override
@@ -96,11 +98,14 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
         mListenedCount.setText(String.format(getString(R.string.listened_count), userInfo.playRecord.played));
         mPersonalInfo.setVisibility(View.VISIBLE);
         mLeftControl.setVisibility(View.VISIBLE);
+        mBottomControlLayout.setVisibility(View.VISIBLE);
+        mShortcutControl.setVisibility(View.VISIBLE);
         registerViewClickListeners(
                 mLeftBanButton,
                 mLeftFavButton,
                 mLeftSkipButton,
                 mBtnChannelsGrid);
+
     }
     void registerViewClickListeners(View ... views){
         for (View view:views){

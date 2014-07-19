@@ -16,6 +16,7 @@
         <LinearLayout android:layout_width="match_parent" android:layout_height="58dp"
                       android:id="@+id/bottom_control_layout"
                       android:background="#ff2f3743"
+                      android:visibility="invisible"
                       android:layout_alignParentBottom="true"
                       android:orientation="horizontal">
             <ImageButton android:id="@+id/btn_channels_grid"
@@ -59,6 +60,7 @@
                         android:layout_marginTop="@dimen/dou_margin_top">
             <RadioGroup android:layout_width="match_parent" android:layout_height="wrap_content"
                         android:id="@+id/shortcut_control"
+                        android:visibility="gone"
                         android:layout_centerHorizontal="true"
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="10dp"
