@@ -83,6 +83,11 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
     
     UI copycat from [naver](https://play.google.com/store/apps/details?id=com.nhn.android.music) music player
     
+- 2014-07-24
+   
+    add channel switch support
+    
+    update channel display when channel changed.
     
 #Usage:
 

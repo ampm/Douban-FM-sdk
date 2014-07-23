@@ -21,6 +21,7 @@ import com.zzxhdzj.app.play.view.SongInfoView;
 import com.zzxhdzj.douban.ChannelConstantIds;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.R;
+import com.zzxhdzj.douban.modules.channel.Channel;
 
 /**
  * Created with IntelliJ IDEA.
@@ -34,7 +35,7 @@ public class PlayFragment extends Fragment implements PlayerEngineListener {
     @InjectView(R.id.song_item)
     SongInfoView mSongItem;
     private PlayDelegate playerEngine;
-    private SongChangedReceiver changedReceiver;
+    private ChannelChangedReceiver changedReceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,27 +124,31 @@ public class PlayFragment extends Fragment implements PlayerEngineListener {
         super.onAttach(activity);
         IntentFilter intentfilter = new IntentFilter();
         intentfilter.addAction(ChannelListFragment.ACTION_CHANNEL_SELECTED);
-        changedReceiver = new SongChangedReceiver();
+        changedReceiver = new ChannelChangedReceiver();
         DoubanFmApp.getInstance().registerReceiver(changedReceiver, intentfilter);
     }
 
-    public void onChannelSelected(int channelId) {
-        if (DoubanFmApp.getInstance().getCurrentChannelId()!=channelId){
+    public void onChannelSelected(Channel channel) {
+        if (channel!=null&&DoubanFmApp.getInstance().getCurrentChannelId()!=channel.id){
             Douban.getSharedPreferences()
                     .edit()
-                    .putInt(LAST_OPENED_CHANNEL, channelId)
+                    .putInt(LAST_OPENED_CHANNEL, channel.id)
                     .commit();
-            DoubanFmApp.getInstance().setCurrentChannelId(channelId);
+            DoubanFmApp.getInstance().setCurrentChannelId(channel.id);
             if (!DoubanFmApp.isPauseByUser) playerEngine.play();
         }
     }
 
 
-    private class SongChangedReceiver extends BroadcastReceiver{
+    private class ChannelChangedReceiver extends BroadcastReceiver{
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(ChannelListFragment.ACTION_CHANNEL_SELECTED)){
-                onChannelSelected(intent.getIntExtra(ChannelListFragment.SELECTED_CHANNEL_ID, -1));
+            if(intent.getAction().equals(ChannelListFragment.ACTION_CHANNEL_SELECTED)) {
+                Channel channel = null;
+                if (intent.getSerializableExtra(ChannelListFragment.SELECTED_CHANNEL) != null) {
+                    channel = (Channel) intent.getSerializableExtra(ChannelListFragment.SELECTED_CHANNEL);
+                }
+                onChannelSelected(channel);
             }
         }
     }

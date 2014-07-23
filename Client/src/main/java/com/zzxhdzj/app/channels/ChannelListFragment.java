@@ -32,7 +32,7 @@ public class ChannelListFragment extends Fragment implements LoaderManager.Loade
     public static final String KEY_CHANNEL_CATEGORY_ID = "key_channel_category_id";
     private static final int LOAD_ID_QUERY_CHANNELS_BY_CATEGORY = 1;
     public static final String ACTION_CHANNEL_SELECTED = "ACTION_CHANNEL_SELECTED";
-    public static final String SELECTED_CHANNEL_ID = "SELECTED_CHANNEL_ID";
+    public static final String SELECTED_CHANNEL = "SELECTED_CHANNEL";
     @InjectView(R.id.channel_category_name)
     TextView mChannelCategoryName;
     @InjectView(R.id.channels_list_view)
@@ -102,8 +102,9 @@ public class ChannelListFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Channel channel = ChannelUtil.DumpChannel((Cursor) mChannelsCursorAdapter.getItem(position));
         Intent intent = new Intent(ACTION_CHANNEL_SELECTED);
-        intent.putExtra(SELECTED_CHANNEL_ID,(int)id);
+        intent.putExtra(SELECTED_CHANNEL, channel);
         DoubanFmApp.getInstance().sendBroadcast(intent);
     }
 

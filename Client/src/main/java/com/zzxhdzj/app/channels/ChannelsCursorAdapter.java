@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import com.zzxhdzj.douban.modules.channel.Channel;
-import com.zzxhdzj.douban.modules.channel.ChannelBuilder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -37,15 +36,7 @@ public class ChannelsCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ChannelItemView channelItemView = (ChannelItemView)view.getTag();
         if(channelItemView!=null){
-            channelItemView.bindView(ChannelBuilder.aChannel()
-                    .withBanner(cursor.getString(Channel.BANNER_INDEX))
-                    .withCategory(cursor.getInt(Channel.CATEGORY_INDEX))
-                    .withCover(cursor.getString(Channel.COVER_INDEX))
-                    .withIntro(cursor.getString(Channel.INTRO_INDEX))
-                    .withId(cursor.getInt(Channel.CHANNEL_ID_INDEX))
-                    .withName(cursor.getString(Channel.NAME_INDEX))
-                    .withSongNum(cursor.getInt(Channel.SONG_NUM_INDEX))
-                    .build());
+            channelItemView.bindView(ChannelUtil.DumpChannel(cursor));
         }
     }
 

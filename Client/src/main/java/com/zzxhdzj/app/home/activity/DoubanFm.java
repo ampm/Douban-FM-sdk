@@ -1,5 +1,9 @@
 package com.zzxhdzj.app.home.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -12,6 +16,7 @@ import com.andlabs.androidutils.logging.L;
 import com.zzxhdzj.app.DoubanFmApp;
 import com.zzxhdzj.app.base.media.PlayerEngineListener;
 import com.zzxhdzj.app.channels.ChannelCategoryFragment;
+import com.zzxhdzj.app.channels.ChannelListFragment;
 import com.zzxhdzj.app.home.DoubanFmDelegate;
 import com.zzxhdzj.app.login.fragment.LoginFragment;
 import com.zzxhdzj.app.play.delegate.PlayDelegate;
@@ -57,6 +62,7 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
 
 
     private DoubanFmDelegate doubanFmDelegate;
+    private ChannelChangedReceiver channelChangedReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +73,10 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
         doubanFmDelegate = new DoubanFmDelegate(this);
         DoubanFmApp.getInstance().addPlayerEngineListener(this);
         pauseControlBtn();
+        IntentFilter filters = new IntentFilter();
+        filters.addAction(ChannelListFragment.ACTION_CHANNEL_SELECTED);
+        channelChangedReceiver = new ChannelChangedReceiver();
+        DoubanFmApp.getInstance().registerReceiver(channelChangedReceiver,filters);
     }
 
     public void showLoginFragment() {
@@ -174,6 +184,7 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
     public void onDestroy() {
         super.onDestroy();
         L.d("onDestroy");
+        if(channelChangedReceiver!=null)DoubanFmApp.getInstance().unregisterReceiver(channelChangedReceiver);
     }
 
 
@@ -247,7 +258,25 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
                 mBtnChannelsGrid);
         mBottomControlLayout.setVisibility(View.VISIBLE);
     }
-
-    public void onChannelSelected(Channel channel) {
+    private class ChannelChangedReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, final Intent intent) {
+            if(intent.getAction().equals(ChannelListFragment.ACTION_CHANNEL_SELECTED)){
+                Channel channel = null;
+                if (intent.getSerializableExtra(ChannelListFragment.SELECTED_CHANNEL) != null) {
+                    channel = (Channel) intent.getSerializableExtra(ChannelListFragment.SELECTED_CHANNEL);
+                }
+                final Channel finalChannel = channel;
+                mMhzName.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(finalChannel !=null){
+                            mMhzName.setText(finalChannel.name);
+                        }
+                    }
+                });
+            }
+        }
     }
+
 }
