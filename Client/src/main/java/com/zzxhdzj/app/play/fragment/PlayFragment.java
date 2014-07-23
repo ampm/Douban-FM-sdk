@@ -1,5 +1,10 @@
 package com.zzxhdzj.app.play.fragment;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,13 +15,12 @@ import butterknife.InjectView;
 import com.zzxhdzj.app.DoubanFmApp;
 import com.zzxhdzj.app.base.media.PlayerEngineListener;
 import com.zzxhdzj.app.base.utils.TimeUtil;
-import com.zzxhdzj.app.channels.ChannelFragment;
+import com.zzxhdzj.app.channels.ChannelListFragment;
 import com.zzxhdzj.app.play.delegate.PlayDelegate;
 import com.zzxhdzj.app.play.view.SongInfoView;
 import com.zzxhdzj.douban.ChannelConstantIds;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.R;
-import com.zzxhdzj.douban.modules.channel.Channel;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,20 +28,19 @@ import com.zzxhdzj.douban.modules.channel.Channel;
  * Date: 6/1/14
  * To change this template use File | Settings | File Templates.
  */
-public class PlayFragment extends Fragment implements ChannelFragment.ChannelFragmentListener, PlayerEngineListener {
+public class PlayFragment extends Fragment implements PlayerEngineListener {
     public static final String TAG = "com.zzxhdzj.app.play.ui.PlayFragment";
     private static final String LAST_OPENED_CHANNEL = "last_opened_channel";
     @InjectView(R.id.song_item)
     SongInfoView mSongItem;
     private PlayDelegate playerEngine;
-    private int defaultChannel;
+    private SongChangedReceiver changedReceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         playerEngine = PlayDelegate.getInstance();
         playerEngine.setPlayerEngineListener(this);
-        DoubanFmApp.getInstance().getChannelFragmentListeners().add(this);
     }
 
     @Override
@@ -61,7 +64,7 @@ public class PlayFragment extends Fragment implements ChannelFragment.ChannelFra
         if (lastOpenedChannel > 0) {
             DoubanFmApp.getInstance().setCurrentChannelId(lastOpenedChannel);
         } else {
-            defaultChannel = ChannelConstantIds.PRIVATE_CHANNEL;
+            int defaultChannel = ChannelConstantIds.PRIVATE_CHANNEL;
             DoubanFmApp.getInstance().setCurrentChannelId(defaultChannel);
         }
         //engine play
@@ -115,25 +118,41 @@ public class PlayFragment extends Fragment implements ChannelFragment.ChannelFra
     public void onBuffering(int percent) {
     }
 
-    public PlayDelegate getPlayerEngine() {
-        return playerEngine;
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        IntentFilter intentfilter = new IntentFilter();
+        intentfilter.addAction(ChannelListFragment.ACTION_CHANNEL_SELECTED);
+        changedReceiver = new SongChangedReceiver();
+        DoubanFmApp.getInstance().registerReceiver(changedReceiver, intentfilter);
     }
 
-    @Override
-    public void onChannelFragmentDestroy() {
-
-    }
-
-    @Override
-    public void onChannelSelected(Channel channel) {
-        if (channel!=null&&DoubanFmApp.getInstance().getCurrentChannelId()!=channel.id){
+    public void onChannelSelected(int channelId) {
+        if (DoubanFmApp.getInstance().getCurrentChannelId()!=channelId){
             Douban.getSharedPreferences()
                     .edit()
-                    .putInt(LAST_OPENED_CHANNEL, channel.id)
+                    .putInt(LAST_OPENED_CHANNEL, channelId)
                     .commit();
-            DoubanFmApp.getInstance().setCurrentChannelId(channel.id);
+            DoubanFmApp.getInstance().setCurrentChannelId(channelId);
             if (!DoubanFmApp.isPauseByUser) playerEngine.play();
         }
+    }
 
+
+    private class SongChangedReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals(ChannelListFragment.ACTION_CHANNEL_SELECTED)){
+                onChannelSelected(intent.getIntExtra(ChannelListFragment.SELECTED_CHANNEL_ID, -1));
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(changedReceiver!=null){
+            DoubanFmApp.getInstance().unregisterReceiver(changedReceiver);
+        }
     }
 }

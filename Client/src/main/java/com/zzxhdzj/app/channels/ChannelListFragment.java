@@ -1,5 +1,6 @@
 package com.zzxhdzj.app.channels;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,10 +10,12 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.zzxhdzj.app.DoubanFmApp;
 import com.zzxhdzj.douban.R;
 import com.zzxhdzj.douban.db.tables.ChannelTable;
 import com.zzxhdzj.douban.modules.channel.Channel;
@@ -23,11 +26,13 @@ import com.zzxhdzj.douban.modules.channel.Channel;
  * Date: 7/19/14
  * To change this template use File | Settings | File Templates.
  */
-public class ChannelListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class ChannelListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
 
     public static final String KEY_CHANNEL_CATEGORY_NAME = "key_channel_category_name";
     public static final String KEY_CHANNEL_CATEGORY_ID = "key_channel_category_id";
     private static final int LOAD_ID_QUERY_CHANNELS_BY_CATEGORY = 1;
+    public static final String ACTION_CHANNEL_SELECTED = "ACTION_CHANNEL_SELECTED";
+    public static final String SELECTED_CHANNEL_ID = "SELECTED_CHANNEL_ID";
     @InjectView(R.id.channel_category_name)
     TextView mChannelCategoryName;
     @InjectView(R.id.channels_list_view)
@@ -37,10 +42,11 @@ public class ChannelListFragment extends Fragment implements LoaderManager.Loade
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_channel_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_channel_list, container, false);
         ButterKnife.inject(this, view);
         mChannelsCursorAdapter = new ChannelsCursorAdapter(getActivity(), null, false);
         mChannelsListView.setAdapter(mChannelsCursorAdapter);
+        mChannelsListView.setOnItemClickListener(this);
         String categoryName = getArguments() != null ? getArguments().getString(KEY_CHANNEL_CATEGORY_NAME) : "";
         categoryId = getArguments() != null ? getArguments().getString(KEY_CHANNEL_CATEGORY_ID) : "";
         mChannelCategoryName.setText(categoryName);
@@ -92,6 +98,13 @@ public class ChannelListFragment extends Fragment implements LoaderManager.Loade
 
     public void setChannelListFragmentListener(ChannelListFragmentListener channelListFragmentListener) {
         this.channelListFragmentListener = channelListFragmentListener;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(ACTION_CHANNEL_SELECTED);
+        intent.putExtra(SELECTED_CHANNEL_ID,(int)id);
+        DoubanFmApp.getInstance().sendBroadcast(intent);
     }
 
     public interface ChannelListFragmentListener{

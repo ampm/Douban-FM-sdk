@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/channels_grid_bg" android:background="@color/channels_grid_bg_dim"
-                android:layout_width="fill_parent" android:layout_height="fill_parent"
-                xmlns:android="http://schemas.android.com/apk/res/android">
-    <ImageView android:id="@+id/btn_search"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:src="@drawable/btn_title_search"
-               android:minWidth="40.0dip"
-               android:minHeight="40.0dip"
-               android:layout_alignRight="@+id/channels_grid_container"
-               android:layout_alignParentTop="true"/>
-    <View android:background="#ffffff"
-          android:id="@+id/channels_grid_separator_line"
-          android:layout_width="match_parent"
-          android:layout_alignLeft="@+id/channels_grid_container"
-          android:layout_alignRight="@+id/channels_grid_container"
-          android:layout_below="@+id/btn_search"
-          android:layout_height="@dimen/bottom_line_thickness"/>
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_below="@id/channels_grid_separator_line"
-                    android:layout_above="@+id/channels_grid_close_btn"
-                    android:id="@+id/channels_grid_container" android:layout_height="match_parent">
-        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/channels_grid_bg"
+                android:clickable="true"
+                android:background="@color/channels_grid_bg_dim"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+
+    <RelativeLayout android:layout_width="280dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="40dp"
+                    android:id="@+id/channels_grid_container"
+                    android:layout_height="wrap_content">
+        <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:gravity="center"

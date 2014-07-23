@@ -3,4 +3,5 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="wrap_content"
         android:id="@+id/login_card"
+        android:clickable="true"
         android:layout_height="match_parent"/>

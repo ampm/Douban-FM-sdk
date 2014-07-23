@@ -12,11 +12,8 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import com.zzxhdzj.app.DoubanFmApp;
 import com.zzxhdzj.douban.R;
-import com.zzxhdzj.douban.modules.channel.Channel;
-
-import java.util.List;
+import com.zzxhdzj.douban.db.tables.ChannelTypes;
 
 import static com.zzxhdzj.app.channels.ChannelListFragment.ChannelListFragmentListener;
 
@@ -26,7 +23,7 @@ import static com.zzxhdzj.app.channels.ChannelListFragment.ChannelListFragmentLi
  * Date: 7/12/14
  * To change this template use File | Settings | File Templates.
  */
-public class ChannelFragment extends Fragment implements ChannelListFragmentListener {
+public class ChannelCategoryFragment extends Fragment implements ChannelListFragmentListener {
     @InjectView(R.id.btn_channel_item_region)
     TextView mBtnChannelItemRegion;
     @InjectView(R.id.btn_channel_item_ages)
@@ -45,42 +42,72 @@ public class ChannelFragment extends Fragment implements ChannelListFragmentList
     TextView mBtnChannelItemHits;
     @InjectView(R.id.btn_channel_item_try)
     TextView mBtnChannelItemTry;
-    @InjectView(R.id.btn_search)
-    ImageView mBtnSearch;
     @InjectView(R.id.channels_grid)
     RelativeLayout mChannelsGrid;
     @InjectView(R.id.channels_grid_close_btn)
     ImageView mChannelsGridCloseBtn;
-    private List<ChannelFragmentListener> channelFragmentListeners = DoubanFmApp.getInstance().getChannelFragmentListeners();
+    @InjectView(R.id.btn_channel_item_brand)
+    TextView mBtnChannelItemBrand;
+    private ChannelFragmentListener listener;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_channels, container, false);
+        View view = inflater.inflate(R.layout.fragment_channels_category, container, false);
         ButterKnife.inject(this, view);
         return view;
     }
+
     @OnClick({
             R.id.btn_channel_item_region,
             R.id.btn_channel_item_ages,
             R.id.btn_channel_item_genre,
             R.id.btn_channel_item_special,
+            R.id.btn_channel_item_brand,
             R.id.btn_channel_item_artist,
             R.id.btn_channel_item_trending,
             R.id.btn_channel_item_hits,
             R.id.btn_channel_item_try,
             R.id.channels_grid_close_btn
+
     })
     public void registerOnClickListener(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_channel_item_region:
                 mChannelsGrid.setVisibility(View.INVISIBLE);
-                showChannelsInThisCategory(1);
-//                for(ChannelFragmentListener listener:channelFragmentListeners){
-//                    listener.onChannelSelected(Channel.queryChannel(6, getActivity()));
-//                }
-//                FragmentManager supportFragmentManager = getActivity().getSupportFragmentManager();
-//                supportFragmentManager.popBackStack();
+                showChannelsInThisCategory(ChannelTypes.Region);
+                break;
+            case R.id.btn_channel_item_ages:
+                mChannelsGrid.setVisibility(View.INVISIBLE);
+                showChannelsInThisCategory(ChannelTypes.Ages);
+                break;
+            case R.id.btn_channel_item_genre:
+                mChannelsGrid.setVisibility(View.INVISIBLE);
+                showChannelsInThisCategory(ChannelTypes.Genre);
+                break;
+            case R.id.btn_channel_item_special:
+                mChannelsGrid.setVisibility(View.INVISIBLE);
+                showChannelsInThisCategory(ChannelTypes.Special);
+                break;
+            case R.id.btn_channel_item_brand:
+                mChannelsGrid.setVisibility(View.INVISIBLE);
+                showChannelsInThisCategory(ChannelTypes.Brand);
+                break;
+            case R.id.btn_channel_item_artist:
+                mChannelsGrid.setVisibility(View.INVISIBLE);
+                showChannelsInThisCategory(ChannelTypes.Artist);
+                break;
+            case R.id.btn_channel_item_trending:
+                mChannelsGrid.setVisibility(View.INVISIBLE);
+                showChannelsInThisCategory(ChannelTypes.Trending);
+                break;
+            case R.id.btn_channel_item_hits:
+                mChannelsGrid.setVisibility(View.INVISIBLE);
+                showChannelsInThisCategory(ChannelTypes.Hits);
+                break;
+            case R.id.btn_channel_item_try:
+                mChannelsGrid.setVisibility(View.INVISIBLE);
+                showChannelsInThisCategory(ChannelTypes.Try);
                 break;
             case R.id.channels_grid_close_btn:
                 getActivity().getSupportFragmentManager().popBackStack();
@@ -90,13 +117,13 @@ public class ChannelFragment extends Fragment implements ChannelListFragmentList
         }
     }
 
-    private void showChannelsInThisCategory(int id) {
+    private void showChannelsInThisCategory(ChannelTypes channelType) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         ChannelListFragment fragment = new ChannelListFragment();
         fragment.setChannelListFragmentListener(this);
         Bundle bundle = new Bundle();
-        bundle.putString(ChannelListFragment.KEY_CHANNEL_CATEGORY_ID,id+"");
-        bundle.putString(ChannelListFragment.KEY_CHANNEL_CATEGORY_NAME,id+"");
+        bundle.putString(ChannelListFragment.KEY_CHANNEL_CATEGORY_ID, channelType.getIndex() + "");
+        bundle.putString(ChannelListFragment.KEY_CHANNEL_CATEGORY_NAME, channelType.getZhName() + "");
         fragment.setArguments(bundle);
         ft.replace(R.id.channels_grid_container, fragment);
         ft.addToBackStack(null);
@@ -106,9 +133,11 @@ public class ChannelFragment extends Fragment implements ChannelListFragmentList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        for(ChannelFragmentListener listener:channelFragmentListeners){
-            listener.onChannelFragmentDestroy();
-        }
+        if(listener!=null)listener.onChannelFragmentDestroy();
+    }
+
+    public void setListener(ChannelFragmentListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -116,8 +145,7 @@ public class ChannelFragment extends Fragment implements ChannelListFragmentList
         mChannelsGrid.setVisibility(View.VISIBLE);
     }
 
-    public interface ChannelFragmentListener{
+    public interface ChannelFragmentListener {
         void onChannelFragmentDestroy();
-        void onChannelSelected(Channel channel);
     }
 }

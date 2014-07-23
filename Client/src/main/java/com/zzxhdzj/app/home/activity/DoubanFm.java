@@ -11,7 +11,7 @@ import butterknife.InjectView;
 import com.andlabs.androidutils.logging.L;
 import com.zzxhdzj.app.DoubanFmApp;
 import com.zzxhdzj.app.base.media.PlayerEngineListener;
-import com.zzxhdzj.app.channels.ChannelFragment;
+import com.zzxhdzj.app.channels.ChannelCategoryFragment;
 import com.zzxhdzj.app.home.DoubanFmDelegate;
 import com.zzxhdzj.app.login.fragment.LoginFragment;
 import com.zzxhdzj.app.play.delegate.PlayDelegate;
@@ -20,7 +20,6 @@ import com.zzxhdzj.douban.R;
 import com.zzxhdzj.douban.modules.UserInfo;
 import com.zzxhdzj.douban.modules.channel.Channel;
 
-import static com.zzxhdzj.app.channels.ChannelFragment.ChannelFragmentListener;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +27,7 @@ import static com.zzxhdzj.app.channels.ChannelFragment.ChannelFragmentListener;
  * Date: 3/29/14
  * To change this template use File | Settings | File Templates.
  */
-public class DoubanFm extends FragmentActivity implements PlayerEngineListener, View.OnClickListener,ChannelFragmentListener {
+public class DoubanFm extends FragmentActivity implements PlayerEngineListener, ChannelCategoryFragment.ChannelFragmentListener, View.OnClickListener {
     @InjectView(R.id.mhz_name)
     TextView mMhzName;
     @InjectView(R.id.listened_count)
@@ -112,11 +111,6 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
             view.setOnClickListener(this);
         }
     }
-    void unRegisterViewClickListeners(View ... views){
-        for (View view:views){
-            view.setOnClickListener(null);
-        }
-    }
     private void pauseControlBtn() {
         mLeftSkipButton.setEnabled(false);
         mLeftFavButton.setEnabled(false);
@@ -180,7 +174,6 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
     public void onDestroy() {
         super.onDestroy();
         L.d("onDestroy");
-        DoubanFmApp.getInstance().getChannelFragmentListeners().clear();
     }
 
 
@@ -234,18 +227,14 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
                 break;
         }
     }
-
+    //DoubanFmApp.getInstance().getChannelFragmentListeners().add(this);
     private void showChannelsFragment() {
-        unRegisterViewClickListeners(
-                mLeftBanButton,
-                mLeftFavButton,
-                mLeftSkipButton,
-                mBtnChannelsGrid);
         mBottomControlLayout.setVisibility(View.INVISIBLE);
-        DoubanFmApp.getInstance().getChannelFragmentListeners().add(this);
+        ChannelCategoryFragment fragment = new ChannelCategoryFragment();
+        fragment.setListener(this);
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.root_view, new ChannelFragment())
+                .add(R.id.root_view, fragment)
                 .addToBackStack(null)
                 .commit();
     }
@@ -259,7 +248,6 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
         mBottomControlLayout.setVisibility(View.VISIBLE);
     }
 
-    @Override
     public void onChannelSelected(Channel channel) {
     }
 }

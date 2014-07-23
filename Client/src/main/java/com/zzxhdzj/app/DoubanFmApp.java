@@ -6,7 +6,6 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.zzxhdzj.app.base.media.PlayerEngine;
 import com.zzxhdzj.app.base.media.PlayerEngineListener;
-import com.zzxhdzj.app.channels.ChannelFragment;
 import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.modules.song.Song;
 
@@ -41,16 +40,6 @@ public class DoubanFmApp extends Application {
     public List<PlayerEngineListener> addPlayerEngineListener(PlayerEngineListener playerEngineListener) {
         this.playerEngineListeners.add(playerEngineListener);
         return playerEngineListeners;
-    }
-    public List<ChannelFragment.ChannelFragmentListener> channelFragmentListeners = new ArrayList<ChannelFragment.ChannelFragmentListener>();
-
-    public List<ChannelFragment.ChannelFragmentListener> getChannelFragmentListeners() {
-        return channelFragmentListeners;
-    }
-
-    public List<ChannelFragment.ChannelFragmentListener> addChannelFragmentListener(ChannelFragment.ChannelFragmentListener channelFragmentListener) {
-        this.channelFragmentListeners.add(channelFragmentListener);
-        return channelFragmentListeners;
     }
     public void setCurrentPlayingSong(Song mCurrentPlayingSong) {
         this.mCurrentPlayingSong = mCurrentPlayingSong;
