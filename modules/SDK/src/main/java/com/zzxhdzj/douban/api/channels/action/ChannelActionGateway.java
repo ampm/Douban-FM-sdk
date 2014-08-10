@@ -22,6 +22,8 @@ import com.zzxhdzj.http.TextApiResponse;
 public class ChannelActionGateway extends BaseApiGateway {
 
 
+    public static final Gson GSON = new Gson();
+
     public ChannelActionGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway, RespType.STATUS);
         this.isAuthRequire = true;
@@ -41,8 +43,7 @@ public class ChannelActionGateway extends BaseApiGateway {
 
         @Override
         public void _extractRespData(TextApiResponse response) {
-            Gson gson = new Gson();
-            favChannelResp = gson.fromJson(response.getResp(), FavChannelResp.class);
+            favChannelResp = GSON.fromJson(response.getResp(), FavChannelResp.class);
         }
 
         @Override

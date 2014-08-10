@@ -24,6 +24,8 @@ import java.util.ArrayList;
 public class ChannelQueryGateway extends BaseApiGateway {
 
 
+    public static final Gson GSON = new Gson();
+
     public ChannelQueryGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway, RespType.STATUS);
         this.isAuthRequire = true;
@@ -78,8 +80,7 @@ public class ChannelQueryGateway extends BaseApiGateway {
 
         @Override
         public void _extractRespData(TextApiResponse response) {
-            Gson gson = new Gson();
-            channelResp = gson.fromJson(response.getResp(), ChannelResp.class);
+            channelResp = GSON.fromJson(response.getResp(), ChannelResp.class);
         }
 
         @Override
@@ -114,8 +115,8 @@ public class ChannelQueryGateway extends BaseApiGateway {
 
         @Override
         public void _extractRespData(TextApiResponse response) {
-            Gson gson = new Gson();
-            recommendChannelsResp = gson.fromJson(response.getResp(), RecommendChannelsResp.class);
+//            Gson gson = new Gson();
+            recommendChannelsResp = GSON.fromJson(response.getResp(), RecommendChannelsResp.class);
         }
 
         @Override
@@ -148,8 +149,8 @@ public class ChannelQueryGateway extends BaseApiGateway {
 
         @Override
         public void _extractRespData(TextApiResponse response) {
-            Gson gson = new Gson();
-            loginChannelsResp = gson.fromJson(response.getResp(), LoginChannelsResp.class);
+//            Gson gson = new Gson();
+            loginChannelsResp = GSON.fromJson(response.getResp(), LoginChannelsResp.class);
         }
 
         @Override
@@ -174,8 +175,8 @@ public class ChannelQueryGateway extends BaseApiGateway {
 
         @Override
         public void _extractRespData(TextApiResponse response) {
-            Gson gson = new Gson();
-            channelDetailResp = gson.fromJson(response.getResp(), ChannelDetailResp.class);
+//            Gson gson = new Gson();
+            channelDetailResp = GSON.fromJson(response.getResp(), ChannelDetailResp.class);
         }
 
         @Override

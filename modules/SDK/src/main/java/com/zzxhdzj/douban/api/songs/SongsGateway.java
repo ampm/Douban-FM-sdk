@@ -22,6 +22,8 @@ import com.zzxhdzj.http.TextApiResponse;
  */
 public class SongsGateway extends BaseApiGateway {
 
+    public static final Gson GSON = new Gson();
+
     public SongsGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway,RespType.R);
     }
@@ -45,8 +47,7 @@ public class SongsGateway extends BaseApiGateway {
 
         @Override
         public void _extractRespData(TextApiResponse response) {
-            Gson gson = new Gson();
-            songResp = gson.fromJson(response.getResp(), SongResp.class);
+            songResp = GSON.fromJson(response.getResp(), SongResp.class);
         }
 
         @Override

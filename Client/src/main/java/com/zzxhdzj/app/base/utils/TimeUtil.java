@@ -11,32 +11,36 @@ import org.joda.time.format.PeriodFormatterBuilder;
  * To change this template use File | Settings | File Templates.
  */
 public class TimeUtil {
+    static Period period;
+    public static final PeriodFormatter MMss_PERIOD_FORMATTER = new PeriodFormatterBuilder()
+            .printZeroAlways()
+            .minimumPrintedDigits(2)
+            .appendMinutes()
+            .appendSeparator(":")
+            .printZeroAlways()
+            .minimumPrintedDigits(2)
+            .appendSeconds()
+            .toFormatter();
+    public static final PeriodFormatter HHMMss_PERIOD_FORMATTER = new PeriodFormatterBuilder()
+            .printZeroAlways()
+            .minimumPrintedDigits(2)
+            .appendHours()
+            .appendSeparator(":")
+            .printZeroAlways()
+            .minimumPrintedDigits(2)
+            .appendMinutes()
+            .appendSeparator(":")
+            .printZeroAlways()
+            .minimumPrintedDigits(2)
+            .appendSeconds()
+            .toFormatter();
+
     public static String periodToHHMMss(int duration){
-        PeriodFormatter fmt = new PeriodFormatterBuilder()
-                .printZeroAlways()
-                .minimumPrintedDigits(2)
-                .appendHours()
-                .appendSeparator(":")
-                .printZeroAlways()
-                .minimumPrintedDigits(2)
-                .appendMinutes()
-                .appendSeparator(":")
-                .printZeroAlways()
-                .minimumPrintedDigits(2)
-                .appendSeconds()
-                .toFormatter();
-        return fmt.print(new Period(duration));
+        period = new Period();
+        return HHMMss_PERIOD_FORMATTER.print(period.withMinutes(duration));
     }
     public static String periodToMMss(int duration){
-        PeriodFormatter fmt = new PeriodFormatterBuilder()
-                .printZeroAlways()
-                .minimumPrintedDigits(2)
-                .appendMinutes()
-                .appendSeparator(":")
-                .printZeroAlways()
-                .minimumPrintedDigits(2)
-                .appendSeconds()
-                .toFormatter();
-        return fmt.print(new Period(duration));
+        period = new Period();
+        return MMss_PERIOD_FORMATTER.print(period.withMinutes(duration));
     }
 }

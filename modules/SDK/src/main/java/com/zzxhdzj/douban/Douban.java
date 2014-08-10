@@ -36,6 +36,7 @@ public class Douban extends ApiInstance {
     public static LinkedList<Song> songs;
     private final ApiGateway apiGateway;
     public Object singleObject;
+    public static final Gson GSON = new Gson();
 
     public Douban() {
         apiGateway = new ApiGateway();
@@ -172,8 +173,7 @@ public class Douban extends ApiInstance {
     }
 
     public UserInfo getUserInfo() {
-        Gson gson = new Gson();
-        UserInfo userInfo = gson.fromJson(sharedPreferences.getString(PrefsConstant.USER_KEY, null), UserInfo.class);
+        UserInfo userInfo = GSON.fromJson(sharedPreferences.getString(PrefsConstant.USER_KEY, null), UserInfo.class);
         return userInfo;
     }
 

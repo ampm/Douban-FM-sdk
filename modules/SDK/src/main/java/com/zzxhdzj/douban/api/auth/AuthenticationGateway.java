@@ -25,6 +25,7 @@ import com.zzxhdzj.http.TextApiResponse;
  */
 public class AuthenticationGateway extends BaseApiGateway {
 
+    public static final Gson GSON = new Gson();
 
     public AuthenticationGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway, RespType.R);
@@ -39,9 +40,9 @@ public class AuthenticationGateway extends BaseApiGateway {
     }
 
     private void cacheUserInfo(UserInfo userInfo) {
-        Gson gson = new Gson();
+//        Gson gson = new Gson();
         SharedPreferences.Editor edit = Douban.getSharedPreferences().edit();
-        edit.putString(PrefsConstant.USER_KEY, gson.toJson(userInfo));
+        edit.putString(PrefsConstant.USER_KEY, GSON.toJson(userInfo));
         edit.commit();
     }
 
@@ -58,8 +59,7 @@ public class AuthenticationGateway extends BaseApiGateway {
 
         @Override
         public void _extractRespData(TextApiResponse response) {
-            Gson gson = new Gson();
-            loginResp = gson.fromJson(response.getResp(), LoginResp.class);
+            loginResp = GSON.fromJson(response.getResp(), LoginResp.class);
         }
 
         @Override

@@ -20,6 +20,8 @@ import com.zzxhdzj.http.TextApiResponse;
  */
 public class AuthorityGetCaptchaGateway extends BaseApiGateway {
 
+    public static final Gson GSON = new Gson();
+
     public AuthorityGetCaptchaGateway(Douban douban, ApiGateway apiGateway) {
         super(douban, apiGateway,null);
     }
@@ -37,8 +39,7 @@ public class AuthorityGetCaptchaGateway extends BaseApiGateway {
 
         @Override
         public void _extractRespData(TextApiResponse response) {
-            Gson gson = new Gson();
-            Object obj = gson.fromJson(response.getResp(), Object.class);
+            Object obj = GSON.fromJson(response.getResp(), Object.class);
             douban.captchaId = obj.toString();
         }
 

@@ -23,6 +23,7 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
     private Douban douban;
     private static final String KEY_LAST_CHLS_QUERY_TIME = "KEY_LAST_CHLS_QUERY_TIME";
     private ChannelHelper channelHelper;
+    private static Period period = new Period();
 
     public DoubanFmDelegate(DoubanFm doubanFm) {
         this.doubanFm = doubanFm;
@@ -158,8 +159,8 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
     }
 
     public boolean isRefreshChannelsOverdue(DateTime lastRequestTime) {
-        Period rentalPeriod = new Period().withDays(1);
-        return lastRequestTime.plus(rentalPeriod).isBeforeNow();
+        period.withDays(1);
+        return lastRequestTime.plus(period).isBeforeNow();
     }
 
     @Override
