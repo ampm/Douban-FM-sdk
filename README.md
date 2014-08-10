@@ -89,6 +89,10 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
     
     update channel display when channel changed.
     
+- 2014-08-10
+     
+    使用jhat分析对内存对象引用，优化内存
+    
 #Usage:
 
 0 [demo](https://github.com/ampm/DoubanFM-android.git)会不断完善，直至一个完整的客户端
