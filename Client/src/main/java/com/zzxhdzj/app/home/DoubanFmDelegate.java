@@ -7,8 +7,8 @@ import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.channels.local.ChannelHelper;
 import com.zzxhdzj.douban.modules.channel.Channel;
 import com.zzxhdzj.http.Callback;
+import com.zzxhdzj.http.asynctask.PoolAsyncTask;
 import org.joda.time.DateTime;
-import org.joda.time.Period;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,6 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
     private Douban douban;
     private static final String KEY_LAST_CHLS_QUERY_TIME = "KEY_LAST_CHLS_QUERY_TIME";
     private ChannelHelper channelHelper;
-    private static Period period = new Period();
 
     public DoubanFmDelegate(DoubanFm doubanFm) {
         this.doubanFm = doubanFm;
@@ -35,11 +34,11 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
         if (Douban.isLogged()) {
             doubanFm.showPlayFragment();
             doubanFm.showLoggedItems(Douban.getUserInfo());
-//            long lastChlsUpdateTime = Douban.getSharedPreferences().getLong(KEY_LAST_CHLS_QUERY_TIME, 0);
-//            if (isRefreshChannelsOverdue(new DateTime().withMillis(lastChlsUpdateTime))) {
-//                updateStaticChannelInfo();
-//                updateDynamicChannels();
-//            }
+            long lastChlsUpdateTime = Douban.getSharedPreferences().getLong(KEY_LAST_CHLS_QUERY_TIME, 0);
+            if (isRefreshChannelsOverdue(new DateTime().withMillis(lastChlsUpdateTime))) {
+                        updateStaticChannelInfo();
+                        updateDynamicChannels();
+            }
         } else {
             doubanFm.showLoginFragment();
         }
@@ -53,7 +52,7 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
         channelHelper.queryStaticChannels(new ChannelHelper.ChannelHelperListener() {
             @Override
             public void onResult(Cursor cursor) {
-                Douban.getSharedPreferences().edit().putLong(KEY_LAST_CHLS_QUERY_TIME, new DateTime().getMillis());
+                Douban.getSharedPreferences().edit().putLong(KEY_LAST_CHLS_QUERY_TIME, new DateTime().getMillis()).commit();
                 //更新固定频率id
                 fetchChannelsInfo(cursor);
             }
@@ -159,15 +158,21 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
     }
 
     public boolean isRefreshChannelsOverdue(DateTime lastRequestTime) {
-        period.withDays(1);
-        return lastRequestTime.plus(period).isBeforeNow();
+        return lastRequestTime.plusDays(1).isBeforeNow();
     }
 
     @Override
     public void onLogin() {
         doubanFm.showPlayFragment();
         doubanFm.showLoggedItems(Douban.getUserInfo());
-        updateStaticChannelInfo();
-        updateDynamicChannels();
+        new PoolAsyncTask<Void,Void,Void>(){
+            @Override
+            protected Void doInBackground(Void... params) {
+                updateStaticChannelInfo();
+                updateDynamicChannels();
+                return null;
+            }
+        }.execute();
+
     }
 }
