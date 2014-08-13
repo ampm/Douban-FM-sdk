@@ -28,6 +28,8 @@ import com.zzxhdzj.douban.R;
 import com.zzxhdzj.douban.modules.UserInfo;
 import com.zzxhdzj.douban.modules.channel.Channel;
 
+import java.beans.Visibility;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -60,8 +62,8 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
     ImageButton mBtnChannelsGrid;
     @InjectView(R.id.bottom_control_layout)
     LinearLayout mBottomControlLayout;
-    @InjectView(R.id.shortcut_control)
-    RadioGroup mShortcutControl;
+//    @InjectView(R.id.shortcut_control)
+//    RadioGroup mShortcutControl;
 
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -122,12 +124,13 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
         mPersonalInfo.setVisibility(View.VISIBLE);
         mLeftControl.setVisibility(View.VISIBLE);
         mBottomControlLayout.setVisibility(View.VISIBLE);
-        mShortcutControl.setVisibility(View.VISIBLE);
+//        mShortcutControl.setVisibility(View.VISIBLE);
         registerViewClickListeners(
                 mLeftBanButton,
                 mLeftFavButton,
                 mLeftSkipButton,
-                mBtnChannelsGrid);
+                mBtnChannelsGrid,
+                mAboutMe);
 
     }
     void registerViewClickListeners(View ... views){
@@ -252,10 +255,17 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
             case R.id.btn_channels_grid:
                 showChannelsFragment();
                 break;
+            case R.id.about_me:
+                showOrHidePersonnalinfo();
             default:
                 break;
         }
     }
+
+    private void showOrHidePersonnalinfo() {
+        mPersonalInfo.setVisibility(mPersonalInfo.getVisibility()==View.VISIBLE? View.GONE:View.VISIBLE);
+    }
+
     //DoubanFmApp.getInstance().getChannelFragmentListeners().add(this);
     private void showChannelsFragment() {
         mBottomControlLayout.setVisibility(View.INVISIBLE);

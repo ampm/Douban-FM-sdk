@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.zzxhdzj.app.play.view.SongInfoView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="#f5a2cb4b"
+        android:background="#97cf5b"
         android:layout_width="260dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"

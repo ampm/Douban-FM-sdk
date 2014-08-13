@@ -44,8 +44,8 @@ public class ChannelCategoryFragment extends Fragment implements ChannelListFrag
     TextView mBtnChannelItemTry;
     @InjectView(R.id.channels_grid)
     RelativeLayout mChannelsGrid;
-    @InjectView(R.id.channels_grid_close_btn)
-    ImageView mChannelsGridCloseBtn;
+//    @InjectView(R.id.channels_grid_close_btn)
+//    View mChannelsGridCloseBtn;
     @InjectView(R.id.btn_channel_item_brand)
     TextView mBtnChannelItemBrand;
     private ChannelFragmentListener listener;
@@ -67,8 +67,8 @@ public class ChannelCategoryFragment extends Fragment implements ChannelListFrag
             R.id.btn_channel_item_artist,
             R.id.btn_channel_item_trending,
             R.id.btn_channel_item_hits,
-            R.id.btn_channel_item_try,
-            R.id.channels_grid_close_btn
+            R.id.btn_channel_item_try
+//            R.id.channels_grid_close_btn
 
     })
     public void registerOnClickListener(View view) {
@@ -109,9 +109,9 @@ public class ChannelCategoryFragment extends Fragment implements ChannelListFrag
                 mChannelsGrid.setVisibility(View.INVISIBLE);
                 showChannelsInThisCategory(ChannelTypes.Try);
                 break;
-            case R.id.channels_grid_close_btn:
-                getActivity().getSupportFragmentManager().popBackStack();
-                break;
+//            case R.id.channels_grid_close_btn:
+//                getActivity().getSupportFragmentManager().popBackStack();
+//                break;
             default:
                 break;
         }

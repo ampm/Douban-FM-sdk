@@ -13,11 +13,11 @@
                    android:src="@drawable/cover_expand"
                    android:scaleType="centerCrop"
                 />
-        <ImageView android:layout_width="@dimen/song_info_width" android:layout_height="@dimen/song_info_width"
-                   android:layout_marginTop="@dimen/song_cover_margin_top"
-                   android:layout_centerHorizontal="true"
-                   android:src="@drawable/cover_mask"
-                   android:scaleType="fitCenter"/>
+        <!--<ImageView android:layout_width="@dimen/song_info_width" android:layout_height="@dimen/song_info_width"-->
+                   <!--android:layout_marginTop="@dimen/song_cover_margin_top"-->
+                   <!--android:layout_centerHorizontal="true"-->
+                   <!--android:src="@drawable/cover_mask"-->
+                   <!--android:scaleType="fitCenter"/>-->
 
     <TableLayout android:layout_width="@dimen/song_info_width"
                  android:layout_gravity="center_horizontal"
