@@ -165,14 +165,7 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
     public void onLogin() {
         doubanFm.showPlayFragment();
         doubanFm.showLoggedItems(Douban.getUserInfo());
-        new PoolAsyncTask<Void,Void,Void>(){
-            @Override
-            protected Void doInBackground(Void... params) {
                 updateStaticChannelInfo();
                 updateDynamicChannels();
-                return null;
-            }
-        }.execute();
-
     }
 }
