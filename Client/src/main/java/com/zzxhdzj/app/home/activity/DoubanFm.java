@@ -218,6 +218,7 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
                 PlayDelegate.getInstance().skip();
                 break;
             case R.id.left_ban_button:
+                pauseControlBtn();
                 PlayDelegate.getInstance().ban();
                 break;
             case R.id.left_fav_button:
