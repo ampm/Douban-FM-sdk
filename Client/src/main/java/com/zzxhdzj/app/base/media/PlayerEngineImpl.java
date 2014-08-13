@@ -209,25 +209,40 @@ public class PlayerEngineImpl implements PlayerEngine {
 
     @Override
     public void skip() {
-        songQueueListener.requireNewSongs(ReportType.SKIP, mCurrentMediaPlayer.currentSong != null ? mCurrentMediaPlayer.currentSong.sid : "", mCurrentMediaPlayer.getCurrentPosition() / 1000);
-        mCurrentMediaPlayer.currentSong = null;
+        songQueueListener.requireNewSongs(ReportType.SKIP,
+                getCurrentSongSid(), getCurrentPlayTime());
+        if(mCurrentMediaPlayer!=null)mCurrentMediaPlayer.currentSong = null;
         play();
+    }
+
+    private int getCurrentPlayTime() {
+        return mCurrentMediaPlayer!=null?mCurrentMediaPlayer.getCurrentPosition() / 1000:0;
+    }
+
+    private String getCurrentSongSid() {
+        String sid;
+        if (mCurrentMediaPlayer != null) {
+            sid = mCurrentMediaPlayer.currentSong != null ? mCurrentMediaPlayer.currentSong.sid : "";
+        } else {
+            sid = DoubanFmApp.getInstance().getCurrentPlayingSong().sid;
+        }
+        return sid;
     }
 
     @Override
     public void fav() {
-        songQueueListener.requireNewSongs(ReportType.FAV, mCurrentMediaPlayer.currentSong != null ? mCurrentMediaPlayer.currentSong.sid : "", mCurrentMediaPlayer.getCurrentPosition() / 1000);
+        songQueueListener.requireNewSongs(ReportType.FAV, getCurrentSongSid(), getCurrentPlayTime());
     }
 
     @Override
     public void unfav() {
-        songQueueListener.requireNewSongs(ReportType.UN_FAV, mCurrentMediaPlayer.currentSong != null ? mCurrentMediaPlayer.currentSong.sid : "", mCurrentMediaPlayer.getCurrentPosition() / 1000);
+        songQueueListener.requireNewSongs(ReportType.UN_FAV, getCurrentSongSid(), getCurrentPlayTime());
     }
 
     @Override
     public void ban() {
-        songQueueListener.requireNewSongs(ReportType.BAN, mCurrentMediaPlayer.currentSong != null ? mCurrentMediaPlayer.currentSong.sid : "", mCurrentMediaPlayer.getCurrentPosition() / 1000);
-        mCurrentMediaPlayer.currentSong = null;
+        songQueueListener.requireNewSongs(ReportType.BAN, getCurrentSongSid(), getCurrentPlayTime());
+        if(mCurrentMediaPlayer!=null)mCurrentMediaPlayer.currentSong = null;
         play();
     }
 
