@@ -85,7 +85,6 @@ public class Http {
         }
         urlConnection.setRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
         urlConnection.setRequestProperty("Accept-Language", "en-US,en;q=0.8");
-        urlConnection.setRequestProperty("Referer", "http://douban.fm/");
         urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
         urlConnection.setRequestProperty("Accept", "*/*");
         urlConnection.setInstanceFollowRedirects(allowRedirect);

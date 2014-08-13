@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
 import butterknife.ButterKnife;
@@ -22,6 +23,7 @@ import com.zzxhdzj.app.home.DoubanFmDelegate;
 import com.zzxhdzj.app.login.fragment.LoginFragment;
 import com.zzxhdzj.app.play.delegate.PlayDelegate;
 import com.zzxhdzj.app.play.fragment.PlayFragment;
+import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.R;
 import com.zzxhdzj.douban.modules.UserInfo;
 import com.zzxhdzj.douban.modules.channel.Channel;
@@ -87,7 +89,7 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
         DoubanFmApp.getInstance().registerReceiver(channelChangedReceiver,filters);
         IntentFilter intentfilter = new IntentFilter();
         intentfilter.addAction(PlayerService.ACTION_CLOSE_APP);
-        registerReceiver(broadcastReceiver,intentfilter);
+        registerReceiver(broadcastReceiver, intentfilter);
     }
 
     public void showLoginFragment() {
@@ -113,7 +115,8 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
     }
 
     public void showLoggedItems(UserInfo userInfo) {
-        mMhzName.setText(String.format(getString(R.string.mhz_name_text), "私人"));
+        String channelName = Douban.getSharedPreferences().getString(PlayFragment.LAST_OPENED_CHANNEL_NAME,"私人");
+        mMhzName.setText(String.format(getString(R.string.mhz_name_text),channelName));
         mFavoredCount.setText(String.format(getString(R.string.favored_count), userInfo.playRecord.liked));
         mListenedCount.setText(String.format(getString(R.string.listened_count), userInfo.playRecord.played));
         mPersonalInfo.setVisibility(View.VISIBLE);

@@ -27,7 +27,8 @@ public class Constants {
     public static final String RECOMMEND_CHLS_URL = BASER_URL + "/j/explore/get_recommend_chl";
     public static final String CHANNEL_ACTION_URL = BASER_URL + "/j/explore/";
     public static final String FAV_CHANNELS = BASER_URL + "/j/fav_channels";
-
+    public static final String HEART_NUM = BASER_URL + "/mine?type=played#!type=liked";
+    public static final String TOTAL_NUM = BASER_URL + "/mine?type=played#!type=liked";
     public static boolean UNIT_TEST = false;
     public static final String USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/537.51.1 (KHTML, like Gecko) Version/7.0 Mobile/11A465 Safari/9537.53";
 

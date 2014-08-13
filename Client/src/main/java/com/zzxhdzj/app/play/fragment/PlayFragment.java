@@ -33,6 +33,7 @@ import com.zzxhdzj.douban.modules.channel.Channel;
 public class PlayFragment extends Fragment implements PlayerEngineListener {
     public static final String TAG = "com.zzxhdzj.app.play.ui.PlayFragment";
     private static final String LAST_OPENED_CHANNEL = "last_opened_channel";
+    public static final String LAST_OPENED_CHANNEL_NAME = "last_opened_channel_name";
     @InjectView(R.id.song_item)
     SongInfoView mSongItem;
     private PlayDelegate playerEngine;
@@ -134,6 +135,10 @@ public class PlayFragment extends Fragment implements PlayerEngineListener {
             Douban.getSharedPreferences()
                     .edit()
                     .putInt(LAST_OPENED_CHANNEL, channel.id)
+                    .commit();
+            Douban.getSharedPreferences()
+                    .edit()
+                    .putString(LAST_OPENED_CHANNEL_NAME, channel.name)
                     .commit();
             DoubanFmApp.getInstance().setCurrentChannelId(channel.id);
             if (!DoubanFmApp.isPauseByUser) playerEngine.play();
