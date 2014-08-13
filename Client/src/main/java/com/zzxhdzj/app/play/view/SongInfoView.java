@@ -11,6 +11,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.zzxhdzj.douban.R;
 import com.zzxhdzj.douban.modules.song.Song;
 
@@ -43,8 +44,9 @@ public class SongInfoView extends TableLayout {
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(false)
                 .cacheOnDisc(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
+                .bitmapConfig(Bitmap.Config.ARGB_8888)
                 .build();
+
     }
 
     public void bindView(Song song){
