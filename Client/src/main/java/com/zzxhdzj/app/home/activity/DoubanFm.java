@@ -15,6 +15,7 @@ import butterknife.InjectView;
 import com.andlabs.androidutils.logging.L;
 import com.zzxhdzj.app.DoubanFmApp;
 import com.zzxhdzj.app.base.media.PlayerEngineListener;
+import com.zzxhdzj.app.base.service.PlayerService;
 import com.zzxhdzj.app.channels.ChannelCategoryFragment;
 import com.zzxhdzj.app.channels.ChannelListFragment;
 import com.zzxhdzj.app.home.DoubanFmDelegate;
@@ -60,7 +61,14 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
     @InjectView(R.id.shortcut_control)
     RadioGroup mShortcutControl;
 
-
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equalsIgnoreCase(PlayerService.ACTION_CLOSE_APP)){
+                finish();
+            }
+        }
+    };
     private DoubanFmDelegate doubanFmDelegate;
     private ChannelChangedReceiver channelChangedReceiver;
 
@@ -77,6 +85,9 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
         filters.addAction(ChannelListFragment.ACTION_CHANNEL_SELECTED);
         channelChangedReceiver = new ChannelChangedReceiver();
         DoubanFmApp.getInstance().registerReceiver(channelChangedReceiver,filters);
+        IntentFilter intentfilter = new IntentFilter();
+        intentfilter.addAction(PlayerService.ACTION_CLOSE_APP);
+        registerReceiver(broadcastReceiver,intentfilter);
     }
 
     public void showLoginFragment() {
@@ -184,7 +195,10 @@ public class DoubanFm extends FragmentActivity implements PlayerEngineListener, 
     public void onDestroy() {
         super.onDestroy();
         L.d("onDestroy");
-        if(channelChangedReceiver!=null)DoubanFmApp.getInstance().unregisterReceiver(channelChangedReceiver);
+        if(channelChangedReceiver!=null){
+            DoubanFmApp.getInstance().unregisterReceiver(channelChangedReceiver);
+        }
+        this.unregisterReceiver(broadcastReceiver);
     }
 
 
