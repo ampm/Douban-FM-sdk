@@ -25,6 +25,6 @@ public class UserInfo implements Serializable {
     public String isDj;
     public String id;
     @SerializedName("is_pro")
-    public String isPro;
+    public boolean isPro;
     public String name;
 }

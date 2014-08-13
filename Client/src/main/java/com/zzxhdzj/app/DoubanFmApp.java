@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class DoubanFmApp extends Application {
     public static final String TAG = "DoubanApplication";
-    public static final int WARNING_SIZE = 3;
+    public static final int WARNING_SIZE = 1;
     public static boolean isPauseByUser = false;
     private LinkedList<Song> mSongsList;
     private int currentChannelId;

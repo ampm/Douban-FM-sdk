@@ -2,6 +2,7 @@ package com.zzxhdzj.douban;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import com.google.gson.Gson;
 import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.auth.AuthenticationGateway;
@@ -48,6 +49,7 @@ public class Douban extends ApiInstance {
         if(!Constants.UNIT_TEST)DoubanDb.getInstance(app).getDb(true);
     }
     public static void reset(){
+        Log.d("Douban","Cookie reset");
         Http.clearCookie(app);
         app.getSharedPreferences(Constants.DOUBAN_AUTH, Context.MODE_PRIVATE).edit().clear().commit();
         if(Douban.songs!=null)Douban.songs.clear();
@@ -168,11 +170,11 @@ public class Douban extends ApiInstance {
     }
 
 
-    public boolean isLogged() {
+    public static boolean isLogged() {
         return sharedPreferences.getBoolean(PrefsConstant.LOGGED, false);
     }
 
-    public UserInfo getUserInfo() {
+    public static UserInfo getUserInfo() {
         UserInfo userInfo = GSON.fromJson(sharedPreferences.getString(PrefsConstant.USER_KEY, null), UserInfo.class);
         return userInfo;
     }

@@ -32,14 +32,14 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
     }
 
     public void prepare() {
-        if (douban.isLogged()) {
+        if (Douban.isLogged()) {
             doubanFm.showPlayFragment();
-            doubanFm.showLoggedItems(douban.getUserInfo());
-            long lastChlsUpdateTime = Douban.getSharedPreferences().getLong(KEY_LAST_CHLS_QUERY_TIME, 0);
-            if (isRefreshChannelsOverdue(new DateTime().withMillis(lastChlsUpdateTime))) {
-                updateStaticChannelInfo();
-                updateDynamicChannels();
-            }
+            doubanFm.showLoggedItems(Douban.getUserInfo());
+//            long lastChlsUpdateTime = Douban.getSharedPreferences().getLong(KEY_LAST_CHLS_QUERY_TIME, 0);
+//            if (isRefreshChannelsOverdue(new DateTime().withMillis(lastChlsUpdateTime))) {
+//                updateStaticChannelInfo();
+//                updateDynamicChannels();
+//            }
         } else {
             doubanFm.showLoginFragment();
         }
@@ -166,7 +166,7 @@ public class DoubanFmDelegate implements LoginFragment.LoginListener {
     @Override
     public void onLogin() {
         doubanFm.showPlayFragment();
-        doubanFm.showLoggedItems(douban.getUserInfo());
+        doubanFm.showLoggedItems(Douban.getUserInfo());
         updateStaticChannelInfo();
         updateDynamicChannels();
     }

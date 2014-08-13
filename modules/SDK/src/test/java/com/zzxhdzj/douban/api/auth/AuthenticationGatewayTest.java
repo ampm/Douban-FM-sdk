@@ -1,6 +1,7 @@
 package com.zzxhdzj.douban.api.auth;
 
 import com.zzxhdzj.douban.ApiInternalError;
+import com.zzxhdzj.douban.Douban;
 import com.zzxhdzj.douban.api.BaseGatewayTestCase;
 import com.zzxhdzj.douban.api.mock.TestResponses;
 import com.zzxhdzj.douban.modules.LoginParams;
@@ -66,19 +67,19 @@ public class AuthenticationGatewayTest extends BaseGatewayTestCase {
     //test#03
     @Test
     public void shouldReturnTrueSignedIn() throws Exception {
-        assertThat(douban.isLogged(), equalTo(false));
+        assertThat(Douban.isLogged(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_SUCCESS, null);
-        assertThat(douban.isLogged(), equalTo(true));
+        assertThat(Douban.isLogged(), equalTo(true));
     }
 
     @Test
     public void shouldReturnFalseWhenSignedInWithWrongCaptchaCode() throws Exception {
-        assertThat(douban.isLogged(), equalTo(false));
+        assertThat(Douban.isLogged(), equalTo(false));
         authenticationGateway.signIn(loginParams, new Callback());
         Header[] header = new Header[0];
         apiGateway.simulateTextResponse(200, TestResponses.AUTH_ERROR, null);
-        assertThat(douban.isLogged(), equalTo(false));
+        assertThat(Douban.isLogged(), equalTo(false));
         assertThat(douban.mApiRespErrorCode.getCode(), equalTo("1"));
         assertThat(douban.mApiRespErrorCode.getMsg(), equalTo("验证码不正确"));
     }

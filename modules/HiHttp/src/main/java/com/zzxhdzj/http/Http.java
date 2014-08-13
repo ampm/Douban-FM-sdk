@@ -83,9 +83,11 @@ public class Http {
         for (Map.Entry<String, String> entry : headers.entrySet()) {
             urlConnection.setRequestProperty(entry.getKey(), entry.getValue());
         }
-        urlConnection.setRequestProperty("Accept-Encoding", "gzip");
+        urlConnection.setRequestProperty("Accept-Encoding", "gzip,deflate,sdch");
+        urlConnection.setRequestProperty("Accept-Language", "en-US,en;q=0.8");
+        urlConnection.setRequestProperty("Referer", "http://douban.fm/");
         urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.114 Safari/537.36");
-        urlConnection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+        urlConnection.setRequestProperty("Accept", "*/*");
         urlConnection.setInstanceFollowRedirects(allowRedirect);
         urlConnection.setConnectTimeout(30 * 1000);
         urlConnection.setReadTimeout(30 * 1000);

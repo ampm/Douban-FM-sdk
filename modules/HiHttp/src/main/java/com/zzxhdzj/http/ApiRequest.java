@@ -24,7 +24,8 @@ public abstract class ApiRequest<T extends ApiResponse> {
         if (urlParameters != null) {
             stringBuilder.append("?").append(URLEncodedUtils.format(this.urlParameters, "UTF-8"));
         }
-        return stringBuilder.toString();
+        String string = stringBuilder.toString();
+        return string;
     }
 
     public ApiRequest<T> appendParameter(String key, String value) {
