@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.net.CookieStore;
@@ -69,9 +70,9 @@ public class PrefsCookieStore implements CookieStore {
         if (candidatesAddCookie.hasExpired()) {
             cookies.get(uriWithoutPath).remove(candidatesAddCookie);
         } else {
-            persistenceCookie(uriWithoutPath.toString(), candidatesAddCookie);
             cookies.get(uriWithoutPath).add(candidatesAddCookie);
         }
+        persistenceCookie(uriWithoutPath.toString(), candidatesAddCookie);
     }
 
     private URI getUriWithoutPath(URI uri) {
@@ -86,7 +87,6 @@ public class PrefsCookieStore implements CookieStore {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void persistenceCookie(String urlWithoutPath, HttpCookie cookie) {
         HashSet<String> candidateCookieSet = new HashSet<String>();
-
         Set<String> existCookies = spePreferences.getStringSet(urlWithoutPath, candidateCookieSet);
         Iterator iterator = existCookies.iterator();
         while (iterator.hasNext()) {

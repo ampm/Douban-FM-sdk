@@ -31,7 +31,5 @@ public class RandomUtil {
             sb.append(characters[index]);
         }
         return sb.toString();
-
     }
-
 }

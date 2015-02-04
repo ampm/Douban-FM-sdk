@@ -7,6 +7,7 @@ import com.zzxhdzj.douban.ReportType;
 import com.zzxhdzj.douban.api.AuthApiRequest;
 import com.zzxhdzj.douban.api.BitRate;
 import com.zzxhdzj.douban.api.base.RandomUtil;
+import com.zzxhdzj.douban.modules.UserInfo;
 import com.zzxhdzj.http.TextApiResponse;
 
 import java.util.List;
@@ -31,7 +32,8 @@ public class SongsRequest extends AuthApiRequest {
         if (playTime > 0) {
             super.appendParameter("pt", playTime + "");
         }
-        if(Douban.getUserInfo().isPro){
+        UserInfo userInfo = Douban.getUserInfo();
+        if(userInfo!=null&&userInfo.isPro){
             super.appendParameter("kbps",bitRate.toString());
         }
         super.appendParameter("from", "mainsite")

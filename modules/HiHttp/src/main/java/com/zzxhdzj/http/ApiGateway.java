@@ -1,9 +1,9 @@
 package com.zzxhdzj.http;
 
 import android.annotation.TargetApi;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
-import com.zzxhdzj.http.asynctask.PoolAsyncTask;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -80,8 +80,8 @@ public class ApiGateway<T extends ApiResponse> {
         responseCallbacks.onComplete();
     }
 
-    private class RemoteCallTask extends PoolAsyncTask<ApiRequest<T>, Void, T> {
-        //	private class RemoteCallTask extends AsyncTask<ApiRequest<T>, Void, T> {
+//    private class RemoteCallTask extends PoolAsyncTask<ApiRequest<T>, Void, T> {
+        	private class RemoteCallTask extends AsyncTask<ApiRequest<T>, Void, T> {
         private final ApiResponseCallbacks<T> responseCallbacks;
 
         public RemoteCallTask(ApiResponseCallbacks<T> responseCallbacks) {
