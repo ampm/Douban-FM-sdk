@@ -92,6 +92,14 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
 - 2014-08-10
      
     使用jhat分析对内存对象引用，优化内存
+
+- 2015-02-04
+    
+    项目重启
+    1、使用event-bus架构
+    2、简化http
+    3、集合网易云音乐
+    4、支持 car play
     
 #Usage:
 
