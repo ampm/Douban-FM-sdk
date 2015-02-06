@@ -108,7 +108,6 @@
             <!-- 右侧控制区域-->
             <LinearLayout
                     android:id="@+id/right_control"
-                    android:layout_above="@+id/bottom_control_layout"
                     android:layout_width="@dimen/dou_margin_left"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
