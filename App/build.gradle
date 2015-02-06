@@ -1,0 +1,40 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:1.0.0'
+    }
+}
+
+
+apply plugin:'com.android.application'
+
+repositories {
+    jcenter()
+}
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 21
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+dependencies {
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.1'
+    compile 'com.jakewharton:butterknife:5.1.0'
+    compile ("joda-time:joda-time:2.3"){
+//        exclude group: 'commons-io', module: 'commons-io'
+    }
+    compile 'com.android.support:support-v4:21.0.2'
+    compile project(':modules:SDK')
+}

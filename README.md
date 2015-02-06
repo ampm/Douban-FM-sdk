@@ -100,6 +100,10 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
     2、简化http
     3、集合网易云音乐
     4、支持 car play
+
+   2015-02-06
+
+    更改构建脚本mvn to gradle
     
 #Usage:
 

@@ -1,0 +1,17 @@
+apply plugin: 'java'
+
+dependencies {
+    compile "com.google.code.gson:gson:2.2.4"
+    testCompile "org.robolectric:robolectric:2.2"
+    compile project(":modules:HiHttp")
+    compile 'com.google.android:android:4.1.1.4'
+}
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+compileJava {
+    println project.sourceCompatibility
+    println project.targetCompatibility
+    println sourceCompatibility
+    println targetCompatibility
+}

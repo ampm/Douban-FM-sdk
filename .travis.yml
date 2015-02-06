@@ -16,7 +16,7 @@ before_install:
   #- mvn install:install-file -DgroupId=com.android.support -DartifactId=support-v4 -Dversion=19.0.1  -Dpackaging=jar -Dfile="$ANDROID_HOME/extras/android/m2repository/com/android/support/support-v4/19.0.1/support-v4-19.0.1.jar"
 
 script:
-  - mvn clean install -e -X -Plinux
+  - gradle installDebug
 notifications:
   email:
     - hijack3703@gmail.com
