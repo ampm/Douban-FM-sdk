@@ -1,7 +1,7 @@
 language: android
 android:
   components:
-    - build-tools-19.0.3
+    - build-tools-21.1.1
     - android-19
     - sysimg-19
     - extra-android-support
@@ -16,7 +16,7 @@ before_install:
   #- mvn install:install-file -DgroupId=com.android.support -DartifactId=support-v4 -Dversion=19.0.1  -Dpackaging=jar -Dfile="$ANDROID_HOME/extras/android/m2repository/com/android/support/support-v4/19.0.1/support-v4-19.0.1.jar"
 
 script:
-  - gradle installDebug
+  - gradle installDebug --stacktrace
 notifications:
   email:
     - hijack3703@gmail.com

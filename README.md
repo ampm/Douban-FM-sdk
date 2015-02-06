@@ -111,14 +111,11 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
 
 1 install & deploy
     
-    mvn install
-    
-    mvn android:deploy
+    gradle installDebug
  
 2 Test
 
-        mvn site
-        mvn surefire-report:report
+    deleted
         
 3 coverage by Intellij
 
