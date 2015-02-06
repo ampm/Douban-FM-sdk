@@ -7,11 +7,5 @@ dependencies {
     compile 'com.google.android:android:4.1.1.4'
 }
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
-compileJava {
-    println project.sourceCompatibility
-    println project.targetCompatibility
-    println sourceCompatibility
-    println targetCompatibility
-}
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
