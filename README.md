@@ -1,6 +1,6 @@
 Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?branch=master)](https://travis-ci.org/ampm/Douban-FM-sdk)
 ---
-#Logs
+# Logs
     
     todo：
     
@@ -105,7 +105,7 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
 
     更改构建脚本mvn to gradle
     
-#Usage:
+# Usage:
 
 0 [demo](https://github.com/ampm/DoubanFM-android.git)会不断完善，直至一个完整的客户端
 
@@ -129,10 +129,10 @@ Douban FM API [![Build Status](https://travis-ci.org/ampm/Douban-FM-sdk.svg?bran
 
 
 
-#公共API
+# 公共API
 
 无需登录授权,url get 参数需要urlencode
-##获取验证码id
+## 获取验证码id
 
 API:
 
@@ -152,7 +152,7 @@ Response:
     Body:
     "8Z9w6tODHEukHkAmBz52dWg4:en"
 
-##获取验证码图片
+## 获取验证码图片
 
 API:
 
@@ -173,7 +173,7 @@ GET Params:
 Response：
 
     Content-Type:image/jpeg
-##登录
+## 登录
 
 API
 
@@ -225,10 +225,10 @@ Response：
     Failed_Body:s
     {"err_no":1011,"r":1,"err_msg":"验证码不正确|xxx|xxx"}
     
-#获取频道列表
+# 获取频道列表
 
 
-###热门兆赫：
+### 热门兆赫：
 API
 
     /j/explore/hot_channels
@@ -264,7 +264,7 @@ GET:
         },
         "status": true
     }
-###上升最快    
+### 上升最快    
 
 API
     
@@ -302,7 +302,7 @@ GET:
         "status": true
     }
 
-###品牌兆赫    
+### 品牌兆赫    
 API：
     http://douban.fm/#
 
@@ -329,11 +329,11 @@ Resp：Html解析
     }
     ];
 
-###已知固定频道
+### 已知固定频道
 
 channel=0 私人兆赫  type=e()
 
-####Region&Lang
+#### Region&Lang
 
     channel=1 公共兆赫【地区 语言】：华语MHZ
     channel=6 公共兆赫【地区 语言】：粤语MHZ
@@ -342,13 +342,13 @@ channel=0 私人兆赫  type=e()
     channel=17 公共兆赫【地区 语言】：日语MHZ
     channel=18 公共兆赫【地区 语言】：韩语MHZ
 
-####Ages
+#### Ages
 
     channel=3  公共兆赫【年代】：70年代MHZ
     channel=4  公共兆赫【年代】：80年代MHZ
     channel=5  公共兆赫【年代】： 90年代MHZ
 
-###Genre
+### Genre
     channel=8 公共兆赫【流派】：民谣MHZ
     channel=7 公共兆赫【流派】：摇滚MHZ
     channel=13 公共兆赫【流派】：爵士MHZ
@@ -360,24 +360,24 @@ channel=0 私人兆赫  type=e()
 
 
 
-####Special
+#### Special
 
     channel=20 公共兆赫【特辑】：女声MHZ
     channel=28 公共兆赫【特辑】：动漫MHZ
     channel=32 公共兆赫【特辑】：咖啡MHZ
     channel=67 公共兆赫【特辑】：东京事变MHZ
 
-####Com
+#### Com
 
     channel=52 公共兆赫【品牌】：乐混翻唱MHZ
     channel=58 公共兆赫【品牌】：路虎揽胜运动MHZ
 
-####Artist
+#### Artist
 
     channel=26 公共兆赫：豆瓣音乐人MHZ
     channel=dj DJ兆赫
 
-###根据流派获取频道
+### 根据流派获取频道
 
 API：
 
@@ -431,12 +431,12 @@ Resp：
         "status": true
     }
 
-###查询频道信息
+### 查询频道信息
     API:
 
     http://douban.fm/j/explore/channel_detail?channel_id=159
 
-###搜索频道
+### 搜索频道
 
 API
 
@@ -478,7 +478,7 @@ Resp
 
 
 
-##根据频道获取歌曲列表
+## 根据频道获取歌曲列表
 API
 
     http://douban.fm/j/mine/playlist
@@ -511,12 +511,12 @@ Response:
 
 
 
-#登录后API
+# 登录后API
 
 需要登录
 登录后，切换频道 base api变成
-##推荐频道
-###登录成功更新推荐频道
+## 推荐频道
+### 登录成功更新推荐频道
 
 uk=user id
 
@@ -553,7 +553,7 @@ http://douban.fm/j/explore/get_login_chls?uk=69077079
     }
 
 
-###推荐频道(试试这些)
+### 推荐频道(试试这些)
 
 orecs 猜测，自己加过红心的歌曲所属频道
 
@@ -580,19 +580,19 @@ http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14
 
 ![intro](intro.png)
 
-##收藏频道-
+## 收藏频道-
 
     http://douban.fm/j/explore/fav_channel?cid=1
 
     {"status":true,"data":{"res":1}}
 
-##取消收藏频道-
+## 取消收藏频道-
 
     http://douban.fm/j/explore/unfav_channel?cid=61005
 
     {"status":true,"data":{"res":1}}
 
-##我收藏的频道-
+## 我收藏的频道-
     http://douban.fm/j/fav_channels
 
         {
@@ -618,7 +618,7 @@ http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14
             ]
         }
 
-##换频率报告-
+## 换频率报告-
 
     fcid=fromcid tcid=tocid
 
@@ -626,7 +626,7 @@ http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14
 
         {"r":"0"}
 
-##切换频率-
+## 切换频率-
     http://douban.fm/j/mine/playlist?type=n&sid=660489&pt=28.4&channel=1004097&pb=64&from=mainsite&r=c7ed82182f
             
     type=n 
@@ -665,7 +665,7 @@ http://douban.fm/j/explore/get_recommend_chl?orecs=2|61|9|14
     }
 
 
-##是否已收藏频率-
+## 是否已收藏频率-
 
 API
 
@@ -677,7 +677,7 @@ Resp
 
 
 
-##我的私人调频-
+## 我的私人调频-
 无需登录，但是返回的歌曲肯定不是你自己的啦
   
 	http://douban.fm/j/mine/playlist?type=n&sid=1394146&pt=99.7&channel=0&context=tags:&pb=64&from=mainsite&r=98d6af28bb
@@ -741,7 +741,7 @@ Resp
 
 
 
-##红心调频歌曲-
+## 红心调频歌曲-
 
 	http://douban.fm/j/mine/playlist?from=mainsite&channel=-3&kbps=64&h=&sid=&type=n&r=927c04500d89d
 
@@ -775,7 +775,7 @@ Resp
     }
     
 
-##跳过此曲- 
+## 跳过此曲- 
 
 	http://douban.fm/j/mine/playlist?type=s&sid=747683&pt=102.3&channel=0&context=tags:&pb=64&from=mainsite&r=3446e34ae3
 
@@ -851,7 +851,7 @@ r=01e5eedc7f
         ]
     }
 
-##取消红心-
+## 取消红心-
 	http://douban.fm/j/mine/playlist?type=u&sid=626659&channel=0&from=mainsite&kbps=192
 
 Resp
@@ -860,7 +860,7 @@ Resp
 
 
 
-##不再播放-
+## 不再播放-
 	http://douban.fm/j/mine/playlist?type=b&sid=1767085&pt=15.5&channel=0&context=tags:&pb=64&from=mainsite&r=041f860f26
 
 Resp
